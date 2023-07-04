@@ -3,12 +3,13 @@ package hu.simplexion.z2.browser.material.icon
 import hu.simplexion.z2.browser.material.html.Z2
 import hu.simplexion.z2.browser.material.html.div
 import hu.simplexion.z2.browser.material.html.text
-import hu.simplexion.z2.commons.i18n.Token
+import hu.simplexion.z2.commons.i18n.LocalizedIcon
+import hu.simplexion.z2.commons.i18n.LocalizedText
 import kotlinx.dom.addClass
 import org.w3c.dom.HTMLDivElement
 
 fun Z2.icon(
-    icon: Token<String>,
+    icon: LocalizedIcon,
     size: Int = 24,
     weight : Int = 400,
     fill : Int = 0,
@@ -21,14 +22,14 @@ fun Z2.icon(
         addClass("icon-$size")
         if (pointer) style.cursor = "pointer"
 
-        innerHTML = """<span class="material-symbols-rounded symbols-$weight-$size-$fill">${icon.fallback}</span>"""
+        innerHTML = """<span class="material-symbols-rounded symbols-$weight-$size-$fill">${icon}</span>"""
 
         addEventListener("mousedown", { it.preventDefault() }) // to avoid focus
     }
 
 fun Z2.actionIcon(
-    icon: Token<String>,
-    hint: Token<String>? = null,
+    icon: LocalizedIcon,
+    hint: LocalizedText? = null,
     size: Int = 24,
     weight : Int = 400,
     fill : Int = 0,
@@ -41,7 +42,7 @@ fun Z2.actionIcon(
 
         addClass("icon-$size", if (inline) "inline-action-icon" else "action-icon")
 
-        innerHTML = """<span class="material-symbols-rounded symbols-$weight-$size-$fill">${icon.fallback}</span>"""
+        innerHTML = """<span class="material-symbols-rounded symbols-$weight-$size-$fill">${icon}</span>"""
 
         if (hint != null) {
             addClass("tooltip")
@@ -53,8 +54,8 @@ fun Z2.actionIcon(
     }
 
 fun Z2.inlineActionIcon(
-    icon: Token<String>,
-    hint: Token<String>? = null,
+    icon: LocalizedIcon,
+    hint: LocalizedText? = null,
     size: Int = 24,
     weight : Int = 400,
     fill : Int = 0,

@@ -1,7 +1,6 @@
 package hu.simplexion.z2.commons.i18n
 
 import hu.simplexion.z2.commons.util.UUID
-import kotlinx.serialization.Serializable
 import kotlin.reflect.KProperty
 
 /**
@@ -18,7 +17,7 @@ import kotlin.reflect.KProperty
 class Token<T>(
     val uuid : UUID<Token<T>>,
     val fallback : T
-) {
+) : LocalizedText, LocalizedIcon {
     operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return fallback
     }

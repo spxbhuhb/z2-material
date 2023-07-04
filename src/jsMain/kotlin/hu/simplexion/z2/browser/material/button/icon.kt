@@ -5,12 +5,12 @@ import hu.simplexion.z2.browser.material.html.div
 import hu.simplexion.z2.browser.material.html.on
 import hu.simplexion.z2.browser.material.html.text
 import hu.simplexion.z2.browser.material.icon.icon
-import hu.simplexion.z2.commons.i18n.Token
-import kotlinx.dom.addClass
+import hu.simplexion.z2.commons.i18n.LocalizedIcon
+import hu.simplexion.z2.commons.i18n.LocalizedText
 
 fun Z2.iconButton(
-    icon: Token<String>,
-    hint: Token<String>,
+    icon: LocalizedIcon,
+    hint: LocalizedText,
     size : Int = 24,
     weight : Int = 400,
     fill : Int = 0,

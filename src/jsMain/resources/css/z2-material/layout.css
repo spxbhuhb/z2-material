@@ -1,0 +1,27 @@
+.layout-default {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    grid-template-rows: min-content minmax(0, 1fr);
+}
+
+.layout-default-content {
+    border-radius: 16px;
+    padding: 16px;
+    margin-right: 16px;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: min-content minmax(0, 1fr);
+}
+
+.layout-default-header {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: min-content 1fr min-content;
+    grid-template-rows: 32px min-content;
+    padding: 16px 0 16px 0;
+    margin-bottom: 8px;
+    background-color: transparent;
+}

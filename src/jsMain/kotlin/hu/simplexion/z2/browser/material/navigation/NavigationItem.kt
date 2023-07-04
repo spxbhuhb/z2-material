@@ -1,10 +1,11 @@
 package hu.simplexion.z2.browser.material.navigation
 
-import hu.simplexion.z2.commons.i18n.Token
+import hu.simplexion.z2.commons.i18n.LocalizedIcon
+import hu.simplexion.z2.commons.i18n.LocalizedText
 
 open class NavigationItem(
-    val icon: Token<String>? = null,
-    val label: Token<String>? = null,
+    val icon: LocalizedIcon? = null,
+    val label: LocalizedText? = null,
     val smallBadge: Boolean = false,
     val largeBadge: Boolean = false,
     val badgeLabel: String? = null,

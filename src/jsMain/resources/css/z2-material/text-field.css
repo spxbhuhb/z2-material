@@ -1,0 +1,59 @@
+.text-field {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 56px min-content;
+}
+
+.text-field-main {
+    display: grid;
+    grid-template-columns: min-content minmax(0, 1fr) min-content;
+    grid-template-rows: 56px;
+}
+
+.text-field-main.filled {
+    background-color: var(--md-sys-color-surface-container-highest);
+    border-top-left-radius: var(--md-sys-shape-corner-extra-small);
+    border-top-right-radius: var(--md-sys-shape-corner-extra-small);
+    border-bottom: 1px solid var(--md-sys-color-outline);
+}
+
+.text-field-main.outlined {
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: var(--md-sys-shape-corner-extra-small);
+}
+
+.text-field-leading-icon {
+    padding-left: 12px;
+}
+
+.text-field-leading-space {
+}
+
+.text-field-input {
+    outline: none;
+    border: none;
+    padding-left: 16px;
+    padding-right: 16px;
+    align-self: center;
+    background-color: transparent;
+}
+
+.text-field-input:focus {
+    outline: none;
+    border: none;
+}
+
+.text-field-trailing-icon {
+
+}
+
+.text-field-support {
+    padding: 4px 16px 0 16px;
+}
+
+
+.text-field.input:focus {
+    border-bottom: 2px solid var(--md-sys-color-outline);
+}
+
+
