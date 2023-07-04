@@ -26,10 +26,13 @@ object strings {
     val segment2 = "Segment 2".asToken()
     val segment3 = "Segment 3".asToken()
     val textField = "Text Field".asToken()
+    val label = "Label".asToken()
 }
 
 object icons {
     val settings = "settings".asToken()
+    val search = "search".asToken()
+    val cancel = "cancel".asToken()
 }
 
 fun render(item: NavigationItem) {
@@ -83,6 +86,14 @@ fun Z2.button() {
 }
 
 fun Z2.textField() {
-    filledTextField("", placeholder = strings.textField)
-    outlinedTextField("", placeholder = strings.textField)
+    grid {
+        gridTemplateColumns = "300px"
+        gridAutoRows = "min-content"
+        rowGap = "16px"
+
+        filledTextField("", label = strings.label)
+        filledTextField("", icons.search, icons.cancel, strings.label)
+        outlinedTextField("", label = strings.label)
+        outlinedTextField("", icons.search, icons.cancel, strings.label)
+    }
 }
