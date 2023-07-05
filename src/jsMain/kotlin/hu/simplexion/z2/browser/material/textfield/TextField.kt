@@ -1,6 +1,7 @@
 package hu.simplexion.z2.browser.material.textfield
 
 import hu.simplexion.z2.browser.material.ComponentState
+import hu.simplexion.z2.browser.material.basicIcons
 import hu.simplexion.z2.browser.material.html.*
 import hu.simplexion.z2.browser.material.icon.icon
 import hu.simplexion.z2.commons.i18n.LocalizedIcon
@@ -20,7 +21,6 @@ class TextField(
     val outlined: Boolean = false,
     val leadingIcon: LocalizedIcon? = null,
     val trailingIcon: LocalizedIcon? = null,
-    val errorIcon: LocalizedIcon? = null,
     var state: ComponentState = ComponentState.Enabled,
     error : Boolean = false,
     val onChange: TextField.(value: String) -> Unit
@@ -34,6 +34,8 @@ class TextField(
     lateinit var labelOuter: Z2
     lateinit var labelInner: Z2
     lateinit var support: Z2
+
+    var errorIcon: LocalizedIcon = basicIcons.error
 
     var error: Boolean = error
         set(value) {

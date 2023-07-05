@@ -98,6 +98,9 @@
     align-items: center;
     cursor: pointer;
     border-right: 1px solid var(--md-sys-color-outline);
+    white-space: nowrap;
+    padding-left: 16px;
+    padding-right: 16px;
 }
 
 .segmented-button.unselected {

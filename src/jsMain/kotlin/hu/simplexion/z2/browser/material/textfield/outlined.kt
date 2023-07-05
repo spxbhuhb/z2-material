@@ -11,7 +11,6 @@ inline fun Z2.outlinedTextField(
     supportingText: LocalizedText? = null,
     leadingIcon: LocalizedIcon? = null,
     trailingIcon: LocalizedIcon? = null,
-    errorIcon: LocalizedIcon? = null,
     state : ComponentState = ComponentState.Enabled,
     error : Boolean = false,
     noinline onChange : TextField.(value : String) -> Unit = {  }
@@ -24,7 +23,6 @@ inline fun Z2.outlinedTextField(
         outlined = true,
         leadingIcon,
         trailingIcon,
-        errorIcon,
         state,
         error,
         onChange = onChange
