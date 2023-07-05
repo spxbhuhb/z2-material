@@ -1,10 +1,7 @@
 package hu.simplexion.z2.browser.material.html
 
 import kotlinx.browser.document
-import kotlinx.dom.addClass
-import kotlinx.dom.appendText
-import org.w3c.dom.*
-import org.w3c.dom.events.Event
+import org.w3c.dom.HTMLDivElement
 
 fun Z2.grid(
     columnTemplate: String? = null,
@@ -43,6 +40,12 @@ var Z2.gridAutoRows: String
     get() = style.getPropertyValue("grid-auto-rows")
     set(value) {
         style.setProperty("grid-auto-rows", value)
+    }
+
+var Z2.gridGap: String
+    get() = style.getPropertyValue("grid-gap")
+    set(value) {
+        style.setProperty("grid-gap", value)
     }
 
 var Z2.rowGap: String

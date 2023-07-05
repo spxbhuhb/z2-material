@@ -16,7 +16,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: min-content minmax(0, 1fr);
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .layout-default-header {

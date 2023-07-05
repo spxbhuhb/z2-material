@@ -1,5 +1,6 @@
 package hu.simplexion.z2.browser.material.textfield
 
+import hu.simplexion.z2.browser.material.ComponentState
 import hu.simplexion.z2.browser.material.html.*
 import hu.simplexion.z2.browser.material.icon.icon
 import hu.simplexion.z2.commons.i18n.LocalizedIcon
@@ -13,20 +14,32 @@ import org.w3c.dom.events.KeyboardEvent
 
 class TextField(
     val value: String,
-    val leadingIcon: LocalizedIcon? = null,
-    val trailingIcon: LocalizedIcon? = null,
     val label: LocalizedText? = null,
     val supportingText: LocalizedText? = null,
     val filled: Boolean = false,
     val outlined: Boolean = false,
-    val onChange: (value: String) -> Unit
+    val leadingIcon: LocalizedIcon? = null,
+    val trailingIcon: LocalizedIcon? = null,
+    val errorIcon: LocalizedIcon? = null,
+    var state: ComponentState = ComponentState.Enabled,
+    error : Boolean = false,
+    val onChange: TextField.(value: String) -> Unit
 ) {
 
     lateinit var element: Z2
     lateinit var main: Z2
     lateinit var content: Z2
+    lateinit var leading: Z2
+    lateinit var trailing: Z2
     lateinit var labelOuter: Z2
     lateinit var labelInner: Z2
+    lateinit var support: Z2
+
+    var error: Boolean = error
+        set(value) {
+            field = value
+            setState(state)
+        }
 
     val input = document.createElement("input") as HTMLInputElement
 
@@ -51,9 +64,7 @@ class TextField(
                 trailingIcon()
             }
 
-            div("text-field-support") {
-                supportingText()
-            }
+            supportingText()
 
             on("mousedown") {
                 if (it.target != input) {
@@ -61,6 +72,8 @@ class TextField(
                     it.preventDefault()
                 }
             }
+
+            setState(state)
         }
 
     fun leave() {
@@ -70,7 +83,7 @@ class TextField(
         }
     }
 
-    fun Z2.classes(): Array<String> {
+    fun classes(): Array<String> {
         val classes = mutableListOf("text-field-main")
         if (value.isEmpty()) classes += "empty"
         if (filled) classes += "filled"
@@ -106,10 +119,11 @@ class TextField(
     }
 
     fun Z2.leadingIcon(): Z2 =
-        if (leadingIcon == null) {
-            div { }
-        } else {
-            icon(leadingIcon).apply { addClass("text-field-leading-icon") }
+        div("text-field-leading-icon") {
+            leading = this
+            if (leadingIcon != null) {
+                icon(leadingIcon)
+            }
         }
 
     fun Z2.input() {
@@ -126,9 +140,7 @@ class TextField(
         }
 
         input.on("focus") {
-            main.addClass("focused")
-            labelOuter.addClass("primary-text", "focused")
-
+            setState(ComponentState.Focused)
             when {
                 filled -> labelOuter.removeClass("hidden")
                 outlined -> labelInner.labelOutlinedContent()
@@ -136,8 +148,6 @@ class TextField(
         }
 
         input.on("blur") {
-            main.removeClass("focused")
-            labelOuter.removeClass("primary-text", "focused")
             if (input.value.isEmpty()) {
                 when {
                     filled -> labelOuter.addClass("hidden")
@@ -145,6 +155,7 @@ class TextField(
                 }
             }
             leave()
+            setState(ComponentState.Enabled)
         }
 
         input.on("keydown") { event ->
@@ -157,14 +168,60 @@ class TextField(
     }
 
     fun Z2.trailingIcon(): Z2 =
-        if (trailingIcon == null) {
-            div { }
-        } else {
-            icon(trailingIcon).apply { addClass("text-field-trailing-icon") }
+        div("text-field-trailing-icon") {
+            trailing = this
+            trailingState()
         }
 
-    fun Z2.supportingText() {
-
+    fun trailingState() {
+        trailing.clear()
+        if (error) {
+            trailingError()
+        } else {
+            trailingNormal()
+        }
     }
 
+    fun trailingError() {
+        with(trailing) {
+            if (errorIcon != null) {
+                icon(errorIcon, fill = 1)
+            }
+        }
+    }
+
+    fun trailingNormal() {
+        with(trailing) {
+            if (trailingIcon != null) {
+                icon(trailingIcon)
+            }
+        }
+    }
+
+    fun Z2.supportingText() =
+        div("text-field-support", "body-small") {
+            support = this
+            text { supportingText }
+        }
+
+    fun setState(newState: ComponentState) {
+        val oldClass = state.fieldClass
+        val newClass = newState.fieldClass
+        state = newState
+
+        element.querySelectorAll("*").forEach {
+            removeClass(oldClass)
+            addClass(newClass)
+            if (error) {
+                addClass("field-error")
+            } else {
+                removeClass("field-error")
+            }
+        }
+
+        trailingState()
+    }
+
+    val ComponentState.fieldClass
+        get() = this.name.lowercase()
 }

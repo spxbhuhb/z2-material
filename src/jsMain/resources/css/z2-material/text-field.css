@@ -32,6 +32,10 @@
     color: var(--md-sys-color-on-surface-variant);
 }
 
+.text-field-input.field-error::placeholder {
+    color: var(--md-sys-color-error);
+}
+
 .text-field-input:focus {
     outline: none;
     border: none;
@@ -47,6 +51,10 @@
     color: var(--md-sys-color-on-surface-variant);
 }
 
+.text-field-trailing-icon.field-error {
+    color: var(--md-sys-color-error);
+}
+
 /*********************************************************************/
 /* Filled                                                            */
 /*********************************************************************/
@@ -60,12 +68,28 @@
     border-bottom: 1px solid var(--md-sys-color-outline);
 }
 
+.text-field-main.filled.field-error {
+    border-bottom: 1px solid var(--md-sys-color-error);
+}
+
 .text-field-main.filled.focused {
     border-bottom: 2px solid var(--md-sys-color-primary);
 }
 
+.text-field-main.filled.focused.field-error {
+    border-bottom: 2px solid var(--md-sys-color-error);
+}
+
 .text-field-label-filled {
     padding-left: 14px;
+}
+
+.text-field-label-filled.focused {
+    color: var(--md-sys-color-primary);
+}
+
+.text-field-label-filled.focused.field-error {
+    color: var(--md-sys-color-error);
 }
 
 .text-field.filled:focus {
@@ -84,9 +108,19 @@
     border-radius: var(--md-sys-shape-corner-extra-small);
 }
 
+.text-field-main.outlined.field-error {
+    border: 1px solid var(--md-sys-color-error);
+    border-top: none;
+}
+
 .text-field-main.outlined.focused {
     border: 2px solid var(--md-sys-color-primary);
     padding: 1px 0 0;
+    border-top: none;
+}
+
+.text-field-main.outlined.focused.field-error {
+    border: 2px solid var(--md-sys-color-error);
     border-top: none;
 }
 
@@ -99,7 +133,15 @@
 }
 
 .text-field-label-inner {
-    margin-top: -9px;
+    margin-top: -9px; /* TODO check text field label position, it's a line-height in the specs */
+}
+
+.text-field-label-inner.focused {
+    color: var(--md-sys-color-primary);
+}
+
+.text-field-label-inner.focused.field-error {
+    color: var(--md-sys-color-error);
 }
 
 .text-field-label-outlined-content {
@@ -116,12 +158,22 @@
     border-top-left-radius: var(--md-sys-shape-corner-extra-small);
 }
 
+.text-field-top-left-corner.field-error {
+    border-left: 1px solid var(--md-sys-color-error);
+    border-top: 1px solid var(--md-sys-color-error);
+}
+
 .text-field-top-right-corner {
     height: 4px;
     align-self: start;
     border-right: 1px solid var(--md-sys-color-outline);
     border-top: 1px solid var(--md-sys-color-outline);
     border-top-right-radius: var(--md-sys-shape-corner-extra-small);
+}
+
+.text-field-top-right-corner.field-error {
+    border-right: 1px solid var(--md-sys-color-error);
+    border-top: 1px solid var(--md-sys-color-error);
 }
 
 .text-field-label-outer.focused .text-field-top-left-corner {
@@ -134,10 +186,25 @@
     border-top: 2px solid var(--md-sys-color-primary);
 }
 
+.text-field-label-outer.focused .text-field-top-left-corner.field-error {
+    border-left: 2px solid var(--md-sys-color-error);
+    border-top: 2px solid var(--md-sys-color-error);
+}
+
+.text-field-label-outer.focused .text-field-top-right-corner.field-error {
+    border-right: 2px solid var(--md-sys-color-error);
+    border-top: 2px solid var(--md-sys-color-error);
+}
+
 /*********************************************************************/
 /* Support                                                           */
 /*********************************************************************/
 
 .text-field-support {
+    color: var(--md-sys-color-on-surface-variant);
     padding: 4px 16px 0 16px;
+}
+
+.text-field-support.field-error {
+    color: var(--md-sys-color-error);
 }

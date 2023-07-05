@@ -1,3 +1,4 @@
+import hu.simplexion.z2.browser.material.ComponentState
 import hu.simplexion.z2.browser.material.button.*
 import hu.simplexion.z2.browser.material.calendar.year
 import hu.simplexion.z2.browser.material.html.*
@@ -27,19 +28,21 @@ object strings {
     val segment3 = "Segment 3".asToken()
     val textField = "Text Field".asToken()
     val label = "Label".asToken()
+    val supportingText = "Supporting Text".asToken()
 }
 
 object icons {
     val settings = "settings".asToken()
     val search = "search".asToken()
     val cancel = "cancel".asToken()
+    val error = "error".asToken()
 }
 
 fun render(item: NavigationItem) {
     with(document.body!!) {
         this.clear()
         defaultLayout {
-            nav().apply { gridRow = "1/span2"}
+            nav().apply { gridRow = "1/span2" }
             defaultLayoutHeader {
 
             } // top app bar
@@ -87,13 +90,22 @@ fun Z2.button() {
 
 fun Z2.textField() {
     grid {
-        gridTemplateColumns = "300px"
+        gridTemplateColumns = "300px 300px"
         gridAutoRows = "min-content"
-        rowGap = "16px"
+        gridGap = "16px"
 
-        filledTextField("", label = strings.label)
-        filledTextField("", icons.search, icons.cancel, strings.label)
-        outlinedTextField("", label = strings.label)
-        outlinedTextField("", icons.search, icons.cancel, strings.label)
+        textField(ComponentState.Enabled, false)
+        textField(ComponentState.Enabled, true)
     }
+}
+
+fun Z2.textField(state: ComponentState, error: Boolean) {
+    filledTextField("", strings.label, errorIcon = icons.error, state = state, error = error) { this.error = it.isBlank() }
+    outlinedTextField("", strings.label, errorIcon = icons.error, state = state, error = error) { this.error = it.isBlank() }
+
+    filledTextField("", strings.label, leadingIcon = icons.search, trailingIcon = icons.cancel, errorIcon = icons.error, state = state, error = error) { this.error = it.isBlank() }
+    outlinedTextField("", strings.label, leadingIcon = icons.search, trailingIcon = icons.cancel, errorIcon = icons.error, state = state, error = error) { this.error = it.isBlank() }
+
+    filledTextField("", strings.label, strings.supportingText, errorIcon = icons.error, state = state, error = error) { this.error = it.isBlank() }
+    outlinedTextField("", strings.label, strings.supportingText, errorIcon = icons.error, state = state, error = error) { this.error = it.isBlank() }
 }
