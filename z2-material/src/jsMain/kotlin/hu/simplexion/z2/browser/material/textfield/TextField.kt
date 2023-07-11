@@ -121,9 +121,10 @@ class TextField(
     }
 
     fun Z2.leadingIcon(): Z2 =
-        div("text-field-leading-icon") {
+        div {
             leading = this
             if (leadingIcon != null) {
+                addClass("text-field-leading-icon")
                 icon(leadingIcon)
             }
         }
@@ -170,7 +171,7 @@ class TextField(
     }
 
     fun Z2.trailingIcon(): Z2 =
-        div("text-field-trailing-icon") {
+        div {
             trailing = this
             trailingState()
         }
@@ -180,21 +181,22 @@ class TextField(
         if (error) {
             trailingError()
         } else {
+            trailing.removeClass("text-field-trailing-icon")
             trailingNormal()
         }
     }
 
     fun trailingError() {
         with(trailing) {
-            if (errorIcon != null) {
-                icon(errorIcon, fill = 1)
-            }
+            addClass("text-field-trailing-icon")
+            icon(errorIcon, fill = 1)
         }
     }
 
     fun trailingNormal() {
         with(trailing) {
             if (trailingIcon != null) {
+                addClass("text-field-trailing-icon")
                 icon(trailingIcon)
             }
         }

@@ -1,14 +1,18 @@
 .text-field {
     position: relative;
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: 56px min-content;
+    min-width: 0;
 }
 
 .text-field-main {
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: min-content minmax(0, 1fr) min-content;
     grid-template-rows: 56px;
+    min-width: 0;
 }
 
 .text-field-leading-icon {
@@ -18,11 +22,14 @@
 }
 
 .text-field-input {
+    box-sizing: border-box;
     outline: none;
     border: none;
+    width: 100%;
     padding-left: 13.5px;
     padding-right: 14px;
     align-self: center;
+    justify-content: flex-start;
     background-color: transparent;
     color: var(--md-sys-color-on-surface);
     caret-color: var(--md-sys-color-primary);

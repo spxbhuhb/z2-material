@@ -42,7 +42,7 @@ fun Z2.login() {
 
                 grid("1fr", "min-content min-content", 24) {
                     outlinedTextField("", loginStrings.account)
-                    outlinedTextField("", loginStrings.password)
+                    outlinedTextField("", loginStrings.password).apply { input.type = "password" }
                 }
 
                 grid("min-content 1fr min-content", "min-content") {

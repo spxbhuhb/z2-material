@@ -14,7 +14,7 @@ inline fun Z2.filledTextField(
     state : ComponentState = ComponentState.Enabled,
     error : Boolean = false,
     noinline onChange : TextField.(value : String) -> Unit = {  }
-): Z2 =
+) =
     TextField(
         value,
         label,
@@ -26,4 +26,4 @@ inline fun Z2.filledTextField(
         state,
         error,
         onChange = onChange
-    ).apply { main() }.element
+    ).apply { main() }
