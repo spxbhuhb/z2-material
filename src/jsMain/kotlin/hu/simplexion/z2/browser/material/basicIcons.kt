@@ -9,4 +9,5 @@ object basicIcons {
     val cancel = "cancel".asToken()
     val error = "error".asToken()
     val more = "more_vert".asToken()
+    val close = "close".asToken()
 }

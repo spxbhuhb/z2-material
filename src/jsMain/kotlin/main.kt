@@ -17,6 +17,7 @@ import hu.simplexion.z2.browser.material.navigation.drawerItem
 import hu.simplexion.z2.browser.material.navigation.navigationDrawer
 import hu.simplexion.z2.browser.material.popup.Popup
 import hu.simplexion.z2.browser.material.popup.Popup.Companion.popup
+import hu.simplexion.z2.browser.material.snackbar.Snackbar.Companion.snackbar
 import hu.simplexion.z2.browser.material.textfield.filledTextField
 import hu.simplexion.z2.browser.material.textfield.outlinedTextField
 import hu.simplexion.z2.commons.i18n.LocalizedText
@@ -51,6 +52,8 @@ object strings {
     val menuItem1 = "Menu Item 1".asToken()
     val menuItem2 = "Menu Item 2".asToken()
     val menuItem3 = "Menu Item 3".asToken()
+    val snackbar = "Snackbar".asToken()
+    val click = "Click".asToken()
 }
 
 val content = (document.createElement("div") as Z2).also {
@@ -84,18 +87,20 @@ private fun Z2.nav() =
         nav(strings.menu)
         nav(strings.modal)
         nav(strings.popup)
+        nav(strings.snackbar)
         nav(strings.textField)
     }
 
 private fun Z2.content(item: NavigationItem): Z2 =
     when (item.label) {
-        strings.button -> div { button() }
+        strings.button -> div { buttonDemo() }
         strings.calendar -> year(2023, DayOfWeek.MONDAY)
-        strings.card -> div { card() }
-        strings.menu -> div { menu() }
-        strings.modal -> div { modal() }
-        strings.popup -> div { popup() }
-        strings.textField -> div { textField() }
+        strings.card -> div { cardDemo() }
+        strings.menu -> div { menuDemo() }
+        strings.modal -> div { modalDemo() }
+        strings.popup -> div { popupDemo() }
+        strings.snackbar -> div { snackbarDemo() }
+        strings.textField -> div { textFieldDemo() }
         else -> div { text { "TODO" } }
     }
 
@@ -106,36 +111,36 @@ fun main() {
     render(NavigationItem(null, strings.textField))
 }
 
-private fun Z2.button() {
+private fun Z2.buttonDemo() {
     grid {
         gridTemplateColumns = "min-content"
         gridAutoRows = "min-content"
         gridGap = "16px"
 
-        filledButton(strings.filledButton)
-        textButton(strings.textButton) { }
-        smallDenseTextButton(strings.smallDenseTextButton) { }
-        iconButton(basicIcons.settings, strings.settings) { }
+        filledButton(strings.filledButton) { snackbar(strings.filledButton) }
+        textButton(strings.textButton) { snackbar(strings.textButton) }
+        smallDenseTextButton(strings.smallDenseTextButton) { snackbar(strings.smallDenseTextButton) }
+        iconButton(basicIcons.settings, strings.settings) { snackbar(strings.settings) }
         segmentedButton(
             strings.segment1 to false,
             strings.segment2 to true,
             strings.segment3 to false
-        ) { }
+        ) { snackbar("${strings.click}: $it")}
     }
 }
 
-private fun Z2.textField() {
+private fun Z2.textFieldDemo() {
     grid {
         gridTemplateColumns = "300px 300px"
         gridAutoRows = "min-content"
         gridGap = "16px"
 
-        textField(ComponentState.Enabled, false)
-        textField(ComponentState.Enabled, true)
+        textFieldDemo(ComponentState.Enabled, false)
+        textFieldDemo(ComponentState.Enabled, true)
     }
 }
 
-private fun Z2.textField(state: ComponentState, error: Boolean) {
+private fun Z2.textFieldDemo(state: ComponentState, error: Boolean) {
     filledTextField("", strings.label, state = state, error = error) { this.error = it.isBlank() }
     outlinedTextField("", strings.label, state = state, error = error) { this.error = it.isBlank() }
 
@@ -146,11 +151,11 @@ private fun Z2.textField(state: ComponentState, error: Boolean) {
     outlinedTextField("", strings.label, strings.supportingText, state = state, error = error) { this.error = it.isBlank() }
 }
 
-private fun Z2.modal() {
+private fun Z2.modalDemo() {
     textButton(strings.confirmDialog) { confirm(strings.confirmDialog, strings.confirmMessage) { } }
 }
 
-private fun Z2.card() {
+private fun Z2.cardDemo() {
     grid("400px", gap = 16) {
         gridAutoRows = "min-content"
 
@@ -166,7 +171,7 @@ private fun Z2.card() {
     }
 }
 
-private fun Z2.popup() {
+private fun Z2.popupDemo() {
     grid("400px", gap = 16) {
         gridAutoRows = "min-content"
 
@@ -194,7 +199,7 @@ private fun Z2.popup() {
     }
 }
 
-private fun Z2.menu() {
+private fun Z2.menuDemo() {
     grid("max-content min-content", gap = 16) {
         text { "Menu with 1 item, normal icon" }
         more {
@@ -210,4 +215,14 @@ private fun Z2.menu() {
         }
     }
 
+}
+
+var snackbarClick = 0
+
+private fun Z2.snackbarDemo() {
+    grid("400px", gap = 16) {
+        gridAutoRows = "min-content"
+
+        textButton(strings.snackbar) { snackbar("${strings.snackbar} ${snackbarClick++}") }
+    }
 }

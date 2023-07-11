@@ -17,6 +17,7 @@ Check [main.kt](src/jsMain/kotlin/main.kt) for examples.
 | Modal             | Partial               |
 | Navigation Drawer | Partial               |
 | Navigation Rail   | Partial               |
+| Snackbar          | Partial               |
 | Text Field        | Partial               |
 
 
