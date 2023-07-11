@@ -4,8 +4,18 @@ import hu.simplexion.z2.browser.material.html.Z2
 import hu.simplexion.z2.browser.material.html.div
 import hu.simplexion.z2.browser.material.html.text
 import hu.simplexion.z2.commons.i18n.LocalizedText
-import kotlinx.dom.addClass
 import org.w3c.dom.HTMLDivElement
+
+fun Z2.elevatedCard(
+    headline: LocalizedText? = null,
+    actions: (Z2.() -> Unit)? = null,
+    builder: Z2.() -> Unit
+): HTMLDivElement =
+
+    div("elevated-card-container") {
+        if (headline != null) cardHeadline(headline, actions)
+        builder()
+    }
 
 fun Z2.filledCard(
     headline: LocalizedText? = null,
@@ -13,8 +23,7 @@ fun Z2.filledCard(
     builder: Z2.() -> Unit
 ): HTMLDivElement =
 
-    div {
-        addClass("filled-card-container")
+    div("filled-card-container") {
         if (headline != null) cardHeadline(headline, actions)
         builder()
     }
@@ -25,11 +34,11 @@ fun Z2.outlinedCard(
     builder: Z2.() -> Unit
 ): HTMLDivElement =
 
-    div {
-        addClass("outlined-card-container")
+    div("outlined-card-container") {
         if (headline != null) cardHeadline(headline, actions)
         builder()
     }
+
 
 fun Z2.cardHeadline(
     headline: LocalizedText? = null,

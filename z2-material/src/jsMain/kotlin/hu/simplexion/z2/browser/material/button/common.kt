@@ -17,13 +17,12 @@ fun Z2.textButton(label : LocalizedText, onClick : (event : Event) -> Unit) =
 fun Z2.smallDenseTextButton(label : LocalizedText, onClick : (event : Event) -> Unit) =
     common(label, onClick, "button-text", "dense", "label-small")
 
-internal fun Z2.common(label : LocalizedText, onClick : (event : Event) -> Unit, vararg classes : String) {
+internal fun Z2.common(label : LocalizedText, onClick : (event : Event) -> Unit, vararg classes : String) =
     div {
         addClass(*classes)
         text { label }
         handlers(onClick)
     }
-}
 
 internal fun Z2.handlers(onClick : (event : Event) -> Unit) {
     on("mousedown") { it.preventDefault() } // to avoid focus

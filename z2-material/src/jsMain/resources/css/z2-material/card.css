@@ -2,8 +2,9 @@
     box-sizing: border-box;
     background-color: var(--md-sys-color-surface-container-low);
     color: var(--md-sys-color-on-surface);
-    box-shadow: var(--md-sys-elevation-level-2);
+    box-shadow: var(--md-sys-elevation-level-1);
     border-radius: 12px;
+    padding: 16px;
 }
 
 .filled-card-container {
