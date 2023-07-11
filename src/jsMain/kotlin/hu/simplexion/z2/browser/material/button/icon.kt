@@ -23,5 +23,6 @@ fun Z2.iconButton(
             div("plain-tooltip", "body-small") { text { hint } }
         }
 
+        on("mousedown") { it.preventDefault() } // to avoid focus
         on("click") { onClick() }
     }

@@ -13,3 +13,4 @@ fun io(func: suspend () -> Unit) = GlobalScope.launch {
         ex.printStackTrace()
     }
 }
+

@@ -6,6 +6,7 @@ import hu.simplexion.z2.browser.material.html.on
 import hu.simplexion.z2.browser.material.html.text
 import hu.simplexion.z2.commons.i18n.LocalizedText
 import kotlinx.dom.addClass
+import org.w3c.dom.events.Event
 
 fun Z2.filledButton(label : LocalizedText) =
 
@@ -14,16 +15,18 @@ fun Z2.filledButton(label : LocalizedText) =
         text { label }
     }
 
-fun Z2.textButton(label : LocalizedText, onClick : () -> Unit) =
+fun Z2.textButton(label : LocalizedText, onClick : (event : Event) -> Unit) =
     div {
         addClass("button-text", "label-large")
         text { label }
-        on("click") { onClick() }
+        on("mousedown") { it.preventDefault() } // to avoid focus
+        on("click", onClick)
     }
 
-fun Z2.smallDenseTextButton(label : LocalizedText, onClick : () -> Unit) =
+fun Z2.smallDenseTextButton(label : LocalizedText, onClick : (event : Event) -> Unit) =
     div {
         addClass("button-text", "dense", "label-small")
         text { label }
-        on("click") { onClick() }
+        on("mousedown") { it.preventDefault() } // to avoid focus
+        on("click", onClick)
     }

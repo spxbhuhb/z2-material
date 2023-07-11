@@ -8,4 +8,5 @@ object basicIcons {
     val search = "search".asToken()
     val cancel = "cancel".asToken()
     val error = "error".asToken()
+    val more = "more_vert".asToken()
 }

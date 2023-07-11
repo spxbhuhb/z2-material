@@ -11,6 +11,7 @@ fun Z2.segmentedButton(vararg segments: Pair<LocalizedText, Boolean>, onClick: (
         for (segment in segments) {
             div("segmented-button", "label-large", if (segment.second) "selected" else "unselected") {
                 text { segment.first }
+                on("mousedown") { it.preventDefault() } // to avoid focus
                 on("click") { onClick(segment.first) }
             }
         }
