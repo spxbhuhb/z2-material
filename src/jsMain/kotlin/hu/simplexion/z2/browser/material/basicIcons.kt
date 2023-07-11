@@ -10,4 +10,6 @@ object basicIcons {
     val error = "error".asToken()
     val more = "more_vert".asToken()
     val close = "close".asToken()
+    val switchSelected = "check".asToken()
+    val switchUnselected = "close".asToken()
 }

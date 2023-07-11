@@ -18,6 +18,7 @@ import hu.simplexion.z2.browser.material.navigation.navigationDrawer
 import hu.simplexion.z2.browser.material.popup.Popup
 import hu.simplexion.z2.browser.material.popup.Popup.Companion.popup
 import hu.simplexion.z2.browser.material.snackbar.Snackbar.Companion.snackbar
+import hu.simplexion.z2.browser.material.switch.switch
 import hu.simplexion.z2.browser.material.textfield.filledTextField
 import hu.simplexion.z2.browser.material.textfield.outlinedTextField
 import hu.simplexion.z2.commons.i18n.LocalizedText
@@ -54,6 +55,7 @@ object strings {
     val menuItem3 = "Menu Item 3".asToken()
     val snackbar = "Snackbar".asToken()
     val click = "Click".asToken()
+    val switch = "Switch".asToken()
 }
 
 val content = (document.createElement("div") as Z2).also {
@@ -88,6 +90,7 @@ private fun Z2.nav() =
         nav(strings.modal)
         nav(strings.popup)
         nav(strings.snackbar)
+        nav(strings.switch)
         nav(strings.textField)
     }
 
@@ -100,6 +103,7 @@ private fun Z2.content(item: NavigationItem): Z2 =
         strings.modal -> div { modalDemo() }
         strings.popup -> div { popupDemo() }
         strings.snackbar -> div { snackbarDemo() }
+        strings.switch -> div { switchDemo() }
         strings.textField -> div { textFieldDemo() }
         else -> div { text { "TODO" } }
     }
@@ -224,5 +228,13 @@ private fun Z2.snackbarDemo() {
         gridAutoRows = "min-content"
 
         textButton(strings.snackbar) { snackbar("${strings.snackbar} ${snackbarClick++}") }
+    }
+}
+
+private fun Z2.switchDemo() {
+    grid("400px", gap = 16) {
+        gridAutoRows = "min-content"
+        switch(true) { }
+        switch(false) { }
     }
 }
