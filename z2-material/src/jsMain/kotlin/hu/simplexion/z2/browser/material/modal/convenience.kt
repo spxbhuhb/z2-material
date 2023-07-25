@@ -1,7 +1,7 @@
 package hu.simplexion.z2.browser.material.modal
 
 import hu.simplexion.z2.browser.material.basicStrings
-import hu.simplexion.z2.browser.material.io
+import hu.simplexion.z2.browser.util.io
 import hu.simplexion.z2.commons.i18n.LocalizedText
 
 suspend fun confirm(

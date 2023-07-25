@@ -33,3 +33,21 @@ fun Z2.input(vararg classes: String, builder: HTMLInputElement.() -> Unit): HTML
 
 fun Z2.span(vararg classes: String, builder: HTMLSpanElement.() -> Unit): HTMLSpanElement =
     build(document.createElement("span") as HTMLSpanElement, classes, builder)
+
+fun Z2.table(vararg classes: String, builder: HTMLTableElement.() -> Unit): HTMLTableElement =
+    build(document.createElement("table") as HTMLTableElement, classes, builder)
+
+fun Z2.thead(vararg classes: String, builder: HTMLTableSectionElement.() -> Unit): HTMLTableSectionElement =
+    build(document.createElement("thead") as HTMLTableSectionElement, classes, builder)
+
+fun Z2.th(vararg classes: String, builder: HTMLTableCellElement.() -> Unit): HTMLTableCellElement =
+    build(document.createElement("th") as HTMLTableCellElement, classes, builder)
+
+fun Z2.tbody(vararg classes: String, builder: HTMLTableSectionElement.() -> Unit): HTMLTableSectionElement =
+    build(document.createElement("tbody") as HTMLTableSectionElement, classes, builder)
+
+fun Z2.tr(vararg classes: String, builder: HTMLTableRowElement.() -> Unit): HTMLTableRowElement =
+    build(document.createElement("tr") as HTMLTableRowElement, classes, builder)
+
+fun Z2.td(vararg classes: String, builder: HTMLTableCellElement.() -> Unit): HTMLTableCellElement =
+    build(document.createElement("td") as HTMLTableCellElement, classes, builder)

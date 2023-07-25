@@ -6,7 +6,7 @@ import hu.simplexion.z2.browser.material.html.Z2
 import hu.simplexion.z2.browser.material.html.div
 import hu.simplexion.z2.browser.material.html.text
 import hu.simplexion.z2.browser.material.icon.actionIcon
-import hu.simplexion.z2.browser.material.io
+import hu.simplexion.z2.browser.util.io
 import hu.simplexion.z2.commons.i18n.LocalizedText
 import kotlinx.browser.document
 import kotlinx.coroutines.delay
