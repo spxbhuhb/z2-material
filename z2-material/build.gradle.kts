@@ -4,12 +4,11 @@
 
 plugins {
     kotlin("multiplatform")
-    kotlin("plugin.serialization")
     signing
     `maven-publish`
 }
 
-val z2_commons_version: String by project
+val z2_version: String by project
 
 kotlin {
     js(IR) {
@@ -19,7 +18,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api("hu.simplexion.z2:z2-commons:${z2_commons_version}")
+                api("hu.simplexion.z2:z2-commons:${z2_version}")
             }
         }
     }

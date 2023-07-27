@@ -81,7 +81,7 @@ abstract class TableColumn<T>(
 
         sortAscending = !sortAscending
 
-        if (!table::fullData.isInitialized) return
+        if (!table.isInitialized) return
 
         sort()
 

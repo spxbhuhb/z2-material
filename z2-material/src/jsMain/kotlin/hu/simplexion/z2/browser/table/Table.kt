@@ -98,6 +98,9 @@ open class Table<T>(
     //  State -- data of the table, search text, preloaded data
     // -------------------------------------------------------------------------
 
+    val isInitialized
+        get() = ::fullData.isInitialized
+
     /** All the data behind the table (visible and hidden together). */
     lateinit var fullData: List<TableRow<T>>
 
