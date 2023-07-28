@@ -6,7 +6,7 @@
 
 [Material 3](https://m3.material.io) components for Kotlin/JS. Part of [Z2](https://github.com/spxbhuhb/z2).
 
-Status: **experimental**
+Status: **initial development**
 
 * basic components without any assumption on communication, data storage, reactivity etc.
 * not a complete implementation of Material 3, we add only what we need
