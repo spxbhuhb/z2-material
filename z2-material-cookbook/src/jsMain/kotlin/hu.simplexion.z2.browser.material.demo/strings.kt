@@ -24,11 +24,11 @@ object strings : LocalizedTextStore(UUID("c6a52ab3-7a5a-4f07-ad49-239775845386")
     val loremShort by "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
     val lorem by "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     val headline by "Headline"
-    val popup by "Popup"
+    val popup by "PopupBase"
     val menu by "Menu"
     val menuItem1 by "Menu Item 1"
     val menuItem2 by "Menu Item 2"
-    val snackbar by "Snackbar"
+    val snackbar by "SnackbarBase"
     val click by "Click"
     val switch by "Switch"
 }

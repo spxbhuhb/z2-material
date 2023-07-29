@@ -1,22 +1,11 @@
-package hu.simplexion.z2.browser.material.html
+package hu.simplexion.z2.browser.html
 
 import kotlinx.browser.document
 import org.w3c.dom.HTMLDivElement
 
-fun Z2.grid(
-    columnTemplate: String? = null,
-    rowTemplate: String? = null,
-    gap: Int? = null,
-    builder: Z2.() -> Unit
-): HTMLDivElement =
-    (document.createElement("div") as HTMLDivElement).also {
-        append(it)
-        it.style.display = "grid"
-        rowTemplate?.let { s -> it.style.setProperty("grid-template-rows", s) }
-        columnTemplate?.let { s -> it.style.setProperty("grid-template-columns", s) }
-        gap?.let { i -> it.style.setProperty("grid-gap", "${i}px") }
-        it.builder()
-    }
+fun Z2.grid(vararg classes: String, builder: Z2.() -> Unit): Z2 =
+    Z2(this, document.createElement("div") as HTMLDivElement, classes, builder)
+        .apply { style.display = "grid" }
 
 var Z2.gridTemplateRows: String
     get() = style.getPropertyValue("grid-template-rows")

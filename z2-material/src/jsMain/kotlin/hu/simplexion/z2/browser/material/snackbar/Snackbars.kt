@@ -3,30 +3,30 @@
  */
 package hu.simplexion.z2.browser.material.snackbar
 
+import hu.simplexion.z2.browser.html.Z2
 import kotlinx.browser.document
 import org.w3c.dom.HTMLDivElement
 
 /**
  * Contains modal windows and shows them over the normal content.
  */
-object Snackbars {
+object Snackbars : Z2(
+    null,
+    document.createElement("div") as HTMLDivElement,
+    emptyArray(),
+    { document.body?.appendChild(this.htmlElement) }
+) {
 
-    val element = document.createElement("div") as HTMLDivElement
+    val waiting = mutableListOf<SnackbarBase>()
+    var active : SnackbarBase? = null
 
-    val waiting = mutableListOf<Snackbar>()
-    var active : Snackbar? = null
-
-    init {
-        document.body?.appendChild(element)
-    }
-
-    operator fun plusAssign(child: Snackbar) {
+    operator fun plusAssign(child: SnackbarBase) {
         waiting += child
         show()
     }
 
-    operator fun minusAssign(child: Snackbar) {
-        element.removeChild(child.element)
+    operator fun minusAssign(child: SnackbarBase) {
+        remove(child)
         active = null
         show()
     }

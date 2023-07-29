@@ -1,8 +1,6 @@
 package hu.simplexion.z2.browser.util
 
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import hu.simplexion.z2.commons.util.localLaunch
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.Node
 import org.w3c.dom.events.Event
@@ -11,15 +9,25 @@ import org.w3c.dom.get
 var uniqueNodeId = 0
     get() = field++
 
-@OptIn(DelicateCoroutinesApi::class)
-fun io(func: suspend () -> Unit) = GlobalScope.launch {
-    try {
-        func()
-    } catch (ex: Throwable) {
-        // TODO add a function to Application to channel all errors into one place, notify the user, upload the error report, etc.
-        ex.printStackTrace()
+fun <T> T.applySuspend(func: suspend T.() -> Unit) =
+    localLaunch {
+        try {
+            this@applySuspend.func()
+        } catch (ex: Throwable) {
+            // TODO add a function to Application to channel all errors into one place, notify the user, upload the error report, etc.
+            ex.printStackTrace()
+        }
     }
-}
+
+fun io(func: suspend () -> Unit) =
+    localLaunch {
+        try {
+            func()
+        } catch (ex: Throwable) {
+            // TODO add a function to Application to channel all errors into one place, notify the user, upload the error report, etc.
+            ex.printStackTrace()
+        }
+    }
 
 /**
  * Look for an HTML element which has a DOM Node Id with the given prefix and is

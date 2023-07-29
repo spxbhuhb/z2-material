@@ -5,24 +5,24 @@
 
 package hu.simplexion.z2.browser.material.popup
 
+import hu.simplexion.z2.browser.html.Z2
 import hu.simplexion.z2.browser.material.px
 import kotlinx.browser.window
 import org.w3c.dom.DOMRect
-import org.w3c.dom.HTMLElement
 
 /**
- * Positions [popupElement] relative to [anchorElement] according to the space
- * available and the desired height of the [popupElement].
+ * Positions [popup] relative to [anchor] according to the space
+ * available and the desired height of the [popup].
  */
-fun alignPopup(popupElement: HTMLElement, anchorElement: HTMLElement, minHeight: Double, minWidth: Double) {
-    val anchorRect = anchorElement.getBoundingClientRect()
-    val popupRect = popupElement.getBoundingClientRect()
+fun alignPopup(popup: Z2, anchor: Z2, minHeight: Double, minWidth: Double) {
+    val anchorRect = anchor.htmlElement.getBoundingClientRect()
+    val popupRect = popup.htmlElement.getBoundingClientRect()
 
-    alignPopupVertically(anchorRect, popupRect, popupElement, minHeight)
-    alignPopupHorizontally(anchorRect, popupRect, popupElement, minWidth)
+    alignPopupVertically(anchorRect, popupRect, popup, minHeight)
+    alignPopupHorizontally(anchorRect, popupRect, popup, minWidth)
 }
 
-fun alignPopupVertically(anchorRect: DOMRect, popupRect: DOMRect, popupElement: HTMLElement, minHeight: Double) {
+fun alignPopupVertically(anchorRect: DOMRect, popupRect: DOMRect, popupElement: Z2, minHeight: Double) {
     val spaceBelow = window.innerHeight - (anchorRect.top + anchorRect.height)
     val spaceAbove = anchorRect.top
     val maxHeight = popupRect.height
@@ -73,7 +73,7 @@ fun alignPopupVertically(anchorRect: DOMRect, popupRect: DOMRect, popupElement: 
     }
 }
 
-fun alignPopupHorizontally(anchorRect: DOMRect, popupRect: DOMRect, popupElement: HTMLElement, minWidth: Double) {
+fun alignPopupHorizontally(anchorRect: DOMRect, popupRect: DOMRect, popupElement: Z2, minWidth: Double) {
     val spaceAfter = window.innerWidth - (anchorRect.left + anchorRect.width)
     val spaceBefore = anchorRect.left
     val maxWidth = popupRect.width

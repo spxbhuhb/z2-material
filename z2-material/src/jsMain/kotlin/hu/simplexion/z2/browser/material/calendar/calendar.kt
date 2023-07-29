@@ -1,10 +1,8 @@
 package hu.simplexion.z2.browser.material.calendar
 
-import hu.simplexion.z2.browser.material.html.Z2
-import hu.simplexion.z2.browser.material.html.div
-import hu.simplexion.z2.browser.material.html.text
+import hu.simplexion.z2.browser.html.Z2
+import hu.simplexion.z2.browser.html.div
 import kotlinx.datetime.*
-import kotlinx.dom.addClass
 
 fun Z2.year(year: Int, startDay: DayOfWeek) =
     div("calendar-year") {

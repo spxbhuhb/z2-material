@@ -4,14 +4,13 @@
 
 package hu.simplexion.z2.browser.table
 
-import hu.simplexion.z2.browser.material.html.*
+import hu.simplexion.z2.browser.html.*
+import hu.simplexion.z2.browser.util.applySuspend
 import hu.simplexion.z2.browser.util.downloadCsv
 import hu.simplexion.z2.browser.util.getDatasetEntry
-import hu.simplexion.z2.browser.util.io
 import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.datetime.*
-import kotlinx.dom.clear
 import org.w3c.dom.*
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.MouseEvent
@@ -19,20 +18,18 @@ import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 
-/**
- * Table for the browser frontend.
- *
- * @property  query           When initialized, the table automatically executes this query during onResume to fill
- *                            the table with data.
- * @property  addLocalTitle   When true, add a local title bar. Default is false.
- * @property  titleText       Title text to show in the title bar. Used when [titleElement] is not set.
- * @property  titleElement    The element of the title.
- * @property  columns         Column definitions.
- * @property  preloads        Data load jobs which has to be performed before the table is rendered.
- */
 open class Table<T>(
+    parent: Z2? = null,
     var query: (() -> List<T>)? = null,
     val configuration: TableConfiguration = TableConfiguration()
+) : Z2(
+    parent,
+    document.createElement("div") as HTMLElement,
+    arrayOf("table-outer-container"),
+    {
+        @Suppress("UNCHECKED_CAST")
+        (this as Table<T>).build()
+    }
 ) {
 
     val columns = mutableListOf<TableColumn<T>>()
@@ -61,13 +58,12 @@ open class Table<T>(
 
     lateinit var outerContainer: Z2
     lateinit var contentContainer: Z2
-    lateinit var tableElement: HTMLTableElement
-    lateinit var tableBodyElement : HTMLTableSectionElement
+    lateinit var table: Z2
+    lateinit var tableBody: Z2
 
-    // gap before the first row, used to virtualize rows
-
-    val placeHolderCell = document.createElement("td") as HTMLTableCellElement
-    val placeHolderRow = (document.createElement("tr") as HTMLTableRowElement).also { it.appendChild(placeHolderCell) }
+    lateinit var contentElement: HTMLElement
+    lateinit var tableElement : HTMLElement
+    lateinit var tableBodyElement: HTMLElement
 
     var contentScrollTop: Double = 0.0
     var contentScrollLeft: Double = 0.0
@@ -116,44 +112,42 @@ open class Table<T>(
 
     open var searchText: String? = null
 
-    open var allCount: Int? = null // if the full data size of the very first query is not equal to all count, it is possible to set here
+    open var allCount: Int? =
+        null // if the full data size of the very first query is not equal to all count, it is possible to set here
 
     open var needToSetAllCounter = true
 
-    fun Z2.main() {
-        div("table-outer-container") {
-            outerContainer = this
-            titleBar()
+    fun build() {
+        titleBar()
 
-            div("table-content-container") {
-                contentContainer = this
+        div("table-content-container") {
+            contentContainer = this
+            contentElement = this.htmlElement
 
-                table("table") {
-                    style.cssText = inlineCss()
+            table("table") {
+                table = this
+                style.cssText = inlineCss()
 
-                    thead("no-select") {
-                        for(column in columns) {
-                            with(column) { header(configuration) }
-                        }
-                    }
-
-                    tbody {
-                        tableBodyElement = this
+                thead("no-select") {
+                    for (column in columns) {
+                        with(column) { header(configuration) }
                     }
                 }
+
+                tbody {
+                    tableBody = this
+                    tableBodyElement = this.htmlElement
+                }
             }
-
-            on("scroll") { onScroll() }
         }
 
-        if (configuration.counter) {
-            // TODO + counterBar
-        }
+        onScroll(::onScroll)
 
-        on("mousedown", ::onMouseDown)
-        on("dblclick", ::onDblClick)
-        on("click", ::onClick)
+        onMouseDown(::onMouseDown)
+        onDblClick(::onDblClick)
+        onClick(::onClick)
     }
+
 
     fun resume() {
 
@@ -162,7 +156,7 @@ open class Table<T>(
         when {
             query != null && (configuration.runQueryOnResume || firstOnResume) -> {
                 setData(emptyList())
-                io {
+                applySuspend {
                     setData(query()) // calls render
                 }
             }
@@ -173,9 +167,9 @@ open class Table<T>(
             }
         }
 
-        if (! firstOnResume) {
+        if (!firstOnResume) {
             window.requestAnimationFrame {
-                contentContainer.scrollTo(contentScrollLeft, contentScrollTop)
+                contentElement.scrollTo(contentScrollLeft, contentScrollTop)
             }
         }
 
@@ -231,7 +225,7 @@ open class Table<T>(
         val target = event.target
 
         if (target is HTMLElement && target.getDatasetEntry(LEVEL_TOGGLE) != null) {
-            toggleMultiLevelRow(renderData[target.getDatasetEntry(ROW_INDEX) !!.toInt()])
+            toggleMultiLevelRow(renderData[target.getDatasetEntry(ROW_INDEX)!!.toInt()])
             return
         }
 
@@ -241,8 +235,7 @@ open class Table<T>(
     /**
      * Prevent text selection on double click.
      */
-    open fun onMouseDown(event: Event) {
-        event as MouseEvent
+    open fun onMouseDown(event: MouseEvent) {
         if (event.detail > 1) {
             event.preventDefault()
         }
@@ -253,13 +246,14 @@ open class Table<T>(
         getRowId(event)?.let { onDblClick(it) }
     }
 
-    open fun onScroll() {
-        contentScrollTop = contentContainer.scrollTop
-        contentScrollLeft = contentContainer.scrollLeft
+    open fun onScroll(event: Event) {
+        contentScrollTop = contentElement.scrollTop
+        contentScrollLeft = contentElement.scrollLeft
 
-        lastKnownScrollPosition = contentContainer.scrollTop.let { if (it < 0) 0.0 else it } // Safari may have negative scrollTop
+        lastKnownScrollPosition =
+            contentElement.scrollTop.let { if (it < 0) 0.0 else it } // Safari may have negative scrollTop
 
-        if (! ticking) {
+        if (!ticking) {
             window.requestAnimationFrame {
                 onScroll(lastKnownScrollPosition)
                 ticking = false
@@ -281,7 +275,7 @@ open class Table<T>(
      * @param  data  The data to set.
      */
     fun setData(data: List<T>): Table<T> {
-        io {
+        applySuspend {
 //            preloads.forEach {
 //                it.job.join()
 //            }
@@ -305,7 +299,7 @@ open class Table<T>(
      * By default, all top-level rows are closed.
      */
     open fun buildMultiLevelState() {
-        if (! configuration.multiLevel) return
+        if (!configuration.multiLevel) return
         if (fullData.isEmpty()) return
 
         var previousLevel = 0
@@ -334,7 +328,7 @@ open class Table<T>(
      * @param  query  The query to execute
      */
     open fun setData(query: suspend () -> List<T>) {
-        io {
+        applySuspend {
             setData(query())
         }
     }
@@ -367,7 +361,7 @@ open class Table<T>(
 
         window.requestAnimationFrame {
 
-            tableBodyElement.clear()
+            tableBody.clear()
 
             addPlaceHolderRow()
             adjustTopPlaceHolder()
@@ -376,8 +370,6 @@ open class Table<T>(
             adjustBottomPlaceHolder()
 
             attach(firstAttachedRowIndex, attachedRowCount)
-
-            // if (counter) setCounter()
 
             // contentContainer.element.scrollTo(contentScrollLeft, contentScrollTop)
 
@@ -391,12 +383,9 @@ open class Table<T>(
      * the scrollbar reacts as if all rows would be rendered.
      */
     open fun addPlaceHolderRow() {
-        val row = tableBodyElement.appendChild(document.createElement("tr"))
-        repeat(columns.size) {
-            row.appendChild(document.createElement("td")).also { cell ->
-                cell as HTMLTableCellElement
-                cell.style.border = "none"
-                cell.style.padding = "0px"
+        tableBody.tr {
+            repeat(columns.size) {
+                td("b0", "p0") { }
             }
         }
     }
@@ -407,27 +396,28 @@ open class Table<T>(
      *
      * @param index Index of the row in state.rowStates
      */
-    open fun TableRow<T>.render(index: Int, row: TableRow<T>) : Z2 {
+    open fun TableRow<T>.render(index: Int, row: TableRow<T>): Z2 {
         element?.let { return it }
 
         val heightClass = if (configuration.fixRowHeight) "table-fix-height" else "table-variable-height"
 
-        val tr = document.createElement("tr") as HTMLElement
-
-        with(tr) {
+        // can't use 'tr' here as it would add the row to the DOM and we don't want that
+        element = Z2(
+            null,
+            document.createElement("tr") as HTMLElement,
+            emptyArray()
+        ) {
             for (column in columns) {
                 td("table-cell", heightClass) {
                     column.render(this, index, row.data)
                 }
             }
+
+            htmlElement.dataset[ROW_ID] = getRowId(row.data)
+            htmlElement.dataset[ROW_INDEX] = index.toString()
         }
 
-        tr.dataset[ROW_ID] = getRowId(row.data)
-        tr.dataset[ROW_INDEX] = index.toString()
-
-        element = tr
-
-        return tr
+        return element!!
     }
 
     // -------------------------------------------------------------------------
@@ -450,15 +440,15 @@ open class Table<T>(
                 while (row != null) {
                     val ridx = row.dataset[ROW_INDEX]?.toInt()
                     if (ridx != null && ridx > index) {
-                        tableBodyElement.insertBefore(it, row)
+                        tableBodyElement.insertBefore(it.htmlElement, row)
                         added = true
                         break
                     }
                     row = row.nextElementSibling as HTMLTableRowElement?
                 }
 
-                if (! added) {
-                    tableBodyElement.insertBefore(it, tableBodyElement.lastElementChild)
+                if (!added) {
+                    tableBodyElement.insertBefore(it.htmlElement, tableBodyElement.lastElementChild)
                 }
             }
         }
@@ -471,9 +461,9 @@ open class Table<T>(
     }
 
     fun remove(index: Int): Double {
-        return renderData[index].let { state ->
-            state.element !!.remove()
-            state.height !!
+        return renderData[index].let { row ->
+            row.element?.htmlElement?.remove()
+            row.height!!
         }
     }
 
@@ -514,8 +504,9 @@ open class Table<T>(
      * @return Height of the area that shows rows.
      */
     fun viewHeight(): Double {
-        val containerHeight = contentContainer.getBoundingClientRect().height
-        val headerHeight = tableElement.firstElementChild?.firstElementChild?.getBoundingClientRect()?.height ?: rowHeight.toDouble()
+        val containerHeight = contentElement.getBoundingClientRect().height
+        val headerHeight =
+            tableElement.firstElementChild?.firstElementChild?.getBoundingClientRect()?.height ?: rowHeight.toDouble()
 
         // if (trace) println("contentContainer height: $containerHeight thead height: $headerHeight")
 
@@ -532,7 +523,9 @@ open class Table<T>(
 
         return (start until end).sumOf { index ->
             renderData[index].let { state ->
-                state.height ?: state.element !!.firstElementChild !!.getBoundingClientRect().height.also { state.height = it }
+                state.height ?: state.element!!.htmlElement.firstElementChild!!.getBoundingClientRect().height.also {
+                    state.height = it
+                }
             }
         }
     }
@@ -590,7 +583,7 @@ open class Table<T>(
 
         adjustTopPlaceHolder()
         adjustBottomPlaceHolder()
-        contentContainer.scrollTo(0.0, firstAttachedRowIndex * rowHeight.toDouble())
+        contentElement.scrollTo(0.0, firstAttachedRowIndex * rowHeight.toDouble())
     }
 
     fun partialEmptyAbove(scrollTop: Double, originalAttachedHeight: Double) {
@@ -616,7 +609,7 @@ open class Table<T>(
         val estimatedAddition = (originalFirstAttachedRowIndex - firstAttachedRowIndex) * rowHeight
         val actualAddition = newAttachedHeight - originalAttachedHeight
 
-        contentContainer.scrollTop = scrollTop + (actualAddition - estimatedAddition)
+        contentElement.scrollTop = scrollTop + (actualAddition - estimatedAddition)
 
         adjustTopPlaceHolder()
 
@@ -674,7 +667,7 @@ open class Table<T>(
             val estimatedRemoval = (end - start) * rowHeight
 
             if (actualRemoval - estimatedRemoval > 0.5) {
-                contentContainer.scrollTop = scrollTop - (actualRemoval - estimatedRemoval)
+                contentElement.scrollTop = scrollTop - (actualRemoval - estimatedRemoval)
             }
 
             adjustTopPlaceHolder()
@@ -790,7 +783,7 @@ open class Table<T>(
         // multi-level table needs special processing because of the hidden
         // rows, so check for that also
 
-        if (searchText == null && ! configuration.multiLevel) {
+        if (searchText == null && !configuration.multiLevel) {
             filteredData = fullData
             renderData = filteredData.toMutableList()
             return
@@ -800,7 +793,7 @@ open class Table<T>(
 
         // when not multi-level, perform single filtering
 
-        if (! configuration.multiLevel) {
+        if (!configuration.multiLevel) {
             filteredData = fullData.filter { filterRow(it.data, lc) }
             renderData = filteredData.toMutableList()
             return
@@ -830,7 +823,7 @@ open class Table<T>(
 
             val children = getChildren(fullData, index, row.level)
 
-            if (! match) match = (children.firstOrNull { filterRow(it.data, lc) } != null)
+            if (!match) match = (children.firstOrNull { filterRow(it.data, lc) } != null)
 
             if (match) {
                 filterResult += row
@@ -933,7 +926,7 @@ open class Table<T>(
 
             if (next.level > level) {
                 children += next
-                index ++
+                index++
             } else {
                 break
             }
@@ -947,7 +940,7 @@ open class Table<T>(
     // -------------------------------------------------------------------------
 
     open fun <R : Comparable<R>> sort(ascending: Boolean, comparison: (row: TableRow<T>) -> R?) {
-        fullData = if (! configuration.multiLevel) {
+        fullData = if (!configuration.multiLevel) {
             if (ascending) {
                 fullData.sortedBy(comparison)
             } else {
@@ -970,7 +963,11 @@ open class Table<T>(
     /**
      * Sort a multi-level list of rows. Calls itself recursively for lower levels.
      */
-    open fun <R : Comparable<R>> multiSort(data: List<TableRow<T>>, ascending: Boolean, comparison: (row: TableRow<T>) -> R?): List<TableRow<T>> {
+    open fun <R : Comparable<R>> multiSort(
+        data: List<TableRow<T>>,
+        ascending: Boolean,
+        comparison: (row: TableRow<T>) -> R?
+    ): List<TableRow<T>> {
 
         // Do not perform sorting when the data contains a single row.
         if (data.size == 1) return data

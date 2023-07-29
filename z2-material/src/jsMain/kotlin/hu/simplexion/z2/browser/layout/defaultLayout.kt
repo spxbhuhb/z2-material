@@ -1,8 +1,7 @@
-package hu.simplexion.z2.browser.material.layout
+package hu.simplexion.z2.browser.layout
 
-import hu.simplexion.z2.browser.material.html.Z2
-import hu.simplexion.z2.browser.material.html.div
-import kotlinx.dom.addClass
+import hu.simplexion.z2.browser.html.Z2
+import hu.simplexion.z2.browser.html.div
 
 fun Z2.defaultLayout(
     builder: Z2.() -> Unit

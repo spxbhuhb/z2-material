@@ -1,12 +1,14 @@
 package hu.simplexion.z2.browser.material.demo.pages
 
+import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.button.filledButton
 import hu.simplexion.z2.browser.material.button.textButton
-import hu.simplexion.z2.browser.material.html.*
+import hu.simplexion.z2.browser.material.fr
 import hu.simplexion.z2.browser.material.px
 import hu.simplexion.z2.browser.material.textfield.outlinedTextField
 import hu.simplexion.z2.commons.i18n.LocalizedTextStore
 import hu.simplexion.z2.commons.util.UUID
+import org.w3c.dom.HTMLInputElement
 
 object loginStrings : LocalizedTextStore(UUID("72c9ec55-0e66-4181-96f9-d9009b03712e")) {
     val loginSupport by "Z2 Material Demo Teszt Rendszer"
@@ -22,15 +24,19 @@ object loginStrings : LocalizedTextStore(UUID("72c9ec55-0e66-4181-96f9-d9009b037
 }
 
 fun Z2.login() {
-    grid("min-content", gap = 8) {
+    grid() {
+        gridTemplateColumns = "min-content"
         gridAutoRows = "min-content"
+        gridGap = 8.px
 
         div {
             style.padding = 24.px
             style.border = "1px solid lightgray"
             style.borderRadius = "8px"
-            grid("400px", gap = 32) {
+            grid {
+                gridTemplateColumns = 400.px
                 gridAutoRows = "min-content"
+                gridGap = 32.px
 
                 div("title-small", "justify-self-center") {
                     text { loginStrings.loginSupport }
@@ -40,12 +46,20 @@ fun Z2.login() {
                     text { loginStrings.login }
                 }
 
-                grid("1fr", "min-content min-content", 24) {
+                grid {
+                    gridTemplateColumns = 1.fr
+                    gridTemplateRows = "min-content min-content"
+                    gridGap = 24.px
                     outlinedTextField("", loginStrings.account)
-                    outlinedTextField("", loginStrings.password).apply { input.type = "password" }
+                    outlinedTextField("", loginStrings.password)
+                        .apply { (input.htmlElement as HTMLInputElement).type = "password" }
                 }
 
-                grid("min-content 1fr min-content", "min-content") {
+                grid {
+                    gridTemplateColumns = "min-content 1fr min-content"
+                    gridTemplateRows = "min-content"
+                    gridGap = 24.px
+
                     style.position = "relative"
                     style.left = "-8px"
                     textButton(loginStrings.forgottenPassword) { }
@@ -55,7 +69,11 @@ fun Z2.login() {
             }
         }
 
-        grid("1fr repeat(3, min-content)", "min-content", 16) {
+        grid {
+            gridTemplateColumns = "1fr repeat(3, min-content)"
+            gridTemplateRows = "min-content"
+            gridGap = 16.px
+
             textButton(loginStrings.english) { }
             textButton(loginStrings.help) { }
             textButton(loginStrings.privacy) { }

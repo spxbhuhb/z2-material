@@ -3,27 +3,29 @@
  */
 package hu.simplexion.z2.browser.material.modal
 
-import hu.simplexion.z2.browser.material.html.Z2
-import hu.simplexion.z2.browser.material.html.div
-import hu.simplexion.z2.browser.material.html.text
+import hu.simplexion.z2.browser.html.Z2
+import hu.simplexion.z2.browser.html.div
 import hu.simplexion.z2.commons.i18n.LocalizedText
 import kotlinx.browser.document
 import kotlinx.coroutines.channels.Channel
-import kotlinx.dom.addClass
+import org.w3c.dom.HTMLElement
 
 /**
  * @property  channel    Receives output of the modal dialog (if there is one).
  *                       Pass a nullable type if the dialog may be closed without
  *                       output.
  */
-open class ModalBase<T : Any?> {
+@Suppress("UNCHECKED_CAST")
+open class ModalBase<T : Any?>(
+    builder : ModalBase<T>.() -> Unit
+) : Z2(
+    null,
+    document.createElement("div") as HTMLElement,
+    arrayOf("modal"),
+    builder as (Z2.() -> Unit)
+) {
 
-    protected val channel = Channel<T>(1)
-    protected val element : Z2 = document.createElement("div") as Z2
-
-    init {
-        element.addClass("modal")
-    }
+    val channel = Channel<T>(1)
 
     fun Z2.title(title : LocalizedText) =
         div {
@@ -52,9 +54,9 @@ open class ModalBase<T : Any?> {
         // - TODO Form In Modal cookbook recipe, especially the back button confirmation (form Zakadabar)
         //
 
-        Modals += element
+        Modals += this
         val value = channel.receive()
-        Modals -= element
+        Modals -= this
 
         return value
     }

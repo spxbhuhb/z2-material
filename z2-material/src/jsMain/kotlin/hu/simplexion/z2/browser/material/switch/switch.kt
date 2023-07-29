@@ -1,11 +1,10 @@
 package hu.simplexion.z2.browser.material.switch
 
+import hu.simplexion.z2.browser.html.Z2
+import hu.simplexion.z2.browser.html.div
+import hu.simplexion.z2.browser.html.onClick
 import hu.simplexion.z2.browser.material.basicIcons
-import hu.simplexion.z2.browser.material.html.Z2
-import hu.simplexion.z2.browser.material.html.div
-import hu.simplexion.z2.browser.material.html.on
 import hu.simplexion.z2.browser.material.icon.icon
-import kotlinx.dom.addClass
 
 fun Z2.switch(
     selected: Boolean,
@@ -18,7 +17,8 @@ fun Z2.switch(
     selectedIcon: Boolean = true,
     unselectedIcon: Boolean = false,
     onChange: (on : Boolean) -> Unit
-) : Z2 = div("switch-track") {
+) : Z2 =
+    div("switch-track") {
         val statusClass = if (selected) "selected" else "unselected"
         addClass(statusClass)
 
@@ -30,5 +30,5 @@ fun Z2.switch(
             div("switch-thumb", statusClass) {}
         }
 
-        on("click") { onChange(!selected) }
+        onClick { onChange(!selected) }
     }

@@ -1,18 +1,17 @@
 package hu.simplexion.z2.browser.material.navigation
 
-import hu.simplexion.z2.browser.material.html.Z2
-import hu.simplexion.z2.browser.material.html.div
-import hu.simplexion.z2.browser.material.html.text
+import hu.simplexion.z2.browser.html.Z2
+import hu.simplexion.z2.browser.html.div
+import hu.simplexion.z2.browser.html.onClick
 import hu.simplexion.z2.browser.material.icon.icon
-import org.w3c.dom.HTMLDivElement
-import org.w3c.dom.HTMLElement
+import org.w3c.dom.events.Event
 
-fun Z2.navigationRail(builder : Z2.() -> HTMLElement): HTMLDivElement =
+fun Z2.navigationRail(builder : Z2.() -> Z2): Z2 =
     div("navigation-rail-container") {
         builder()
     }
 
-fun Z2.railItem(item: NavigationItem, onClick: () -> Unit): HTMLDivElement =
+fun Z2.railItem(item: NavigationItem, onClick: (event : Event) -> Unit): Z2 =
 
     div("navigation-rail-item") {
 
@@ -29,5 +28,5 @@ fun Z2.railItem(item: NavigationItem, onClick: () -> Unit): HTMLDivElement =
             }
         }
 
-        addEventListener("click", { onClick() })
+        this.onClick(onClick)
     }

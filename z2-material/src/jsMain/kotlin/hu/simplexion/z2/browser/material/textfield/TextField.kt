@@ -1,8 +1,8 @@
 package hu.simplexion.z2.browser.material.textfield
 
+import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.ComponentState
 import hu.simplexion.z2.browser.material.basicIcons
-import hu.simplexion.z2.browser.material.html.*
 import hu.simplexion.z2.browser.material.icon.icon
 import hu.simplexion.z2.commons.i18n.LocalizedIcon
 import hu.simplexion.z2.commons.i18n.LocalizedText
@@ -10,10 +10,11 @@ import kotlinx.browser.document
 import kotlinx.dom.addClass
 import kotlinx.dom.clear
 import kotlinx.dom.removeClass
+import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.events.KeyboardEvent
 
 class TextField(
+    parent: Z2,
     val value: String,
     val label: LocalizedText? = null,
     val supportingText: LocalizedText? = null,
@@ -22,11 +23,15 @@ class TextField(
     val leadingIcon: LocalizedIcon? = null,
     val trailingIcon: LocalizedIcon? = null,
     var state: ComponentState = ComponentState.Enabled,
-    error : Boolean = false,
+    error: Boolean = false,
     val onChange: TextField.(value: String) -> Unit
+) : Z2(
+    parent,
+    document.createElement("div") as HTMLDivElement,
+    arrayOf("text-field"),
+    { (this as TextField).build() }
 ) {
 
-    lateinit var element: Z2
     lateinit var main: Z2
     lateinit var content: Z2
     lateinit var leading: Z2
@@ -43,45 +48,44 @@ class TextField(
             setState(state)
         }
 
-    val input = document.createElement("input") as HTMLInputElement
+    val input = Z2(this, document.createElement("input") as HTMLInputElement, emptyArray(), {})
 
     var beforeEditValue = value
 
-    fun Z2.main(): Z2 =
-        div("text-field") {
-            element = this
+    fun build() {
 
-            if (outlined) labelOutlined()
+        if (outlined) labelOutlined()
 
-            div(*classes()) {
-                main = this
-                gridRow = "1"
-                gridColumn = "1"
-                leadingIcon()
-                div("align-self-center") {
-                    content = this
-                    if (filled) labelFilled()
-                    input()
-                }
-                trailingIcon()
+        div(*classes()) {
+            main = this
+            gridRow = "1"
+            gridColumn = "1"
+            leadingIcon()
+            div("align-self-center") {
+                content = this
+                if (filled) labelFilled()
+                input()
             }
-
-            supportingText()
-
-            on("mousedown") {
-                if (it.target != input) {
-                    input.focus()
-                    it.preventDefault()
-                }
-            }
-
-            setState(state)
+            trailingIcon()
         }
 
+        supportingText()
+
+        onMouseDown {
+            if (it.target != input) {
+                input.focus()
+                it.preventDefault()
+            }
+        }
+
+        setState(state)
+    }
+
     fun leave() {
-        if (beforeEditValue != input.value) {
-            beforeEditValue = input.value
-            onChange(input.value)
+        val inputElement = input.htmlElement as HTMLInputElement
+        if (beforeEditValue != inputElement.value) {
+            beforeEditValue = inputElement.value
+            onChange(inputElement.value)
         }
     }
 
@@ -116,7 +120,7 @@ class TextField(
         }
 
     fun Z2.labelOutlinedContent() {
-        clear()
+        htmlElement.clear()
         div("text-field-label-outlined-content") { text { label } }
     }
 
@@ -132,17 +136,18 @@ class TextField(
     fun Z2.input() {
         val parent = if (filled) div { labelFilled() } else this
 
-        parent.appendChild(input)
+        parent.append(input)
+        val inputElement = input.htmlElement as HTMLInputElement
 
         input.addClass("text-field-input", "body-large")
-        input.value = value
-        label?.let { input.placeholder = it.toString() }
+        inputElement.value = value
+        label?.let { inputElement.placeholder = it.toString() }
 
-        input.on("mousedown") {
-            if (input.readOnly) it.preventDefault()
+        input.onMouseDown {
+            if (inputElement.readOnly) it.preventDefault()
         }
 
-        input.on("focus") {
+        input.onFocus {
             setState(ComponentState.Focused)
             when {
                 filled -> labelOuter.removeClass("hidden")
@@ -150,22 +155,21 @@ class TextField(
             }
         }
 
-        input.on("blur") {
-            if (input.value.isEmpty()) {
+        input.onBlur {
+            if (inputElement.value.isEmpty()) {
                 when {
                     filled -> labelOuter.addClass("hidden")
-                    outlined -> labelInner.innerText = ""
+                    outlined -> labelInner.clear()
                 }
             }
             leave()
             setState(ComponentState.Enabled)
         }
 
-        input.on("keydown") { event ->
-            event as KeyboardEvent
+        input.onKeyDown { event ->
             when (event.key) {
                 "Enter" -> leave()
-                "Escape" -> input.value = beforeEditValue
+                "Escape" -> inputElement.value = beforeEditValue
             }
         }
     }
@@ -213,7 +217,7 @@ class TextField(
         val newClass = newState.fieldClass
         state = newState
 
-        element.querySelectorAll("*").forEach {
+        htmlElement.querySelectorAll("*").forEach {
             removeClass(oldClass)
             addClass(newClass)
             if (error) {

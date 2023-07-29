@@ -1,12 +1,12 @@
 package hu.simplexion.z2.browser.material.icon
 
-import hu.simplexion.z2.browser.material.html.Z2
-import hu.simplexion.z2.browser.material.html.div
-import hu.simplexion.z2.browser.material.html.text
+import hu.simplexion.z2.browser.html.Z2
+import hu.simplexion.z2.browser.html.div
+import hu.simplexion.z2.browser.html.onClick
+import hu.simplexion.z2.browser.html.onMouseDown
 import hu.simplexion.z2.commons.i18n.LocalizedIcon
 import hu.simplexion.z2.commons.i18n.LocalizedText
-import kotlinx.dom.addClass
-import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.events.Event
 
 fun Z2.icon(
     icon: LocalizedIcon,
@@ -15,16 +15,16 @@ fun Z2.icon(
     fill : Int = 0,
     pointer : Boolean = true,
     cssClass: String? = null
-) : HTMLDivElement =
+) : Z2 =
     div {
         cssClass?.let { addClass(it) }
 
         addClass("icon-$size")
         if (pointer) style.cursor = "pointer"
 
-        innerHTML = """<span class="material-symbols-rounded symbols-$weight-$size-$fill">${icon}</span>"""
+        htmlElement.innerHTML = """<span class="material-symbols-rounded symbols-$weight-$size-$fill">${icon}</span>"""
 
-        addEventListener("mousedown", { it.preventDefault() }) // to avoid focus
+        onMouseDown { it.preventDefault() }// to avoid focus
     }
 
 fun Z2.actionIcon(
@@ -35,22 +35,22 @@ fun Z2.actionIcon(
     fill : Int = 0,
     cssClass: String? = null,
     inline : Boolean = false,
-    onClick: () -> Unit
-) : HTMLDivElement =
+    onClick: (event : Event) -> Unit
+) : Z2 =
     div {
         cssClass?.let { addClass(it) }
 
         addClass("icon-$size", if (inline) "inline-action-icon" else "action-icon")
 
-        innerHTML = """<span class="material-symbols-rounded symbols-$weight-$size-$fill">${icon}</span>"""
+        htmlElement.innerHTML = """<span class="material-symbols-rounded symbols-$weight-$size-$fill">${icon}</span>"""
 
         if (hint != null) {
             addClass("tooltip")
             div("plain-tooltip", "body-small") { text { hint } }
         }
 
-        addEventListener("mousedown", { it.preventDefault() }) // to avoid focus
-        addEventListener("click", { onClick() })
+        onMouseDown { it.preventDefault() }// to avoid focus
+        this.onClick(onClick)
     }
 
 fun Z2.inlineActionIcon(
@@ -60,6 +60,6 @@ fun Z2.inlineActionIcon(
     weight : Int = 400,
     fill : Int = 0,
     cssClass: String? = null,
-    onClick: () -> Unit
-) : HTMLDivElement =
+    onClick: (event : Event) -> Unit
+) : Z2 =
     actionIcon(icon, hint, size, weight, fill, cssClass, true, onClick)

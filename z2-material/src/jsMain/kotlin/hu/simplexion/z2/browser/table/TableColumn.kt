@@ -3,7 +3,7 @@
  */
 package hu.simplexion.z2.browser.table
 
-import hu.simplexion.z2.browser.material.html.*
+import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.px
 import hu.simplexion.z2.browser.util.uniqueNodeId
 import kotlinx.browser.document
@@ -44,9 +44,9 @@ abstract class TableColumn<T>(
             text { label }
             sortSign = sortSign()
             span("table-resize-handle") {
-                on("mousedown", ::onResizeMouseDown)
+                onMouseDown(::onResizeMouseDown)
             }
-            on("click", ::onClick)
+            onClick(::onClick)
         }
 
     fun Z2.sortSign() =
@@ -103,9 +103,7 @@ abstract class TableColumn<T>(
         table.render()
     }
 
-    open fun onResizeMouseDown(event: Event) {
-        event as MouseEvent
-
+    open fun onResizeMouseDown(event: MouseEvent) {
         beingResized = true
         beenResized = true
         lastX = event.clientX
@@ -174,7 +172,7 @@ abstract class TableColumn<T>(
                 table.columns.subList(0, table.columns.size - 1).joinToString(" ") { "${it.size}px" } + " 1fr"
             }
 
-            table.tableElement.width = sumWidth.px
+            table.tableElement.style.width = sumWidth.px
             table.tableElement.style.setProperty("grid-template-columns", template)
 
             table.fullData.forEach { it.height = null }
@@ -218,10 +216,6 @@ abstract class TableColumn<T>(
 
     open fun exportCsv(row: T): String {
         return ""
-    }
-
-    open fun exportRaw(row: T): Any? {
-        return null
     }
 
 }

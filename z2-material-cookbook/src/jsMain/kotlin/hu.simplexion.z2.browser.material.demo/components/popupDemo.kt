@@ -1,33 +1,35 @@
 package hu.simplexion.z2.browser.material.demo.components
 
+import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.basicIcons
 import hu.simplexion.z2.browser.material.button.textButton
 import hu.simplexion.z2.browser.material.card.filledCard
 import hu.simplexion.z2.browser.material.demo.strings
-import hu.simplexion.z2.browser.material.html.*
 import hu.simplexion.z2.browser.material.icon.actionIcon
-import hu.simplexion.z2.browser.material.popup.Popup
-import hu.simplexion.z2.browser.material.popup.Popup.Companion.popup
-import kotlinx.dom.addClass
+import hu.simplexion.z2.browser.material.popup.PopupBase
+import hu.simplexion.z2.browser.material.popup.popup
+import hu.simplexion.z2.browser.material.px
 
 fun Z2.popupDemo() {
-    grid("400px", gap = 16) {
+    grid {
+        gridTemplateColumns = 400.px
         gridAutoRows = "min-content"
+        gridGap = 16.px
 
         div {
-            var popup: Popup? = null
+            var popup: PopupBase? = null
             textButton(strings.popup) {
                 popup?.toggle()
                 it.preventDefault()
                 it.stopPropagation() // this is necessary for buttons
-            }.apply {
+            }.let {
                 addClass("position-relative", "popup-parent")
                 popup = popup { filledCard { text { strings.loremShort } } }
             }
         }
 
         div {
-            var popup: Popup? = null
+            var popup: PopupBase? = null
             actionIcon(basicIcons.settings) {
                 popup?.toggle()
             }.apply {

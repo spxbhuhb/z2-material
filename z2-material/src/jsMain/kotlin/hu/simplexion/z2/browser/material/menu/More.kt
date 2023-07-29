@@ -1,12 +1,11 @@
 package hu.simplexion.z2.browser.material.menu
 
+import hu.simplexion.z2.browser.html.Z2
+import hu.simplexion.z2.browser.html.grid
 import hu.simplexion.z2.browser.material.basicIcons
-import hu.simplexion.z2.browser.material.html.Z2
-import hu.simplexion.z2.browser.material.html.grid
 import hu.simplexion.z2.browser.material.icon.actionIcon
-import hu.simplexion.z2.browser.material.popup.Popup
-import hu.simplexion.z2.browser.material.popup.Popup.Companion.popup
-import kotlinx.dom.addClass
+import hu.simplexion.z2.browser.material.popup.PopupBase
+import hu.simplexion.z2.browser.material.popup.popup
 
 class More(
     val inline: Boolean = false,
@@ -14,7 +13,7 @@ class More(
 ) {
 
     lateinit var icon: Z2
-    lateinit var popup: Popup
+    lateinit var popup: PopupBase
 
     companion object {
         fun Z2.more(inline: Boolean = false, builder: Z2.() -> Unit) = with(this) { More(inline, builder).apply { main() } }
