@@ -1,4 +1,4 @@
-package hu.simplexion.z2.browser.material.demo.components
+package hu.simplexion.z2.browser.demo.material
 
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.px

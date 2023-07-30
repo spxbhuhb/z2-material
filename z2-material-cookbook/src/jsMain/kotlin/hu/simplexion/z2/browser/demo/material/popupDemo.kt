@@ -1,10 +1,10 @@
-package hu.simplexion.z2.browser.material.demo.components
+package hu.simplexion.z2.browser.demo.material
 
+import hu.simplexion.z2.browser.demo.strings
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.basicIcons
 import hu.simplexion.z2.browser.material.button.textButton
 import hu.simplexion.z2.browser.material.card.filledCard
-import hu.simplexion.z2.browser.material.demo.strings
 import hu.simplexion.z2.browser.material.icon.actionIcon
 import hu.simplexion.z2.browser.material.popup.PopupBase
 import hu.simplexion.z2.browser.material.popup.popup

@@ -1,4 +1,4 @@
-package hu.simplexion.z2.browser.material.demo.pages
+package hu.simplexion.z2.browser.demo.pages
 
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.button.filledButton

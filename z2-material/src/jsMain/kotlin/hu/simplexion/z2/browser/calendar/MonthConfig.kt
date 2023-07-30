@@ -1,4 +1,4 @@
-package hu.simplexion.z2.browser.material.calendar
+package hu.simplexion.z2.browser.calendar
 
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate

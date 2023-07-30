@@ -3,10 +3,10 @@
  */
 package hu.simplexion.z2.browser.table
 
+import hu.simplexion.z2.browser.css.titleSmall
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.px
 import hu.simplexion.z2.browser.util.uniqueNodeId
-import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.dom.addClass
 import kotlinx.dom.removeClass
@@ -16,30 +16,30 @@ import org.w3c.dom.events.MouseEvent
 import kotlin.math.max
 
 
-abstract class TableColumn<T>(
-    val table: Table<T>
+open class TableColumn<T>(
+    val table: Table<T>,
+    val label: String,
+    val renderer: Z2.(row: T) -> Unit,
+    var size : Double = Double.NaN,
+    val exportable : Boolean = true
 ) {
     val id = uniqueNodeId
 
-    val element = document.createElement("th") as HTMLElement
+    lateinit var element : HTMLElement
 
     open val min = 24.0
     open var max = "1fr"
 
-    open var size = Double.NaN
-    open var exportable = true
-
-    open var label: String = ""
     lateinit var sortSign: Z2
+    var sortAscending = false
 
     var beingResized = false
     var beenResized = false
     var lastX: Int = 0
 
-    var sortAscending = false
-
     fun Z2.header(configuration: TableConfiguration) =
-        div {
+        th(titleSmall) {
+            element = this.htmlElement
             if (configuration.fixHeaderHeight) addClass("table-header-cell-fix-height")
             text { label }
             sortSign = sortSign()
@@ -51,12 +51,8 @@ abstract class TableColumn<T>(
 
     fun Z2.sortSign() =
         div {
-            div("table-sort-sign") {  }
+            div("table-sort-sign") { }
         }
-
-    open var renderer: Z2.(row: T) -> Unit = { row ->
-        text { format(row) }
-    }
 
     /**
      * [Table] calls this method whenever [Table.setData] runs.
@@ -104,6 +100,8 @@ abstract class TableColumn<T>(
     }
 
     open fun onResizeMouseDown(event: MouseEvent) {
+        trace { "[resize]  mouse down  lastX=${event.clientX}" }
+
         beingResized = true
         beenResized = true
         lastX = event.clientX
@@ -113,7 +111,7 @@ abstract class TableColumn<T>(
         }
 
         element.addClass("table-being-resized")
-        table.outerContainer.addClass("no-select")
+        table.addClass("no-select")
 
         window.addEventListener("mouseup", mouseUpWrapper)
         window.addEventListener("mousemove", mouseMoveWrapper)
@@ -122,6 +120,8 @@ abstract class TableColumn<T>(
     val mouseUpWrapper = { event: Event -> onMouseUp(event) }
 
     open fun onMouseUp(event: Event) {
+        trace { "[resize]  mouse up" }
+
         beingResized = false
         lastX = 0
 
@@ -130,7 +130,7 @@ abstract class TableColumn<T>(
         }
 
         element.removeClass("table-being-resized")
-        table.outerContainer.removeClass("no-select")
+        table.removeClass("no-select")
 
         window.removeEventListener("mouseup", mouseUpWrapper)
         window.removeEventListener("mousemove", mouseMoveWrapper)
@@ -141,17 +141,21 @@ abstract class TableColumn<T>(
     val mouseMoveWrapper = { event: Event -> onMouseMove(event) }
 
     open fun onMouseMove(event: Event) {
-        if (!beingResized) return
+        trace { "[resize]  mouse move  beingResized=$beingResized" }
 
         event as MouseEvent
         event.preventDefault() // prevents text select during column resize
 
         window.requestAnimationFrame {
+            if (!beingResized) return@requestAnimationFrame
 
             val distance = event.clientX - lastX
             lastX = event.clientX
 
             size = max(min, if (size.isNaN()) element.clientWidth.toDouble() else size + distance)
+
+            trace { "======  column resize  ======"}
+            trace { "[resize]  id=$id  clientX=${event.clientX}  distance=$distance  size=$size" }
 
             val tableWidth = table.tableElement.clientWidth
             var sumWidth = 0.0
@@ -161,22 +165,29 @@ abstract class TableColumn<T>(
                     it.size = it.element.clientWidth.toDouble()
                 }
                 sumWidth += it.size
+                trace { "[resize.forEach]  id=$id  size=$size  sumWidth=$sumWidth" }
             }
 
             // When the table is smaller than the sum of colum widths, use 1 fraction for the
             // last column. When larger, use exact pixel widths for each column.
 
-            val template = if (sumWidth >= tableWidth || table.columns.size == 0) {
+            val template = if (sumWidth >= tableWidth || table.columns.isEmpty()) {
                 table.columns.joinToString(" ") { "${it.size}px" }
             } else {
                 table.columns.subList(0, table.columns.size - 1).joinToString(" ") { "${it.size}px" } + " 1fr"
             }
+
+            trace { "[resize.apply] sumWidth=$sumWidth template=$template" }
 
             table.tableElement.style.width = sumWidth.px
             table.tableElement.style.setProperty("grid-template-columns", template)
 
             table.fullData.forEach { it.height = null }
         }
+    }
+
+    fun trace(block : () -> String) {
+        if (table.traceColumnResize) println(block())
     }
 
     protected fun findParentOffset(): Int {

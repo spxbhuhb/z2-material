@@ -1,8 +1,8 @@
-package hu.simplexion.z2.browser.material.demo.components
+package hu.simplexion.z2.browser.demo.material
 
+import hu.simplexion.z2.browser.demo.strings
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.basicIcons
-import hu.simplexion.z2.browser.material.demo.strings
 import hu.simplexion.z2.browser.material.fr
 import hu.simplexion.z2.browser.material.menu.More.Companion.more
 import hu.simplexion.z2.browser.material.menu.menuItem

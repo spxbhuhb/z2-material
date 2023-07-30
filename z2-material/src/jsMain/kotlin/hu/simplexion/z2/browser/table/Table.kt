@@ -20,8 +20,7 @@ import kotlin.math.min
 
 open class Table<T>(
     parent: Z2? = null,
-    var query: (() -> List<T>)? = null,
-    val configuration: TableConfiguration = TableConfiguration()
+    builder: TableBuilder<T>.() -> Unit
 ) : Z2(
     parent,
     document.createElement("div") as HTMLElement,
@@ -29,7 +28,9 @@ open class Table<T>(
     null
 ) {
 
-    val columns = mutableListOf<TableColumn<T>>()
+    val configuration: TableConfiguration
+    val columns: List<TableColumn<T>>
+    var query: (() -> List<T>)? = null
 
     open val exportFileName: String
         get() {
@@ -42,7 +43,8 @@ open class Table<T>(
     // open var counterBar = ZkCounterBar("")
 
     var traceScroll = false
-    var traceMultiLevel = true
+    var traceColumnResize = true
+    var traceMultiLevel = false
 
     open var firstOnResume = true
 
@@ -53,13 +55,12 @@ open class Table<T>(
     //  DOM
     // -------------------------------------------------------------------------
 
-    lateinit var outerContainer: Z2
     lateinit var contentContainer: Z2
     lateinit var table: Z2
     lateinit var tableBody: Z2
 
     lateinit var contentElement: HTMLElement
-    lateinit var tableElement : HTMLElement
+    lateinit var tableElement: HTMLElement
     lateinit var tableBodyElement: HTMLElement
 
     var contentScrollTop: Double = 0.0
@@ -72,14 +73,22 @@ open class Table<T>(
     var firstAttachedRowIndex = 0
     var attachedRowCount = 0
 
+    /**
+     * Get a unique if for the given row. The id of the row is used by actions and is
+     * passed to row based functions such as [onDblClick].
+     */
+    var getRowId: (row: T) -> String = {
+        throw NotImplementedError("please override ${this::class}.getRowId when not using crud")
+    }
+
     /** HTMLElement.dataset key to store the ID of the row, never changes, calculated by [getRowId]  */
-    open val ROW_ID = "zkrid"
+    open val ROW_ID = "z2rid"
 
     /** HTMLElement.dataset key to store the index of the row, the index shows the row index in [renderData] */
-    open val ROW_INDEX = "zkridx"
+    open val ROW_INDEX = "z2ridx"
 
     /** HTMLElement.dataset key to indicte that this is a level toggle for a multi-level row */
-    open val LEVEL_TOGGLE = "zklt"
+    open val LEVEL_TOGGLE = "z2lt"
 
     open val addAboveCount: Int
         get() = window.outerHeight / rowHeight
@@ -115,13 +124,22 @@ open class Table<T>(
     open var needToSetAllCounter = true
 
     init {
+        TableBuilder<T>().also { build ->
+            build.builder()
+            configuration = build
+            columns = build.columns.map { it.toColumn(this) }
+            query = build.query
+            getRowId = checkNotNull(build.rowId) { "rowId has to be set in the table builder" }
+        }
+
         titleBar()
 
         div("table-content-container") {
             contentContainer = this
             contentElement = this.htmlElement
 
-            table("table") {
+            tableHtml("table") {
+                tableElement = this.htmlElement
                 table = this
                 style.cssText = inlineCss()
 
@@ -143,6 +161,8 @@ open class Table<T>(
         onMouseDown(::onMouseDown)
         onDblClick(::onDblClick)
         onClick(::onClick)
+
+        resume()
     }
 
 
@@ -680,15 +700,6 @@ open class Table<T>(
     // -------------------------------------------------------------------------
     //  API functions, intended for override
     // -------------------------------------------------------------------------
-
-    /**
-     * Get a unique if for the given row. The id of the row is used by actions and is
-     * passed to row based functions such as [onDblClick].
-     */
-    open fun getRowId(row: T): String {
-        // FIXME getRowId
-        throw NotImplementedError("please override ${this::class}.getRowId when not using crud")
-    }
 
     /**
      * Get the data of a given row by row ID.

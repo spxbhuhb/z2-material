@@ -1,4 +1,4 @@
-package hu.simplexion.z2.browser.material.demo
+package hu.simplexion.z2.browser.demo
 
 import hu.simplexion.z2.commons.i18n.LocalizedTextStore
 import hu.simplexion.z2.commons.util.UUID
@@ -31,4 +31,5 @@ object strings : LocalizedTextStore(UUID("c6a52ab3-7a5a-4f07-ad49-239775845386")
     val snackbar by "Snackbar"
     val click by "Click"
     val switch by "Switch"
+    val table by "Table"
 }

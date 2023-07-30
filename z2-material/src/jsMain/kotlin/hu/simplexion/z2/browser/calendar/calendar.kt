@@ -1,4 +1,4 @@
-package hu.simplexion.z2.browser.material.calendar
+package hu.simplexion.z2.browser.calendar
 
 import hu.simplexion.z2.browser.html.Z2
 import hu.simplexion.z2.browser.html.div

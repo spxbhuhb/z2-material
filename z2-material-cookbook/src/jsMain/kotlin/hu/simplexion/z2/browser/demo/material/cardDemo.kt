@@ -1,9 +1,9 @@
-package hu.simplexion.z2.browser.material.demo.components
+package hu.simplexion.z2.browser.demo.material
 
+import hu.simplexion.z2.browser.demo.strings
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.card.filledCard
 import hu.simplexion.z2.browser.material.card.outlinedCard
-import hu.simplexion.z2.browser.material.demo.strings
 import hu.simplexion.z2.browser.material.px
 
 fun Z2.cardDemo() {
