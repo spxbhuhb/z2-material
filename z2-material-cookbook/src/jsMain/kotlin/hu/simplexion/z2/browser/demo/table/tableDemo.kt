@@ -24,11 +24,13 @@ fun Z2.tableDemo() {
             column {
                 label = "a"
                 render = { text { it.v1 } }
+                comparator = { a, b -> a.v2.compareTo(b.v2) }
             }
 
             column {
                 label = "b"
                 render = { text { it.v2 } }
+                comparator = { a, b -> a.v2.compareTo(b.v2) }
             }
 
         }

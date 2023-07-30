@@ -20,6 +20,7 @@ open class TableColumn<T>(
     val table: Table<T>,
     val label: String,
     val renderer: Z2.(row: T) -> Unit,
+    val comparator : (T,T) -> Int,
     var size : Double = Double.NaN,
     val exportable : Boolean = true
 ) {
@@ -31,7 +32,7 @@ open class TableColumn<T>(
     open var max = "1fr"
 
     lateinit var sortSign: Z2
-    var sortAscending = false
+    var sortAscending = true
 
     var beingResized = false
     var beenResized = false
@@ -211,7 +212,7 @@ open class TableColumn<T>(
      * Sorts the table data by this column.
      */
     open fun sort() {
-
+        table.sort(sortAscending, comparator)
     }
 
     /**

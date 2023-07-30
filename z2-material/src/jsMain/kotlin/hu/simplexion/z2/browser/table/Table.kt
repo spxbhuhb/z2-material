@@ -946,15 +946,15 @@ open class Table<T>(
     //  Sorting
     // -------------------------------------------------------------------------
 
-    open fun <R : Comparable<R>> sort(ascending: Boolean, comparison: (row: TableRow<T>) -> R?) {
+    open fun sort(ascending: Boolean, comparator: (T, T) -> Int) {
         fullData = if (!configuration.multiLevel) {
             if (ascending) {
-                fullData.sortedBy(comparison)
+                fullData.sortedWith { a, b -> comparator(a.data, b.data) }
             } else {
-                fullData.sortedByDescending(comparison)
+                fullData.sortedWith { a, b -> -comparator(a.data, b.data) }
             }
         } else {
-            multiSort(fullData, ascending, comparison)
+            multiSort(fullData, ascending, comparator)
         }
     }
 
@@ -970,10 +970,10 @@ open class Table<T>(
     /**
      * Sort a multi-level list of rows. Calls itself recursively for lower levels.
      */
-    open fun <R : Comparable<R>> multiSort(
+    open fun multiSort(
         data: List<TableRow<T>>,
         ascending: Boolean,
-        comparison: (row: TableRow<T>) -> R?
+        comparator: (T, T) -> Int
     ): List<TableRow<T>> {
 
         // Do not perform sorting when the data contains a single row.
@@ -995,7 +995,7 @@ open class Table<T>(
                 top += SortEntry(row, emptyList())
             } else {
                 val children = getChildren(data, index, row.level)
-                top += SortEntry(row, multiSort(children, ascending, comparison))
+                top += SortEntry(row, multiSort(children, ascending, comparator))
                 index += children.size
             }
 
@@ -1005,9 +1005,9 @@ open class Table<T>(
         // Sort the top level rows and merge all rows together to get the result.
 
         val sortedTop = if (ascending) {
-            top.sortedBy { comparison(it.row) }
+            top.sortedWith { a, b -> comparator(a.row.data, b.row.data) }
         } else {
-            top.sortedByDescending { comparison(it.row) }
+            top.sortedWith { a, b -> -comparator(a.row.data, b.row.data) }
         }
 
         val result = mutableListOf<TableRow<T>>()
