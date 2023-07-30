@@ -1,7 +1,3 @@
-.display-contents {
-    display: contents;
-}
-
 .align-self-start {
     align-self: start;
 }
@@ -14,28 +10,26 @@
     align-self: end;
 }
 
-.justify-self-center {
-   justify-self: center;
+.border-0 {
+    border: 0 !important;
 }
 
-.justify-self-end {
-    justify-self: end;
+.border-primary {
+    border: 1px solid var(--md-sys-color-primary);
 }
 
-.w-100 {
-    width: 100%
+.cursor-pointer {
+    cursor: pointer;
 }
 
-.h-100 {
-    height: 100%
+.display-contents {
+    display: contents;
 }
 
-.text-align-end {
-    text-align: end;
-}
-
-.vertical-align-center {
-    vertical-align: center;
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .flex-row-end {
@@ -50,42 +44,27 @@
     justify-content: start;
 }
 
+.full-screen {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
 .hidden {
     display: none !important
 }
 
-.primary-border {
-    border: 1px solid var(--md-sys-color-primary);
+.h-100 {
+    height: 100%
 }
 
-.error-border {
-    border: 1px solid var(--md-sys-color-error);
+.justify-self-center {
+   justify-self: center;
 }
 
-.divider {
-    box-sizing: border-box;
-    min-height: 1px;
-    border-top: 1px solid var(--md-sys-color-outline-variant);
-}
-
-.no-wrap {
-    white-space: nowrap;
-}
-
-.b0 {
-    border: 0 !important;
-}
-
-.p0 {
-    padding: 0 !important;
-}
-
-.pointer {
-    cursor: pointer;
-}
-
-.position-relative {
-    position: relative;
+.justify-self-end {
+    justify-self: end;
 }
 
 .no-select {
@@ -95,15 +74,30 @@
     -ms-user-select: none;
 }
 
-.full-screen {
-    width: 100vw;
-    height: 100vh;
-    padding: 0;
-    margin: 0;
+.no-wrap {
+    white-space: nowrap;
 }
 
-.flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.padding-0 {
+    padding: 0 !important;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.scroll-y {
+    overflow-y: auto;
+}
+
+.text-align-end {
+    text-align: end;
+}
+
+.vertical-align-center {
+    vertical-align: center;
+}
+
+.width-100 {
+    width: 100%
 }

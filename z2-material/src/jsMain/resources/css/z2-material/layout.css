@@ -6,6 +6,7 @@
 }
 
 .layout-default {
+    position: relative;
     height: 100%;
     width: 100%;
     display: grid;
@@ -17,13 +18,10 @@
 .layout-default-content {
     position: relative;
     border-radius: 16px;
-    padding: 16px;
     margin-right: 16px;
     margin-bottom: 16px;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: min-content minmax(0, 1fr);
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .layout-default-header {
@@ -34,4 +32,34 @@
     padding: 16px 0 16px 0;
     margin-bottom: 8px;
     background-color: transparent;
+}
+
+.surface-container-lowest {
+    background-color: var(--md-sys-color-surface-container-lowest);
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.surface-container-low {
+    background-color: var(--md-sys-color-surface-container-low);
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.surface-container {
+    background-color: var(--md-sys-color-surface-container);
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.surface-container-high {
+    background-color: var(--md-sys-color-surface-container-high);
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.surface-container-highest {
+    background-color: var(--md-sys-color-surface-container-highest);
+    border-radius: 16px;
+    padding: 16px;
 }

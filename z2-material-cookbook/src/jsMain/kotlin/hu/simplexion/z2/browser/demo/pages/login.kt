@@ -23,61 +23,62 @@ object loginStrings : LocalizedTextStore(UUID("72c9ec55-0e66-4181-96f9-d9009b037
     val registration by "Regisztráció"
 }
 
-fun Z2.login() {
-    grid() {
-        gridTemplateColumns = "min-content"
-        gridAutoRows = "min-content"
-        gridGap = 8.px
+fun Z2.login() =
+    div("scroll-y") {
+        grid {
+            gridTemplateColumns = "min-content"
+            gridAutoRows = "min-content"
+            gridGap = 8.px
 
-        div {
-            style.padding = 24.px
-            style.border = "1px solid lightgray"
-            style.borderRadius = "8px"
-            grid {
-                gridTemplateColumns = 400.px
-                gridAutoRows = "min-content"
-                gridGap = 32.px
-
-                div("title-small", "justify-self-center") {
-                    text { loginStrings.loginSupport }
-                }
-
-                div("title-large", "justify-self-center") {
-                    text { loginStrings.login }
-                }
-
+            div {
+                style.padding = 24.px
+                style.border = "1px solid lightgray"
+                style.borderRadius = "8px"
                 grid {
-                    gridTemplateColumns = 1.fr
-                    gridTemplateRows = "min-content min-content"
-                    gridGap = 24.px
-                    outlinedTextField("", loginStrings.account)
-                    outlinedTextField("", loginStrings.password)
-                        .apply { (input.htmlElement as HTMLInputElement).type = "password" }
-                }
+                    gridTemplateColumns = 400.px
+                    gridAutoRows = "min-content"
+                    gridGap = 32.px
 
-                grid {
-                    gridTemplateColumns = "min-content 1fr min-content"
-                    gridTemplateRows = "min-content"
-                    gridGap = 24.px
+                    div("title-small", "justify-self-center") {
+                        text { loginStrings.loginSupport }
+                    }
 
-                    style.position = "relative"
-                    style.left = "-8px"
-                    textButton(loginStrings.forgottenPassword) { }
-                    textButton(loginStrings.registration) { }
-                    filledButton(loginStrings.login) { }
+                    div("title-large", "justify-self-center") {
+                        text { loginStrings.login }
+                    }
+
+                    grid {
+                        gridTemplateColumns = 1.fr
+                        gridTemplateRows = "min-content min-content"
+                        gridGap = 24.px
+                        outlinedTextField("", loginStrings.account)
+                        outlinedTextField("", loginStrings.password)
+                            .apply { (input.htmlElement as HTMLInputElement).type = "password" }
+                    }
+
+                    grid {
+                        gridTemplateColumns = "min-content 1fr min-content"
+                        gridTemplateRows = "min-content"
+                        gridGap = 24.px
+
+                        style.position = "relative"
+                        style.left = "-8px"
+                        textButton(loginStrings.forgottenPassword) { }
+                        textButton(loginStrings.registration) { }
+                        filledButton(loginStrings.login) { }
+                    }
                 }
             }
-        }
 
-        grid {
-            gridTemplateColumns = "1fr repeat(3, min-content)"
-            gridTemplateRows = "min-content"
-            gridGap = 16.px
+            grid {
+                gridTemplateColumns = "1fr repeat(3, min-content)"
+                gridTemplateRows = "min-content"
+                gridGap = 16.px
 
-            textButton(loginStrings.english) { }
-            textButton(loginStrings.help) { }
-            textButton(loginStrings.privacy) { }
-            textButton(loginStrings.term) { }
+                textButton(loginStrings.english) { }
+                textButton(loginStrings.help) { }
+                textButton(loginStrings.privacy) { }
+                textButton(loginStrings.term) { }
+            }
         }
     }
-}

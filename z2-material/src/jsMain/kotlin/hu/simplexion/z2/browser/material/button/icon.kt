@@ -17,7 +17,7 @@ fun Z2.iconButton(
 ) =
 
     div("icon-button", "primary-text") {
-        div("icon-button-active-indicator-with-text", "primary-border", "tooltip") {
+        div("icon-button-active-indicator-with-text", "border-primary", "tooltip") {
             icon(icon, size, weight, fill)
             div("plain-tooltip", "body-small") { text { hint } }
         }

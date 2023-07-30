@@ -32,4 +32,5 @@ object strings : LocalizedTextStore(UUID("c6a52ab3-7a5a-4f07-ad49-239775845386")
     val click by "Click"
     val switch by "Switch"
     val table by "Table"
+    val container by "Container"
 }
