@@ -8,4 +8,5 @@ object basicStrings : LocalizedTextStore(UUID("2c9624be-efc7-499d-a5e3-6ca5b3da2
     val yes by "yes"
     val no by "no"
     val cancel by "cancel"
+    val open by "Open"
 }

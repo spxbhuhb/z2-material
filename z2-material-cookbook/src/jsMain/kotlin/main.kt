@@ -2,7 +2,9 @@ import hu.simplexion.z2.browser.css.titleLarge
 import hu.simplexion.z2.browser.demo.calendar.calendarDemo
 import hu.simplexion.z2.browser.demo.layout.containerDemo
 import hu.simplexion.z2.browser.demo.material.*
-import hu.simplexion.z2.browser.demo.pages.login
+import hu.simplexion.z2.browser.demo.pages.adminDemo
+import hu.simplexion.z2.browser.demo.pages.adminStrings
+import hu.simplexion.z2.browser.demo.pages.loginDemo
 import hu.simplexion.z2.browser.demo.pages.loginStrings
 import hu.simplexion.z2.browser.demo.strings
 import hu.simplexion.z2.browser.demo.table.tableDemo
@@ -55,6 +57,7 @@ private fun Z2.nav() =
         nav(strings.textField)
         nav(strings.table)
         nav(loginStrings.login)
+        nav(adminStrings.administration)
     }
 
 private fun Z2.content(item: NavigationItem) {
@@ -71,7 +74,8 @@ private fun Z2.content(item: NavigationItem) {
         strings.switch -> switchDemo()
         strings.textField -> textFieldDemo()
         strings.table -> tableDemo()
-        loginStrings.login -> login()
+        loginStrings.login -> loginDemo()
+        adminStrings.administration -> adminDemo()
         else -> div { text { "TODO" } }
     }
 }
@@ -80,5 +84,5 @@ private fun Z2.nav(label: LocalizedText) =
     drawerItem(NavigationItem(null, label) { render(it) })
 
 fun main() {
-    render(NavigationItem(null, strings.navigationDrawer))
+    render(NavigationItem(null, adminStrings.administration))
 }

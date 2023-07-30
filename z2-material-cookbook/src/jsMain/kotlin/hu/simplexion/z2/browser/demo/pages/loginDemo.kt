@@ -1,6 +1,8 @@
 package hu.simplexion.z2.browser.demo.pages
 
+import hu.simplexion.z2.browser.css.flexCenter
 import hu.simplexion.z2.browser.html.*
+import hu.simplexion.z2.browser.layout.low
 import hu.simplexion.z2.browser.material.button.filledButton
 import hu.simplexion.z2.browser.material.button.textButton
 import hu.simplexion.z2.browser.material.fr
@@ -11,20 +13,20 @@ import hu.simplexion.z2.commons.util.UUID
 import org.w3c.dom.HTMLInputElement
 
 object loginStrings : LocalizedTextStore(UUID("72c9ec55-0e66-4181-96f9-d9009b03712e")) {
-    val loginSupport by "Z2 Material Demo Teszt Rendszer"
-    val login by "Azonosítás"
-    val account by "Felhasználónév"
-    val password by "Jelszó"
-    val forgottenPassword by "Elfelejtett jelszó"
-    val help by "Segítség"
-    val privacy by "Adatvédelem"
-    val term by "Szabályok"
+    val loginSupport by "Z2 Browser Components Demo"
+    val login by "Sign in"
+    val account by "Account"
+    val password by "Password"
+    val forgottenPassword by "Forgot password?"
+    val help by "Help"
+    val privacy by "Privacy"
+    val term by "Terms"
     val english by "English"
-    val registration by "Regisztráció"
+    val registration by "Create account"
 }
 
-fun Z2.login() =
-    div("scroll-y") {
+fun Z2.loginDemo() =
+    low(flexCenter) {
         grid {
             gridTemplateColumns = "min-content"
             gridAutoRows = "min-content"
