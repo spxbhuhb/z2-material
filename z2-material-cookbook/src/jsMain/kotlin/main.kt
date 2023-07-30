@@ -70,5 +70,5 @@ private fun Z2.nav(label: LocalizedText) =
     drawerItem(NavigationItem(null, label) { render(it) })
 
 fun main() {
-    render(NavigationItem(null, strings.calendar))
+    render(NavigationItem(null, strings.table))
 }

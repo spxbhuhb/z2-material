@@ -42,8 +42,8 @@ open class Table<T>(
 
     // open var counterBar = ZkCounterBar("")
 
-    var traceScroll = false
-    var traceColumnResize = true
+    var traceScroll = true
+    var traceColumnResize = false
     var traceMultiLevel = false
 
     open var firstOnResume = true
@@ -154,9 +154,9 @@ open class Table<T>(
                     tableBodyElement = this.htmlElement
                 }
             }
-        }
 
-        onScroll(::onScroll)
+            onScroll(::onScroll)
+        }
 
         onMouseDown(::onMouseDown)
         onDblClick(::onDblClick)
@@ -267,8 +267,7 @@ open class Table<T>(
         contentScrollTop = contentElement.scrollTop
         contentScrollLeft = contentElement.scrollLeft
 
-        lastKnownScrollPosition =
-            contentElement.scrollTop.let { if (it < 0) 0.0 else it } // Safari may have negative scrollTop
+        lastKnownScrollPosition = contentElement.scrollTop.let { if (it < 0) 0.0 else it } // Safari may have negative scrollTop
 
         if (!ticking) {
             window.requestAnimationFrame {
