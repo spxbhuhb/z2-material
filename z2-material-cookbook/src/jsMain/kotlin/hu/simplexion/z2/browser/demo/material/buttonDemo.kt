@@ -2,14 +2,14 @@ package hu.simplexion.z2.browser.demo.material
 
 import hu.simplexion.z2.browser.demo.strings
 import hu.simplexion.z2.browser.html.*
-import hu.simplexion.z2.browser.layout.container
+import hu.simplexion.z2.browser.layout.low
 import hu.simplexion.z2.browser.material.basicIcons
 import hu.simplexion.z2.browser.material.button.*
 import hu.simplexion.z2.browser.material.snackbar.snackbar
 
 fun Z2.buttonDemo() =
 
-    container {
+    low {
         grid {
             gridTemplateColumns = "min-content"
             gridAutoRows = "min-content"
