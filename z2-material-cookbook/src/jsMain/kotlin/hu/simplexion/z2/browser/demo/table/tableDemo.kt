@@ -22,13 +22,13 @@ fun Z2.tableDemo() {
             query = { data }
 
             column {
-                label = "a"
+                label = "Header A"
                 render = { text { it.v1 } }
                 comparator = { a, b -> a.v2.compareTo(b.v2) }
             }
 
             column {
-                label = "b"
+                label = "Header B"
                 render = { text { it.v2 } }
                 comparator = { a, b -> a.v2.compareTo(b.v2) }
             }

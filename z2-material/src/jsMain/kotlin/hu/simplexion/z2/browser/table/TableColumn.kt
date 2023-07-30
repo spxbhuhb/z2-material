@@ -3,7 +3,7 @@
  */
 package hu.simplexion.z2.browser.table
 
-import hu.simplexion.z2.browser.css.titleSmall
+import hu.simplexion.z2.browser.css.labelMedium
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.px
 import hu.simplexion.z2.browser.util.uniqueNodeId
@@ -39,7 +39,7 @@ open class TableColumn<T>(
     var lastX: Int = 0
 
     fun Z2.header(configuration: TableConfiguration) =
-        th(titleSmall) {
+        th(labelMedium) {
             element = this.htmlElement
             if (configuration.fixHeaderHeight) addClass("table-header-cell-fix-height")
             text { label }

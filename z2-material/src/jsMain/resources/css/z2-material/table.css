@@ -3,10 +3,11 @@
  */
 :root {
     --table-row-height: 42px;
-    --table-header-background: var(--md-sys-color-surface-container-highest);
+    --table-header-color: var(--md-sys-color-on-secondary-container);
+    --table-header-background: var(--md-sys-color-secondary-container);
     --table-header-bottom-border: 1px solid var(--md-sys-color-outline-variant-light);
     --table-row-border-color: var(--md-sys-color-outline-variant-light);
-    --table-odd-row-backgound: var(--md-sys-color-surface-container);
+    --table-odd-row-backgound: var(--md-sys-color-surface-container-lowest);
     --table-border: 1px solid var(--md-sys-color-outline-variant-light);
     --table-border-radius: 16px;
 }
@@ -60,7 +61,7 @@
     box-sizing: border-box;
     position: absolute;
     top: 3px;
-    right: -10px;
+    right: -6px;
     bottom: 0;
     margin: 8px;
     padding: 8px;
@@ -86,7 +87,7 @@
     box-sizing: border-box;
     position: sticky;
     top: 0;
-    right: -4px;
+    right: 0;
     bottom: 0;
 }
 
@@ -111,8 +112,8 @@
 }
 
 .table tr:hover td {
-    background-color: var(--md-sys-color-surface-container-highest);
-    color: var(--md-sys-color-on-surface-variant);
+    background-color: var(--md-sys-color-tertiary-container);
+    color: var(--md-sys-color-on-tertiary-container);
 }
 
 .table th {
@@ -127,8 +128,10 @@
     top: 0;
     z-index: 30;
     padding-left: 10px;
+    padding-top: 4px;
     text-overflow: ellipsis;
     text-transform: uppercase;
+    color: var(--table-header-color);
     background-color: var(--table-header-background);
     border-bottom: var(--table-header-bottom-border);
 }
