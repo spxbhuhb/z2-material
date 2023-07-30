@@ -19,6 +19,7 @@ kotlin {
         commonMain {
             dependencies {
                 api("hu.simplexion.z2:z2-commons:${z2_version}")
+                api("hu.simplexion.z2:z2-schematic-runtime:${z2_version}")
             }
         }
     }
