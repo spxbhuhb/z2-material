@@ -29,7 +29,7 @@ class TextField(
     parent,
     document.createElement("div") as HTMLDivElement,
     arrayOf("text-field"),
-    { (this as TextField).build() }
+    null
 ) {
 
     lateinit var main: Z2
@@ -52,8 +52,7 @@ class TextField(
 
     var beforeEditValue = value
 
-    fun build() {
-
+    init {
         if (outlined) labelOutlined()
 
         div(*classes()) {

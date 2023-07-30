@@ -25,10 +25,14 @@ object Snackbars : Z2(
         show()
     }
 
-    operator fun minusAssign(child: SnackbarBase) {
+    fun onHide(child: SnackbarBase) {
         remove(child)
-        active = null
-        show()
+        // active may be a different snackbar if the user
+        // closes the one manually right when the timer expires
+        if (active == child) {
+            active = null
+            show()
+        }
     }
 
     fun show() {

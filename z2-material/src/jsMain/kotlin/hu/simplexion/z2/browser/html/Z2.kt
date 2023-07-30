@@ -7,7 +7,7 @@ import org.w3c.dom.HTMLElement
 
 open class Z2(
     val parent : Z2? = null,
-    open val htmlElement: HTMLElement,
+    val htmlElement: HTMLElement,
     classes : Array<out String>,
     val builder: (Z2.() -> Unit)? = null,
 ) {
@@ -17,10 +17,6 @@ open class Z2(
     val children = mutableListOf<Z2>()
 
     init {
-        init(classes)
-    }
-
-    fun init(classes: Array<out String>) {
         builder?.let { this.it() }
         htmlElement.addClass(*classes)
         parent?.htmlElement?.append(this.htmlElement)

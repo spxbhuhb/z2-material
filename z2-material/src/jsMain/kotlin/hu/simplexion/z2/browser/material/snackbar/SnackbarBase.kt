@@ -21,10 +21,10 @@ class SnackbarBase(
     null,
     document.createElement("div") as HTMLElement,
     arrayOf("snackbar"),
-    { (this as SnackbarBase).build() }
+    null
 ) {
 
-    fun SnackbarBase.build() {
+    init {
 
         div("body-medium") { text { message } }
 
@@ -33,7 +33,7 @@ class SnackbarBase(
         }
 
         if (icon) {
-            actionIcon(basicIcons.close) { Snackbars -= this }
+            actionIcon(basicIcons.close) { Snackbars.onHide(this) }
         }
     }
 
@@ -41,8 +41,8 @@ class SnackbarBase(
         io {
             addClass("fade-in-bottom")
             Snackbars.append(this)
-            delay(3000)
-            Snackbars.remove(this)
+            delay(2000)
+            Snackbars.onHide(this)
         }
     }
 }

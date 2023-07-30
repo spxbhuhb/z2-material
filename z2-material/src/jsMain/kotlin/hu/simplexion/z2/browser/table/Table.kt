@@ -26,10 +26,7 @@ open class Table<T>(
     parent,
     document.createElement("div") as HTMLElement,
     arrayOf("table-outer-container"),
-    {
-        @Suppress("UNCHECKED_CAST")
-        (this as Table<T>).build()
-    }
+    null
 ) {
 
     val columns = mutableListOf<TableColumn<T>>()
@@ -117,7 +114,7 @@ open class Table<T>(
 
     open var needToSetAllCounter = true
 
-    fun build() {
+    init {
         titleBar()
 
         div("table-content-container") {
