@@ -16,7 +16,7 @@ fun Z2.tableDemo() {
         Row("s-$it", it)
     }
 
-    container("padding-0", scroll = false) {
+    container("p0", scroll = false) {
         table<Row> {
             rowId = { it.v1 }
             query = { data }

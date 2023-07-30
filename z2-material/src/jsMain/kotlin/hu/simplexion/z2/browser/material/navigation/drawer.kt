@@ -6,12 +6,12 @@ import hu.simplexion.z2.browser.html.gridColumn
 import hu.simplexion.z2.browser.html.onClick
 import hu.simplexion.z2.browser.material.icon.icon
 
-fun Z2.navigationDrawer(builder: Z2.() -> Z2): Z2 =
+fun Z2.navigationDrawer(builder: Z2.() -> Unit) =
     div("navigation-drawer-container") {
         builder()
     }
 
-fun Z2.drawerItem(item: NavigationItem, onClick: (() -> Unit)? = null): Z2 =
+fun Z2.drawerItem(item: NavigationItem, onClick: (() -> Unit)? = null) =
 
     div("navigation-drawer-item") {
 

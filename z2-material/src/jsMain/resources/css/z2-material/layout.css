@@ -30,35 +30,39 @@
     grid-template-columns: min-content 1fr min-content;
     grid-template-rows: 32px min-content;
     padding: 16px 0 16px 0;
-    margin-bottom: 8px;
     background-color: transparent;
 }
 
 .surface-container-lowest {
+    box-sizing: border-box;
     background-color: var(--md-sys-color-surface-container-lowest);
     border-radius: 16px;
     padding: 16px;
 }
 
 .surface-container-low {
+    box-sizing: border-box;
     background-color: var(--md-sys-color-surface-container-low);
     border-radius: 16px;
     padding: 16px;
 }
 
 .surface-container {
+    box-sizing: border-box;
     background-color: var(--md-sys-color-surface-container);
     border-radius: 16px;
     padding: 16px;
 }
 
 .surface-container-high {
+    box-sizing: border-box;
     background-color: var(--md-sys-color-surface-container-high);
     border-radius: 16px;
     padding: 16px;
 }
 
 .surface-container-highest {
+    box-sizing: border-box;
     background-color: var(--md-sys-color-surface-container-highest);
     border-radius: 16px;
     padding: 16px;

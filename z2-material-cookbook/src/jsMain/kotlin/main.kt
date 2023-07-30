@@ -1,3 +1,4 @@
+import hu.simplexion.z2.browser.css.titleLarge
 import hu.simplexion.z2.browser.demo.calendar.calendarDemo
 import hu.simplexion.z2.browser.demo.layout.containerDemo
 import hu.simplexion.z2.browser.demo.material.*
@@ -7,7 +8,6 @@ import hu.simplexion.z2.browser.demo.strings
 import hu.simplexion.z2.browser.demo.table.tableDemo
 import hu.simplexion.z2.browser.html.Z2
 import hu.simplexion.z2.browser.html.div
-import hu.simplexion.z2.browser.html.gridRow
 import hu.simplexion.z2.browser.layout.Content
 import hu.simplexion.z2.browser.layout.defaultLayout
 import hu.simplexion.z2.browser.layout.defaultLayoutContent
@@ -15,16 +15,24 @@ import hu.simplexion.z2.browser.layout.defaultLayoutHeader
 import hu.simplexion.z2.browser.material.navigation.NavigationItem
 import hu.simplexion.z2.browser.material.navigation.drawerItem
 import hu.simplexion.z2.browser.material.navigation.navigationDrawer
+import hu.simplexion.z2.browser.material.px
 import hu.simplexion.z2.commons.i18n.LocalizedText
 
 private fun render(item: NavigationItem) {
     with(Content) {
         this.clear()
         defaultLayout {
-            nav().apply { gridRow = "1/span2" }
+            div(titleLarge) {
+                style.display = "flex"
+                style.alignItems = "center"
+                style.paddingLeft = 28.px
+                style.paddingTop = 8.px
+                text { strings.demoTitle }
+            }
             defaultLayoutHeader {
-
-            } // top app bar
+// top app bar
+            }
+            nav()
             defaultLayoutContent {
                 content(item)
             }
@@ -40,6 +48,7 @@ private fun Z2.nav() =
         nav(strings.container)
         nav(strings.menu)
         nav(strings.modal)
+        nav(strings.navigationDrawer)
         nav(strings.popup)
         nav(strings.snackbar)
         nav(strings.switch)
@@ -56,6 +65,7 @@ private fun Z2.content(item: NavigationItem) {
         strings.container -> containerDemo()
         strings.menu -> menuDemo()
         strings.modal -> modalDemo()
+        strings.navigationDrawer -> navigationDrawerDemo()
         strings.popup -> popupDemo()
         strings.snackbar -> snackbarDemo()
         strings.switch -> switchDemo()
@@ -70,5 +80,5 @@ private fun Z2.nav(label: LocalizedText) =
     drawerItem(NavigationItem(null, label) { render(it) })
 
 fun main() {
-    render(NavigationItem(null, strings.table))
+    render(NavigationItem(null, strings.navigationDrawer))
 }

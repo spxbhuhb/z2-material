@@ -1,5 +1,6 @@
 package hu.simplexion.z2.browser.material.button
 
+import hu.simplexion.z2.browser.css.borderPrimary
 import hu.simplexion.z2.browser.html.Z2
 import hu.simplexion.z2.browser.html.div
 import hu.simplexion.z2.browser.material.icon.icon
@@ -17,7 +18,7 @@ fun Z2.iconButton(
 ) =
 
     div("icon-button", "primary-text") {
-        div("icon-button-active-indicator-with-text", "border-primary", "tooltip") {
+        div("icon-button-active-indicator-with-text", borderPrimary, "tooltip") {
             icon(icon, size, weight, fill)
             div("plain-tooltip", "body-small") { text { hint } }
         }

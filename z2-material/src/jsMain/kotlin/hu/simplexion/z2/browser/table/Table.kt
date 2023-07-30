@@ -401,7 +401,7 @@ open class Table<T>(
     open fun addPlaceHolderRow() {
         tableBody.tr {
             repeat(columns.size) {
-                td("border-0", "padding-0") { }
+                td("border-0", "p0") { }
             }
         }
     }

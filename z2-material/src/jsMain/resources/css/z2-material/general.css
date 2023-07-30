@@ -78,8 +78,16 @@
     white-space: nowrap;
 }
 
-.padding-0 {
+.p0 {
     padding: 0 !important;
+}
+
+.pl8 {
+    padding-left: 8px;
+}
+
+.pl16 {
+    padding-left: 16px;
 }
 
 .position-relative {
@@ -92,6 +100,10 @@
 
 .text-align-end {
     text-align: end;
+}
+
+.uppercase {
+    text-transform: uppercase;
 }
 
 .vertical-align-center {
