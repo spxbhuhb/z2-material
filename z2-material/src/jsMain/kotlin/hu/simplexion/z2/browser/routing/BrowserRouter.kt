@@ -4,23 +4,20 @@
 package hu.simplexion.z2.browser.routing
 
 import hu.simplexion.z2.browser.html.Z2
-import hu.simplexion.z2.browser.layout.Content
 import hu.simplexion.z2.browser.material.basicStrings
 import hu.simplexion.z2.browser.material.modal.confirm
 import hu.simplexion.z2.browser.util.decodeURIComponent
 import hu.simplexion.z2.browser.util.io
-import hu.simplexion.z2.browser.util.keys
 import kotlinx.browser.window
 import org.w3c.dom.events.Event
 import org.w3c.dom.get
 import org.w3c.dom.set
-import org.w3c.dom.url.URLSearchParams
 
-class BrowserRouting(
+open class BrowserRouter(
     var homePath: String = "/",
-    var receiver: Z2 = Content
-) {
-    val route = Route("") { }
+) : Router<Z2>() {
+
+    lateinit var receiver: Z2
 
     val lastShownKey = "z2-nav-last-shown"
 
@@ -46,12 +43,11 @@ class BrowserRouting(
         open(homePath, "", "")
     }
 
-    fun open(route: Route?) {
-        checkNotNull(route) { "trying to open a null route" }
-        open(route.text)
+    fun open(target: RoutingTarget<Z2>) {
+        open(target.absolutePath.joinToString("/"))
     }
 
-    fun open(pathname: String, search: String = "", hash: String = "") {
+    fun open(pathname: String, search: String = "", hash: String = "", changeState : Boolean = true) {
         io {
             if (stopNavigationOnPending()) return@io
 
@@ -64,19 +60,23 @@ class BrowserRouting(
             var url = if (hash.isEmpty()) newPath else "$newPath#$hash"
             url = if (search.isEmpty()) url else "$url?$search"
 
-            window.history.pushState(incrementNavCounter(), "", url)
-
-            val segments = newPath.removePrefix("/").split('/')
-            val parameters = mutableMapOf("#" to hash)
-
-            val searchParams = URLSearchParams(search)
-            for (key in searchParams.keys()) {
-                searchParams.get(key)?.let { parameters.put(key, it) }
+            if (changeState) {
+                window.history.pushState(incrementNavCounter(), "", url)
+                trace { "[routing]  pushState  url=$url" }
             }
 
+            val segments = newPath.removePrefix("/").split('/')
+
+
+//            val parameters = mutableMapOf("#" to hash)
+//
+//            val searchParams = URLSearchParams(search)
+//            for (key in searchParams.keys()) {
+//                searchParams.get(key)?.let { parameters.put(key, it) }
+//            }
+
             receiver.clear()
-
-
+            open(receiver, segments)
         }
     }
 
@@ -88,6 +88,7 @@ class BrowserRouting(
      *  - direct call to window.history.back
      *  - direct call to window.history.forward
      */
+    @Suppress("UNUSED_PARAMETER")
     fun onPopState(event: Event) {
         io {
             if (stopNavigationOnPending()) return@io
@@ -95,12 +96,11 @@ class BrowserRouting(
             val current = (window.history.state as? Int) ?: 0
             window.sessionStorage[lastShownKey] = current.toString()
 
-//            val last = window.sessionStorage[lastShownKey]?.toInt() ?: 0
-//            val backward = last > current
-
             val path = decodeURIComponent(window.location.pathname)
 
-            open(path, window.location.search, window.location.hash)
+            trace { "[routing]  onPopState  $path" }
+
+            open(path, window.location.search, window.location.hash, false)
         }
     }
 

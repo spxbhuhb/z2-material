@@ -11,44 +11,6 @@ import hu.simplexion.z2.browser.material.navigation.NavigationItem
 import hu.simplexion.z2.browser.material.px
 import hu.simplexion.z2.commons.i18n.LocalizedTextStore
 import hu.simplexion.z2.commons.util.UUID
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
-
-interface Router {
-    operator fun getValue(thisRef: Router, property: KProperty<*>): String {
-
-    }
-}
-
-
-class RoutingDelegate : ReadWriteProperty<Router, String> {
-    override fun getValue(thisRef: Router, property: KProperty<*>): String {
-
-    }
-    override fun setValue(thisRef: Router, property: KProperty<*>, value : String) {
-
-    }
-}
-
-class RoutingDelegateProvider(
-    handler: Z2.() -> Unit
-) {
-    operator fun provideDelegate(thisRef: Router, prop: KProperty<*>): ReadWriteProperty<Router,String> {
-        return RoutingDelegate()
-    }
-}
-
-fun render(handler : Z2.() -> Unit) =
-    RoutingDelegateProvider(handler)
-
-object mainRouting : Router {
-    val button by render { buttonDemo() }
-    val administration by adminRouting
-}
-
-object adminRouting : Router {
-    val accounts by render { accounts() }
-}
 
 object adminStrings : LocalizedTextStore(UUID("72c9ec55-0e66-4181-96f9-d9009b03712e")) {
     val administration by "Administration"

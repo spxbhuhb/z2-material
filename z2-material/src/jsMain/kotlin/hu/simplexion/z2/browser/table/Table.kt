@@ -42,7 +42,7 @@ open class Table<T>(
 
     // open var counterBar = ZkCounterBar("")
 
-    var traceScroll = true
+    var traceScroll = false
     var traceColumnResize = false
     var traceMultiLevel = false
 

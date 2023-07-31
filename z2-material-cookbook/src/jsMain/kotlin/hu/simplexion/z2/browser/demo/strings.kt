@@ -39,4 +39,5 @@ object strings : LocalizedTextStore(UUID("c6a52ab3-7a5a-4f07-ad49-239775845386")
     val favourites by "Favourites"
     val trash by "Trash"
     val demoTitle by "Z2 Browser"
+    val pageNotFound by "Page not found."
 }

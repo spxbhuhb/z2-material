@@ -1,8 +1,13 @@
 import hu.simplexion.z2.browser.css.titleLarge
+import hu.simplexion.z2.browser.demo.calendar.calendarDemo
+import hu.simplexion.z2.browser.demo.layout.containerDemo
 import hu.simplexion.z2.browser.demo.material.*
+import hu.simplexion.z2.browser.demo.pages.adminDemo
 import hu.simplexion.z2.browser.demo.pages.adminStrings
+import hu.simplexion.z2.browser.demo.pages.loginDemo
 import hu.simplexion.z2.browser.demo.pages.loginStrings
 import hu.simplexion.z2.browser.demo.strings
+import hu.simplexion.z2.browser.demo.table.tableDemo
 import hu.simplexion.z2.browser.html.Z2
 import hu.simplexion.z2.browser.html.div
 import hu.simplexion.z2.browser.layout.Content
@@ -13,92 +18,73 @@ import hu.simplexion.z2.browser.material.navigation.NavigationItem
 import hu.simplexion.z2.browser.material.navigation.drawerItem
 import hu.simplexion.z2.browser.material.navigation.navigationDrawer
 import hu.simplexion.z2.browser.material.px
-import hu.simplexion.z2.browser.routing.*
-import hu.simplexion.z2.commons.i18n.LocalizedText
+import hu.simplexion.z2.browser.routing.BrowserRouter
+import hu.simplexion.z2.browser.routing.Renderer
+import hu.simplexion.z2.browser.routing.Router
+
+@Suppress("unused")
+object mainRouter : BrowserRouter() {
+
+    // @formatter:off
+    val button           by render(strings.button)           { buttonDemo() }
+    val calendar         by render(strings.calendar)         { calendarDemo() }
+    val card             by render(strings.card)             { cardDemo() }
+    val container        by render(strings.container)        { containerDemo() }
+    val menu             by render(strings.menu)             { menuDemo() }
+    val modal            by render(strings.modal)            { modalDemo() }
+    val navigationDrawer by render(strings.navigationDrawer) { navigationDrawerDemo() }
+    val popup            by render(strings.popup)            { popupDemo() }
+    val snackbar         by render(strings.snackbar)         { snackbarDemo() }
+    val switch           by render(strings.switch)           { switchDemo() }
+    val textField        by render(strings.textField)        { textFieldDemo() }
+    val table            by render(strings.table)            { tableDemo() }
+
+    val pages            by pagesRouter
+    // @formatter:on
+
+    override fun notFound(receiver: Z2, path: List<String>) {
+        receiver.div {
+            text { strings.pageNotFound }
+        }
+    }
+}
+
+@Suppress("unused")
+object pagesRouter : Router<Z2>() {
+    val login by render(loginStrings.login) { loginDemo() }
+    val administration by render(adminStrings.administration) { adminDemo() }
+}
 
 fun main() {
-
-    with(routing) {
-        this += buttonRoute
-        start()
-    }
-
     with(Content) {
         defaultLayout {
             logo()
             defaultLayoutHeader {}
             nav()
-            defaultLayoutContent {}
+            defaultLayoutContent {
+                mainRouter.receiver = this
+            }
         }
     }
+    mainRouter.start()
 }
-
-val nav = listOf(
-    nav(strings.button, buttonRoute),
-    nav(strings.calendar, buttonRoute),
-    nav(strings.card, buttonRoute),
-    nav(strings.container, buttonRoute),
-    nav(strings.menu, buttonRoute),
-    nav(strings.modal, buttonRoute),
-    nav(strings.navigationDrawer, buttonRoute),
-    nav(strings.popup, buttonRoute),
-    nav(strings.snackbar, buttonRoute),
-    nav(strings.switch, buttonRoute),
-    nav(strings.textField, buttonRoute),
-    nav(strings.table, buttonRoute),
-    nav(loginStrings.login, buttonRoute),
-    nav(adminStrings.administration, buttonRoute)
-)
-
-private fun nav(label: LocalizedText, route: Route) =
-    NavigationItem(null, label, route) { routing.open(it.route) }
 
 private fun Z2.nav() =
     navigationDrawer {
-        for (item in nav) {
-            drawerItem(item)
+        mainRouter.targets.forEach { target ->
+            if (target is Renderer<*>) {
+                drawerItem(NavigationItem(target.icon, target.label) { mainRouter.open(target) })
+            }
+        }
+
+        pagesRouter.targets.forEach { target ->
+            if (target is Renderer<*>) {
+                drawerItem(NavigationItem(target.icon, target.label) { mainRouter.open(target) })
+            }
         }
     }
 
-
-//private fun Z2.content() {
-//
-//
-//    // This runs 'content' again when the location root changes. That
-//    // happens when the user navigates to '/' or the first segment of
-//    // the URL changes. Examples: '/a' changes to '/b' or '/a/1'
-//    // changes to '/b/1'. This does not trigger a change when '/a/1'
-//    // changes to '/a/2'.
-//
-//    dependsOn { locationRoot.next }
-//
-//    val next = locationRoot.next ?: return
-//
-//    // when next is null we are on the home page
-//
-//    routing(next) {
-//        when (next.text) {
-//            "button" -> buttonDemo()
-//            "calendar" -> calendarDemo()
-//            "card" -> cardDemo()
-//            "container" -> containerDemo()
-//            "menu" -> menuDemo()
-//            "modal" -> modalDemo()
-//            "navigationDrawer" -> navigationDrawerDemo()
-//            "popup" -> popupDemo()
-//            "snackbar" -> snackbarDemo()
-//            "switch" -> switchDemo()
-//            "textField" -> textFieldDemo()
-//            "table" -> tableDemo()
-//            "login" -> loginDemo()
-//            "administration" -> adminDemo()
-//            else -> div { text { "TODO" } }
-//        }
-//    }
-//
-//}
-
-fun Z2.logo =
+fun Z2.logo() =
     div(titleLarge) {
         style.display = "flex"
         style.alignItems = "center"
