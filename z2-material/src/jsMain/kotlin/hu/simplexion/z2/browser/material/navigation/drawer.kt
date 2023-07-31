@@ -5,11 +5,23 @@ import hu.simplexion.z2.browser.html.div
 import hu.simplexion.z2.browser.html.gridColumn
 import hu.simplexion.z2.browser.html.onClick
 import hu.simplexion.z2.browser.material.icon.icon
+import hu.simplexion.z2.browser.routing.RoutingTarget
 
 fun Z2.navigationDrawer(builder: Z2.() -> Unit) =
     div("navigation-drawer-container") {
         builder()
     }
+
+fun Z2.navigationDrawer(targets: Collection<RoutingTarget<Z2>>) =
+    div("navigation-drawer-container") {
+        for (target in targets) {
+            drawerItem(target)
+        }
+    }
+
+fun Z2.drawerItem(target : RoutingTarget<Z2>) {
+    drawerItem(NavigationItem(target.icon, target.label) { target.open(target) })
+}
 
 fun Z2.drawerItem(item: NavigationItem, onClick: (() -> Unit)? = null) =
 

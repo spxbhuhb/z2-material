@@ -43,7 +43,7 @@ open class BrowserRouter(
         open(homePath, "", "")
     }
 
-    fun open(target: RoutingTarget<Z2>) {
+    override fun open(target: RoutingTarget<Z2>) {
         open(target.absolutePath.joinToString("/"))
     }
 

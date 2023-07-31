@@ -11,6 +11,10 @@ abstract class Router<R> : RoutingTarget<R> {
 
     override var relativePath = ""
 
+    override val label: LocalizedText? = null
+
+    override val icon: LocalizedIcon? = null
+
     val targets = mutableListOf<RoutingTarget<R>>()
 
     override fun open(receiver: R, path: List<String>) {

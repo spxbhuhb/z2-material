@@ -14,12 +14,10 @@ import hu.simplexion.z2.browser.layout.Content
 import hu.simplexion.z2.browser.layout.defaultLayout
 import hu.simplexion.z2.browser.layout.defaultLayoutContent
 import hu.simplexion.z2.browser.layout.defaultLayoutHeader
-import hu.simplexion.z2.browser.material.navigation.NavigationItem
 import hu.simplexion.z2.browser.material.navigation.drawerItem
 import hu.simplexion.z2.browser.material.navigation.navigationDrawer
 import hu.simplexion.z2.browser.material.px
 import hu.simplexion.z2.browser.routing.BrowserRouter
-import hu.simplexion.z2.browser.routing.Renderer
 import hu.simplexion.z2.browser.routing.Router
 
 @Suppress("unused")
@@ -72,15 +70,10 @@ fun main() {
 private fun Z2.nav() =
     navigationDrawer {
         mainRouter.targets.forEach { target ->
-            if (target is Renderer<*>) {
-                drawerItem(NavigationItem(target.icon, target.label) { mainRouter.open(target) })
-            }
+            drawerItem(target)
         }
-
         pagesRouter.targets.forEach { target ->
-            if (target is Renderer<*>) {
-                drawerItem(NavigationItem(target.icon, target.label) { mainRouter.open(target) })
-            }
+            drawerItem(target)
         }
     }
 

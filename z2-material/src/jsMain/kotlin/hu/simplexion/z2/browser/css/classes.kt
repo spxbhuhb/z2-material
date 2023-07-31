@@ -28,6 +28,7 @@ const val titleSmall = "title-small"
 const val uppercase = "uppercase"
 
 const val borderPrimary = "border-primary"
+const val borderOutline = "border-outline"
 
 const val p0 = "p0"
 const val pl8 = "pl8"

@@ -4,8 +4,8 @@ import hu.simplexion.z2.commons.i18n.LocalizedIcon
 import hu.simplexion.z2.commons.i18n.LocalizedText
 
 class Renderer<R>(
-    val label: LocalizedText? = null,
-    val icon: LocalizedIcon? = null,
+    override val label: LocalizedText? = null,
+    override val icon: LocalizedIcon? = null,
     val renderFun: R.() -> Unit
 ) : RoutingTarget<R> {
 
