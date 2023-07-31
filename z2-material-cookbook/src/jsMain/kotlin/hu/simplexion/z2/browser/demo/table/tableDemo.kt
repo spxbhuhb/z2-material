@@ -1,6 +1,7 @@
 package hu.simplexion.z2.browser.demo.table
 
 
+import hu.simplexion.z2.browser.demo.strings
 import hu.simplexion.z2.browser.html.Z2
 import hu.simplexion.z2.browser.layout.container
 import hu.simplexion.z2.browser.table.table
@@ -17,7 +18,14 @@ fun Z2.tableDemo() {
     }
 
     container("p0", scroll = false) {
+        style.background = "transparent"
+
         table<Row> {
+            titleText = strings.tableTitle
+            search = true
+            add = true
+            export = true
+
             rowId = { it.v1 }
             query = { data }
 

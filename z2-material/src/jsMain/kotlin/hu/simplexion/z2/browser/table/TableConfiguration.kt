@@ -3,7 +3,9 @@
  */
 package hu.simplexion.z2.browser.table
 
+import hu.simplexion.z2.browser.html.Z2
 import hu.simplexion.z2.commons.i18n.LocalizedIcon
+import hu.simplexion.z2.commons.i18n.LocalizedText
 
 /**
  * @property  add             When true a plus icon is added to the title bar. Click on the icon calls [onAddRow].
@@ -16,7 +18,7 @@ import hu.simplexion.z2.commons.i18n.LocalizedIcon
  * @property  rowHeight       Height (in pixels) of one table row, used when calculating row positions for virtualization.
  */
 open class TableConfiguration {
-    open var titleBar = true
+    open var title = false
     open var add = false
     open var search = false
     open var export = false
@@ -30,4 +32,9 @@ open class TableConfiguration {
     open var icon: LocalizedIcon? = null
     open var multiLevel = false
     open val rowHeight = 42
+
+    open var titleText: LocalizedText? = null
+    open var titleBar: (Z2.() -> Unit)? = null
+
+    open var searchBar: (Z2.() -> Unit)? = null
 }

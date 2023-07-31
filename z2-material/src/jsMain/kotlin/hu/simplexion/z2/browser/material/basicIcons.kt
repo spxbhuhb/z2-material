@@ -13,4 +13,7 @@ object basicIcons : LocalizedIconStore(UUID("3e5fb9a5-2d5f-4c86-9d26-1a760d1d1c6
     val close by "close"
     val switchSelected by "check"
     val switchUnselected by "close"
+    val filter by "tune"
+    val add by "add"
+    val export by "download"
 }

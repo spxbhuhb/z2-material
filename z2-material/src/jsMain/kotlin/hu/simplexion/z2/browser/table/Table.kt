@@ -4,7 +4,13 @@
 
 package hu.simplexion.z2.browser.table
 
+import hu.simplexion.z2.browser.css.alignSelfCenter
+import hu.simplexion.z2.browser.css.positionRelative
 import hu.simplexion.z2.browser.html.*
+import hu.simplexion.z2.browser.material.basicIcons
+import hu.simplexion.z2.browser.material.basicStrings
+import hu.simplexion.z2.browser.material.button.iconButton
+import hu.simplexion.z2.browser.material.px
 import hu.simplexion.z2.browser.util.applySuspend
 import hu.simplexion.z2.browser.util.downloadCsv
 import hu.simplexion.z2.browser.util.getDatasetEntry
@@ -195,8 +201,29 @@ open class Table<T>(
     }
 
     fun Z2.titleBar(): Z2 =
-        div {
-            if (!configuration.titleBar) return@div
+        grid("table-title-bar") {
+            if (!configuration.title) return@grid
+
+            grid(alignSelfCenter) {
+                gridTemplateColumns = "min-content min-content"
+                gridTemplateRows = "min-content"
+                gridGap = 16.px
+                div(alignSelfCenter) {
+                    configuration.titleBar?.let { it() }
+                }
+                if (configuration.add) iconButton(basicIcons.add, basicStrings.add) { }
+            }
+
+            div(positionRelative) {
+                if (configuration.search) {
+                    configuration.searchBar?.let { it() }
+                }
+            }
+
+            div(alignSelfCenter) {
+                if (configuration.export) iconButton(basicIcons.export, basicStrings.export) { }
+            }
+
         }
 
 //    fun titleActions(): List<ZkElement> {

@@ -1,6 +1,6 @@
 package hu.simplexion.z2.browser.css
 
-const val relative = "position-relative"
+const val positionRelative = "position-relative"
 const val w100 = "width-100"
 const val h100 = "height-100"
 
@@ -8,6 +8,8 @@ const val displayFlex = "display-flex"
 const val displayContents = "display-contents"
 
 const val flexCenter = "flex-center"
+
+const val alignSelfCenter = "align-self-center"
 const val alignSelfEnd = "align-self-end"
 
 const val justifyContentEnd = "justify-content-end"

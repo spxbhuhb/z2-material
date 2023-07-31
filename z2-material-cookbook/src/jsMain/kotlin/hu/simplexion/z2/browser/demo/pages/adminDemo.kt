@@ -2,7 +2,7 @@ package hu.simplexion.z2.browser.demo.pages
 
 import hu.simplexion.z2.browser.css.*
 import hu.simplexion.z2.browser.html.*
-import hu.simplexion.z2.browser.layout.low
+import hu.simplexion.z2.browser.layout.lowest
 import hu.simplexion.z2.browser.material.basicStrings
 import hu.simplexion.z2.browser.material.button.filledButton
 import hu.simplexion.z2.browser.material.card.outlinedCard
@@ -40,7 +40,7 @@ val adminItems = listOf(
 )
 
 fun Z2.adminDemo() =
-    low {
+    lowest(borderOutline) {
         div(titleLarge, pb24) {
             text { adminStrings.administration }
         }
@@ -48,7 +48,7 @@ fun Z2.adminDemo() =
         grid {
             gridTemplateColumns = "repeat(auto-fit, 300px)"
             gridAutoRows = "min-content"
-            gridGap = 24.px
+            gridGap = 8.px
 
             for (item in adminItems) {
                 adminCard(item)
@@ -71,8 +71,3 @@ fun Z2.adminCard(item: NavigationItem) {
         }
     }
 }
-
-fun Z2.accounts() =
-    div {
-        text { "accounts " }
-    }

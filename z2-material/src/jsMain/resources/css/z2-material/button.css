@@ -61,21 +61,21 @@
 }
 
 .icon-button-active-indicator-with-text {
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-sizing: border-box;
-    height: 32px;
-    border-radius: 16px;
-    width: 48px;
+    height: 40px;
+    border-radius: 20px;
+    width: 40px;
 }
 
 .icon-button-active-indicator-with-text:hover::before {
     content: "";
     position: fixed;
-    height: 32px;
-    width: 48px;
-    border-radius: 16px;
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
     background-color: var(--md-sys-color-on-surface);
     opacity: 0.08;
 }

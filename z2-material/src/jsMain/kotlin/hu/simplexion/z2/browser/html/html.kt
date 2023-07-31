@@ -10,7 +10,7 @@ fun Z2.pre(vararg classes: String, builder: Z2.() -> Unit): Z2 =
     Z2(this, document.createElement("pre") as HTMLDivElement, classes, builder)
 
 fun Z2.input(vararg classes: String, builder: Z2.() -> Unit): Z2 =
-    Z2(this, document.createElement("input") as HTMLDivElement, classes, builder)
+    Z2(this, document.createElement("input") as HTMLInputElement, classes, builder)
 
 fun Z2.span(vararg classes: String, builder: Z2.() -> Unit): Z2 =
     Z2(this, document.createElement("span") as HTMLSpanElement, classes, builder)

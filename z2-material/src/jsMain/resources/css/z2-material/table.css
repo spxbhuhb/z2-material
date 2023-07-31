@@ -24,7 +24,6 @@
     position: relative;
     flex-grow: 1;
     overflow: auto;
-    background-color: var(--md-sys-color-surface-container-highest);
     color: var(--md-sys-color-on-surface);
     border-radius: var(--table-border-radius);
     border: var(--table-border);
@@ -212,4 +211,66 @@
 .multi-level-single {
     /*background-color: ?;*/
     border-right: var(--table-border)
+}
+
+/* ----------------------------------------------------------------------------*/
+/* Title bar                                                                   */
+/* ----------------------------------------------------------------------------*/
+
+.table-title-bar {
+    display: grid;
+    grid-template-rows: 42px;
+    grid-template-columns: min-content 1fr min-content;
+    grid-gap: 16px;
+    margin-bottom: 8px;
+}
+
+.table-search-bar-container {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 24px 1fr 24px;
+    grid-template-rows: 40px;
+    height: 40px;
+    padding-left: 8px;
+    padding-right: 8px;
+    gap: 8px;
+    border: 1px solid var(--md-sys-color-primary);
+    border-radius: 20px;
+    margin-top: 1px;
+}
+
+.table-search-bar-active {
+    background-color: var(--md-sys-color-surface-container-lowest);
+}
+
+.table-search-bar-leading-icon {
+    color: var(--md-sys-color-outline);
+    align-self: center;
+}
+
+.table-search-bar-input {
+    min-width: 0;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    margin: 0;
+}
+
+.table-search-bar-input:focus {
+    outline: none;
+}
+
+.table-search-bar-input::placeholder {
+    color: var(--md-sys-color-outline);
+    /* body-large */
+}
+
+.table-search-bar-input-text {
+    color: var(--md-sys-color-on-surface);
+    /* body-large */
+}
+
+.table-search-bar-trailing-icon {
+    color: var(--md-sys-color-outline);
+    align-self: center;
 }
