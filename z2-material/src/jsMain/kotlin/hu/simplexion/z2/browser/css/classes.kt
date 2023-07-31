@@ -5,6 +5,7 @@ const val w100 = "width-100"
 const val h100 = "height-100"
 
 const val displayFlex = "display-flex"
+const val displayContents = "display-contents"
 
 const val flexCenter = "flex-center"
 const val alignSelfEnd = "align-self-end"

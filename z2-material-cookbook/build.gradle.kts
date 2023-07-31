@@ -4,7 +4,6 @@
 
 plugins {
     kotlin("multiplatform")
-    kotlin("plugin.serialization")
 }
 
 group = "hu.simplexion.z2"
