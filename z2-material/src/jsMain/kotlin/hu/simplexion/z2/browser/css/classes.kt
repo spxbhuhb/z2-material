@@ -22,6 +22,7 @@ const val hidden = "hidden"
 const val h60 = "h60"
 const val hFull = "h-full"
 
+const val justifyContentCenter = "justify-content-center"
 const val justifyContentEnd = "justify-content-end"
 
 const val justifySelfCenter = "justify-self-center"

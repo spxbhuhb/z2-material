@@ -40,7 +40,7 @@ val adminItems = listOf(
 )
 
 fun Z2.adminDemo() =
-    lowest(borderOutline) {
+    lowest {
         div(titleLarge, pb24) {
             text { adminStrings.administration }
         }

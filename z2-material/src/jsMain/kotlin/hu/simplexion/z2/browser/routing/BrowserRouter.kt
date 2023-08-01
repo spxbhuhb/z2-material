@@ -51,14 +51,12 @@ open class BrowserRouter(
         io {
             if (stopNavigationOnPending()) return@io
 
-            val newPath = if (!pathname.startsWith('/')) {
-                window.location.pathname.substringBeforeLast('/') + pathname
-            } else {
-                pathname
-            }
+            val newPath = pathname.ifEmpty { "/" }
 
             var url = if (hash.isEmpty()) newPath else "$newPath#$hash"
             url = if (search.isEmpty()) url else "$url?$search"
+
+            println(">$newPath< >$url<")
 
             if (changeState) {
                 window.history.pushState(incrementNavCounter(), "", url)
