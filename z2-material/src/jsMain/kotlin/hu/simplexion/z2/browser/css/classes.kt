@@ -19,6 +19,7 @@ const val gg16 = "gg16"
 
 const val hidden = "hidden"
 
+const val h42 = "h42"
 const val h60 = "h60"
 const val hFull = "h-full"
 
@@ -29,6 +30,8 @@ const val justifySelfCenter = "justify-self-center"
 const val justifySelfEnd = "justify-self-end"
 
 const val m0 = "m0"
+
+const val mb8 = "mb8"
 
 const val overflowYAuto = "overflow-y-auto"
 
