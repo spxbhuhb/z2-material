@@ -4,6 +4,7 @@
 package hu.simplexion.z2.browser.table
 
 import hu.simplexion.z2.browser.css.labelMedium
+import hu.simplexion.z2.browser.css.selectNone
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.px
 import hu.simplexion.z2.browser.util.uniqueNodeId
@@ -112,7 +113,7 @@ open class TableColumn<T>(
         }
 
         element.addClass("table-being-resized")
-        table.addClass("no-select")
+        table.addClass(selectNone)
 
         window.addEventListener("mouseup", mouseUpWrapper)
         window.addEventListener("mousemove", mouseMoveWrapper)
@@ -131,7 +132,7 @@ open class TableColumn<T>(
         }
 
         element.removeClass("table-being-resized")
-        table.removeClass("no-select")
+        table.removeClass(selectNone)
 
         window.removeEventListener("mouseup", mouseUpWrapper)
         window.removeEventListener("mousemove", mouseMoveWrapper)

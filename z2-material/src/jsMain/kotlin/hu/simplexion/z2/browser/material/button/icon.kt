@@ -14,14 +14,25 @@ fun Z2.iconButton(
     size : Int = 24,
     weight : Int = 400,
     fill : Int = 0,
+    vararg classes : String,
     onClick : (event : Event) -> Unit
 ) =
 
     div("icon-button", "primary-text") {
-        div("icon-button-active-indicator-with-text", borderPrimary, "tooltip") {
+        div("icon-button-active-indicator-with-text", "tooltip") {
+            addClass(*classes)
             icon(icon, size, weight, fill)
             div("plain-tooltip", "body-small") { text { hint } }
         }
 
         handlers(onClick)
     }
+
+fun Z2.outlinedIconButton(
+    icon: LocalizedIcon,
+    hint: LocalizedText,
+    size : Int = 24,
+    weight : Int = 400,
+    fill : Int = 0,
+    onClick : (event : Event) -> Unit
+) = iconButton(icon, hint, size, weight, fill, borderPrimary, onClick = onClick)

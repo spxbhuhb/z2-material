@@ -1,27 +1,45 @@
-import hu.simplexion.z2.browser.css.titleLarge
+import hu.simplexion.z2.browser.css.*
 import hu.simplexion.z2.browser.demo.calendar.calendarDemo
 import hu.simplexion.z2.browser.demo.layout.containerDemo
 import hu.simplexion.z2.browser.demo.material.*
-import hu.simplexion.z2.browser.demo.pages.adminDemo
-import hu.simplexion.z2.browser.demo.pages.adminStrings
-import hu.simplexion.z2.browser.demo.pages.loginDemo
-import hu.simplexion.z2.browser.demo.pages.loginStrings
+import hu.simplexion.z2.browser.demo.pages.*
 import hu.simplexion.z2.browser.demo.strings
 import hu.simplexion.z2.browser.demo.table.tableDemo
-import hu.simplexion.z2.browser.html.Z2
-import hu.simplexion.z2.browser.html.div
+import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.layout.Content
-import hu.simplexion.z2.browser.layout.defaultLayout
-import hu.simplexion.z2.browser.layout.defaultLayoutContent
-import hu.simplexion.z2.browser.layout.defaultLayoutHeader
+import hu.simplexion.z2.browser.material.basicIcons
+import hu.simplexion.z2.browser.material.basicStrings
+import hu.simplexion.z2.browser.material.button.iconButton
 import hu.simplexion.z2.browser.material.navigation.navigationDrawer
 import hu.simplexion.z2.browser.material.px
 import hu.simplexion.z2.browser.routing.BrowserRouter
-import hu.simplexion.z2.browser.routing.Router
+import hu.simplexion.z2.browser.routing.DrawerRouter
+import hu.simplexion.z2.browser.routing.traceRouting
+
+fun main() {
+    traceRouting = true
+    setLayout()
+    mainRouter.receiver = Content
+    mainRouter.start()
+}
 
 @Suppress("unused")
 object mainRouter : BrowserRouter() {
+    override val label = strings.main
 
+    // @formatter:off
+    val components       by componentRouter
+    val pages            by pagesRouter
+    // @formatter:on
+
+    override fun notFound(receiver: Z2, path: List<String>) {
+        DrawerRouter.layout(receiver, this, strings.main, { navigationDrawer(targets) }) { }
+    }
+}
+
+@Suppress("unused")
+object componentRouter : DrawerRouter() {
+    override val label = strings.components
     // @formatter:off
     val button           by render(strings.button)           { buttonDemo() }
     val calendar         by render(strings.calendar)         { calendarDemo() }
@@ -35,45 +53,35 @@ object mainRouter : BrowserRouter() {
     val switch           by render(strings.switch)           { switchDemo() }
     val textField        by render(strings.textField)        { textFieldDemo() }
     val table            by render(strings.table)            { tableDemo() }
-
-    val pages            by pagesRouter
     // @formatter:on
-
-    override fun notFound(receiver: Z2, path: List<String>) {
-        receiver.div {
-            text { strings.pageNotFound }
-        }
-    }
 }
 
 @Suppress("unused")
-object pagesRouter : Router<Z2>() {
-    val login by render(loginStrings.login) { loginDemo() }
+object pagesRouter : DrawerRouter() {
+    override val label = strings.pages
+    // @formatter:off
+    val login          by render(loginStrings.login)          { loginDemo() }
     val administration by render(adminStrings.administration) { adminDemo() }
+    val account        by render(accountStrings.account)      { accountDemo() }
+    // @formatter:on
 }
 
-fun main() {
-    with(Content) {
-        defaultLayout {
-            logo()
-            defaultLayoutHeader {}
-            nav()
-            defaultLayoutContent {
-                mainRouter.receiver = this
+fun setLayout() {
+    DrawerRouter.layout = { router, _, nav, content ->
+        grid(wFull, hFull) {
+            gridTemplateRows = "1fr"
+            gridTemplateColumns = "min-content 1fr"
+            gridGap = 16.px
+            grid {
+                gridTemplateRows = "min-content 1fr"
+                gridTemplateColumns = "1fr"
+                div(displayFlex, alignItemsCenter, h60, pl8) {
+                    iconButton(basicIcons.back, basicStrings.back) { router.up() }
+                    text { router.label }
+                }
+                nav()
             }
+            content()
         }
     }
-    mainRouter.start()
 }
-
-private fun Z2.nav() =
-    navigationDrawer(mainRouter.targets + pagesRouter.targets)
-
-fun Z2.logo() =
-    div(titleLarge) {
-        style.display = "flex"
-        style.alignItems = "center"
-        style.paddingLeft = 28.px
-        style.paddingTop = 8.px
-        text { strings.demoTitle }
-    }

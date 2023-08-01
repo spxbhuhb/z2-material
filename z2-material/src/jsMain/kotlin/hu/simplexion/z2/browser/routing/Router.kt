@@ -20,6 +20,11 @@ abstract class Router<R> : RoutingTarget<R> {
     override fun open(receiver: R, path: List<String>) {
         trace { "[routing]  OPEN  $absolutePath  remaining=${path.joinToString("/")}"}
 
+        if (path.isEmpty()) {
+            default(receiver, path)
+            return
+        }
+
         val segment = path.first()
 
         val target = targets.firstOrNull { it.relativePath == segment }
@@ -32,7 +37,17 @@ abstract class Router<R> : RoutingTarget<R> {
         target.open(receiver, path.drop(1))
     }
 
-    fun render(label: LocalizedText? = null, icon: LocalizedIcon? = null, renderFun: R.() -> Unit): Renderer<R> {
+    fun up() {
+        parent?.let {
+            root.open(it)
+        }
+    }
+
+    open fun default(receiver: R, path: List<String>) {
+        notFound(receiver, path)
+    }
+
+    open fun render(label: LocalizedText? = null, icon: LocalizedIcon? = null, renderFun: R.() -> Unit): Renderer<R> {
         return Renderer(label, icon, renderFun)
     }
 

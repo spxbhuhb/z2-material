@@ -5,6 +5,8 @@ import hu.simplexion.z2.commons.util.UUID
 
 @Suppress("ClassName")
 object strings : LocalizedTextStore(UUID("c6a52ab3-7a5a-4f07-ad49-239775845386")) {
+    val components by "Components"
+    val pages by "Pages"
     val button by "Button"
     val filledButton by "Filled Button"
     val calendar by "Calendar"
@@ -38,7 +40,7 @@ object strings : LocalizedTextStore(UUID("c6a52ab3-7a5a-4f07-ad49-239775845386")
     val outbox by "Outbox"
     val favourites by "Favourites"
     val trash by "Trash"
-    val demoTitle by "Z2 Browser"
+    val main by "Z2 Browser"
     val pageNotFound by "Page not found."
     val tableTitle by "Table Title"
 }

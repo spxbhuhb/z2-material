@@ -1,0 +1,7 @@
+.border-primary {
+    border: 1px solid var(--md-sys-color-primary);
+}
+
+.border-outline {
+    border: 1px solid var(--md-sys-color-outline-variant);
+}

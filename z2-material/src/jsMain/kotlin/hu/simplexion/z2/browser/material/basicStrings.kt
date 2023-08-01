@@ -14,4 +14,5 @@ object basicStrings : LocalizedTextStore(UUID("2c9624be-efc7-499d-a5e3-6ca5b3da2
     val searchHint by "type here to search"
     val add by "Add"
     val export by "Export"
+    val back by "Vissza"
 }

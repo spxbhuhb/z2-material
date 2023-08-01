@@ -47,7 +47,7 @@ open class BrowserRouter(
         open(target.absolutePath.joinToString("/"))
     }
 
-    fun open(pathname: String, search: String = "", hash: String = "", changeState : Boolean = true) {
+    fun open(pathname: String, search: String = "", hash: String = "", changeState: Boolean = true) {
         io {
             if (stopNavigationOnPending()) return@io
 
@@ -77,6 +77,13 @@ open class BrowserRouter(
 
             receiver.clear()
             open(receiver, segments)
+        }
+    }
+
+    override fun default(receiver: Z2, path: List<String>) {
+        if (window.location.pathname != "/") {
+            window.history.pushState(incrementNavCounter(), "", "/")
+            trace { "[routing]  home" }
         }
     }
 

@@ -6,6 +6,7 @@ package hu.simplexion.z2.browser.table
 
 import hu.simplexion.z2.browser.css.alignSelfCenter
 import hu.simplexion.z2.browser.css.positionRelative
+import hu.simplexion.z2.browser.css.selectNone
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.basicIcons
 import hu.simplexion.z2.browser.material.basicStrings
@@ -149,7 +150,7 @@ open class Table<T>(
                 table = this
                 style.cssText = inlineCss()
 
-                thead("no-select") {
+                thead(selectNone) {
                     for (column in columns) {
                         with(column) { header(configuration) }
                     }

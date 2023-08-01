@@ -1,5 +1,7 @@
 package hu.simplexion.z2.browser.layout
 
+import hu.simplexion.z2.browser.css.hFull
+import hu.simplexion.z2.browser.css.overflowYAuto
 import hu.simplexion.z2.browser.html.Z2
 import hu.simplexion.z2.browser.html.div
 
@@ -21,8 +23,8 @@ fun Z2.highest(vararg classes : String, scroll : Boolean = true, fullHeight: Boo
 internal fun Z2.container(classes : Array<out String>, type : String, scroll : Boolean, fullHeight: Boolean, builder : Z2.() -> Unit) =
     div(type) {
         if (classes.isNotEmpty()) addClass(*classes)
-        if (scroll) addClass("scroll-y")
-        if (fullHeight) addClass("h-100")
+        if (scroll) addClass(overflowYAuto)
+        if (fullHeight) addClass(hFull)
         builder()
     }
 

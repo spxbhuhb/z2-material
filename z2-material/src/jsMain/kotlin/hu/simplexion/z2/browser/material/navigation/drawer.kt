@@ -7,16 +7,18 @@ import hu.simplexion.z2.browser.html.onClick
 import hu.simplexion.z2.browser.material.icon.icon
 import hu.simplexion.z2.browser.routing.RoutingTarget
 
-fun Z2.navigationDrawer(targets: Collection<RoutingTarget<Z2>>) =
+fun Z2.navigationDrawer(targets: Collection<RoutingTarget<Z2>>, scrollAutoHide : Boolean = true) =
     div("navigation-drawer-container") {
+        if (scrollAutoHide) addClass("scroll-auto-hide")
         for (target in targets) {
             if (target.icon == null && target.label == null) continue
             drawerItem(target)
         }
     }
 
-fun Z2.navigationDrawer(builder: Z2.() -> Unit) =
+fun Z2.navigationDrawer(scrollAutoHide : Boolean = true, builder: Z2.() -> Unit) =
     div("navigation-drawer-container") {
+        if (scrollAutoHide) addClass("scroll-auto-hide")
         builder()
     }
 

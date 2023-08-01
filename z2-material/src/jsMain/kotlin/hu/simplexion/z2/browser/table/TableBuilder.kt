@@ -1,6 +1,7 @@
 package hu.simplexion.z2.browser.table
 
 import hu.simplexion.z2.browser.css.titleLarge
+import hu.simplexion.z2.browser.css.whiteSpaceNoWrap
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.basicIcons
 import hu.simplexion.z2.browser.material.basicStrings
@@ -34,7 +35,7 @@ class TableBuilder<T> : TableConfiguration() {
         }
 
     fun Z2.textTitle() {
-        div(titleLarge, "no-wrap") {
+        div(titleLarge, whiteSpaceNoWrap) {
             text { titleText }
         }
     }
