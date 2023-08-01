@@ -34,7 +34,7 @@ abstract class Router<R> : RoutingTarget<R> {
             return
         }
 
-        target.open(receiver, path.drop(1))
+        return target.open(receiver, path.drop(1))
     }
 
     fun up() {
@@ -47,19 +47,29 @@ abstract class Router<R> : RoutingTarget<R> {
         notFound(receiver, path)
     }
 
-    open fun render(label: LocalizedText? = null, icon: LocalizedIcon? = null, renderFun: R.() -> Unit): Renderer<R> {
-        return Renderer(label, icon, renderFun)
-    }
-
     open fun notFound(receiver: R, path: List<String>) {
         trace { "[routing]  NOTFOUND  $absolutePath  remaining=$path"}
         throw IllegalStateException("routing path not found: fullPath=${absolutePath.joinToString { ", " }}  path=${path.joinToString { "/" }}")
     }
 
+    open fun action(label: LocalizedText? = null, icon: LocalizedIcon? = null, actionFun: () -> Unit): RoutedAction<R> {
+        return RoutedAction(label, icon, actionFun)
+    }
+
+    open fun render(label: LocalizedText? = null, icon: LocalizedIcon? = null, renderFun: R.() -> Unit): RoutedRenderer<R> {
+        return RoutedRenderer(label, icon, renderFun)
+    }
+
+    class ActionDelegate<R>(
+        val action : RoutedAction<R>
+    ) : ReadOnlyProperty<Router<R>, RoutedAction<R>> {
+        override fun getValue(thisRef: Router<R>, property: KProperty<*>): RoutedAction<R>  = action
+    }
+
     class RendererDelegate<R>(
-        val renderer : Renderer<R>
-    ) : ReadOnlyProperty<Router<R>, Renderer<R>> {
-        override fun getValue(thisRef: Router<R>, property: KProperty<*>): Renderer<R>  = renderer
+        val renderer : RoutedRenderer<R>
+    ) : ReadOnlyProperty<Router<R>, RoutedRenderer<R>> {
+        override fun getValue(thisRef: Router<R>, property: KProperty<*>): RoutedRenderer<R>  = renderer
     }
 
     class RouterDelegate<R>(
@@ -68,7 +78,14 @@ abstract class Router<R> : RoutingTarget<R> {
         override fun getValue(thisRef: Router<R>, property: KProperty<*>): Router<R> = router
     }
 
-    operator fun Renderer<R>.provideDelegate(thisRef: Router<R>, prop: KProperty<*>): ReadOnlyProperty<Router<R>, Renderer<R>> {
+    operator fun RoutedAction<R>.provideDelegate(thisRef: Router<R>, prop: KProperty<*>): ReadOnlyProperty<Router<R>, RoutedAction<R>> {
+        this.parent = thisRef
+        this.relativePath = prop.name
+        thisRef.targets += this
+        return ActionDelegate(this)
+    }
+
+    operator fun RoutedRenderer<R>.provideDelegate(thisRef: Router<R>, prop: KProperty<*>): ReadOnlyProperty<Router<R>, RoutedRenderer<R>> {
         this.parent = thisRef
         this.relativePath = prop.name
         thisRef.targets += this

@@ -7,6 +7,9 @@ import hu.simplexion.z2.browser.html.onClick
 import hu.simplexion.z2.browser.material.icon.icon
 import hu.simplexion.z2.browser.routing.RoutingTarget
 
+fun Z2.navigationDrawer(vararg targets : RoutingTarget<Z2>, scrollAutoHide : Boolean = true) =
+    navigationDrawer(targets.toList(), scrollAutoHide)
+
 fun Z2.navigationDrawer(targets: Collection<RoutingTarget<Z2>>, scrollAutoHide : Boolean = true) =
     div("navigation-drawer-container") {
         if (scrollAutoHide) addClass("scroll-auto-hide")

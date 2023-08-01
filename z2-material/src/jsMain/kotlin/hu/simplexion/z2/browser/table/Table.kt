@@ -4,14 +4,8 @@
 
 package hu.simplexion.z2.browser.table
 
-import hu.simplexion.z2.browser.css.alignSelfCenter
-import hu.simplexion.z2.browser.css.positionRelative
 import hu.simplexion.z2.browser.css.selectNone
 import hu.simplexion.z2.browser.html.*
-import hu.simplexion.z2.browser.material.basicIcons
-import hu.simplexion.z2.browser.material.basicStrings
-import hu.simplexion.z2.browser.material.button.iconButton
-import hu.simplexion.z2.browser.material.px
 import hu.simplexion.z2.browser.util.applySuspend
 import hu.simplexion.z2.browser.util.downloadCsv
 import hu.simplexion.z2.browser.util.getDatasetEntry
@@ -139,7 +133,7 @@ open class Table<T>(
             getRowId = checkNotNull(build.rowId) { "rowId has to be set in the table builder" }
         }
 
-        titleBar()
+        configuration.titleBar?.let { it() }
 
         div("table-content-container") {
             contentContainer = this
@@ -200,32 +194,6 @@ open class Table<T>(
         firstOnResume = false
 
     }
-
-    fun Z2.titleBar(): Z2 =
-        grid("table-title-bar") {
-            if (!configuration.title) return@grid
-
-            grid(alignSelfCenter) {
-                gridTemplateColumns = "min-content min-content"
-                gridTemplateRows = "min-content"
-                gridGap = 16.px
-                div(alignSelfCenter) {
-                    configuration.titleBar?.let { it() }
-                }
-                if (configuration.add) iconButton(basicIcons.add, basicStrings.add) { }
-            }
-
-            div(positionRelative) {
-                if (configuration.search) {
-                    configuration.searchBar?.let { it() }
-                }
-            }
-
-            div(alignSelfCenter) {
-                if (configuration.export) iconButton(basicIcons.export, basicStrings.export) { }
-            }
-
-        }
 
 //    fun titleActions(): List<ZkElement> {
 //

@@ -36,3 +36,6 @@ fun Z2.tr(vararg classes: String, builder: Z2.() -> Unit): Z2 =
 
 fun Z2.td(vararg classes: String, builder: Z2.() -> Unit): Z2 =
     Z2(this, document.createElement("td") as HTMLTableCellElement, classes, builder)
+
+fun Z2.img(vararg classes: String, builder: Image.() -> Unit): Z2 =
+    Image(this, classes, builder)
