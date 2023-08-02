@@ -5,15 +5,16 @@ import hu.simplexion.z2.browser.demo.layout.containerDemo
 import hu.simplexion.z2.browser.demo.material.*
 import hu.simplexion.z2.browser.demo.pages.*
 import hu.simplexion.z2.browser.demo.strings
-import hu.simplexion.z2.browser.demo.table.icons
 import hu.simplexion.z2.browser.demo.table.tableDemo
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.layout.Content
 import hu.simplexion.z2.browser.material.basicIcons
 import hu.simplexion.z2.browser.material.basicStrings
 import hu.simplexion.z2.browser.material.button.iconButton
+import hu.simplexion.z2.browser.material.button.outlinedIconButton
 import hu.simplexion.z2.browser.material.navigation.navigationDrawer
 import hu.simplexion.z2.browser.material.px
+import hu.simplexion.z2.browser.material.searchbar.searchBar
 import hu.simplexion.z2.browser.routing.BrowserRouter
 import hu.simplexion.z2.browser.routing.Router
 
@@ -32,7 +33,7 @@ object mainRouter : BrowserRouter() {
     // @formatter:on
 
     override fun notFound(receiver: Z2, path: List<String>) {
-        receiver.defaultLayout(this, { navigationDrawer(targets) }) { }
+        receiver.defaultLayout(this, { navigationDrawer(targets) }) { div { } }
     }
 }
 
@@ -68,23 +69,58 @@ object pagesRouter : DemoRouter() {
 // @formatter:on
 
 fun Z2.defaultLayout(router: Router<Z2>, nav: Z2.() -> Unit, content: Z2.() -> Unit) {
-        grid(wFull, hFull) {
-            gridTemplateRows = "1fr"
-            gridTemplateColumns = "min-content 1fr"
-            gridGap = 16.px
-            grid {
-                gridTemplateRows = "min-content 1fr"
-                gridTemplateColumns = "1fr"
-                div(displayFlex, alignItemsCenter, h60, pl8) {
-                    if (router != mainRouter) {
-                        iconButton(basicIcons.back, basicStrings.back) { router.up() }
-                    } else {
-                        iconButton(icons.favourites, strings.favourites) {  }
-                    }
-                    text { router.label }
+    grid(wFull, hFull, pr16, pb16, boxSizingBorder) {
+        gridTemplateRows = "min-content 1fr"
+        gridTemplateColumns = "min-content 1fr"
+
+        div(displayFlex, alignItemsCenter, h60, pl24, titleLarge) {
+            text { strings.applicationTitle }
+        }
+
+        header()
+
+        grid {
+            gridTemplateRows = "min-content 1fr"
+            gridTemplateColumns = "1fr"
+
+            div(displayFlex, alignItemsCenter, pl24) {
+                if (router != mainRouter) {
+                    addClass(pt8)
+                    outlinedIconButton(basicIcons.back, basicStrings.back) { router.up() }
+                    div(pl8) { text { router.parent?.label } }
                 }
-                nav()
             }
-            content()
+
+            nav()
+        }
+
+        content()
+    }
+}
+
+fun Z2.header() =
+    grid {
+        gridTemplateColumns = "1fr min-content min-content"
+        gridTemplateRows = "60px"
+        gridGap = 8.px
+
+        div(alignSelfCenter) {
+            searchBar()
+        }
+
+        div(alignSelfCenter) {
+            iconButton(basicIcons.settings, basicStrings.settings, weight = 300) { }
+        }
+
+        div(displayFlex, alignSelfCenter, borderOutline, br8, bodySmall, p4, pr8) {
+            div(pl8, whiteSpaceNoWrap, pr8, alignSelfCenter) { text { "Tóth István Zoltán" } }
+            div {
+                style.height = 32.px
+                style.width = 32.px
+                style.borderRadius = 16.px
+                style.backgroundColor = "green"
+            }
         }
     }
+
+

@@ -18,6 +18,14 @@
     border: 0 !important;
 }
 
+.box-sizing-border {
+    box-sizing: border-box;
+}
+
+.br8 {
+    border-radius: 8px;
+}
+
 .cursor-pointer {
     cursor: pointer;
 }
@@ -42,36 +50,62 @@
 .h42 {
     height: 42px;
 }
+
 .h60 {
     height: 60px;
 }
+
 .h-full {
     height: 100%
 }
+
 .justify-content-center {
     justify-content: center;
 }
+
+
 .justify-content-end {
     justify-content: flex-end;
 }
+
 .justify-self-center {
     justify-self: center;
 }
+
 .justify-self-end {
     justify-self: end;
 }
+
 .m0 {
     margin: 0;
 }
+
 .mb8 {
     margin-bottom: 8px;
 }
+
 .overflow-y-auto {
     overflow-y: auto;
 }
 
 .p0 {
-    padding: 0 !important;
+    padding: 0;
+}
+
+.p4 {
+    padding: 4px;
+}
+
+.p8 {
+    padding: 8px;
+}
+
+.pb16 {
+    padding-bottom: 16px;
+}
+
+.pb24 {
+    padding-bottom: 24px;
 }
 
 .pl8 {
@@ -82,16 +116,28 @@
     padding-left: 16px;
 }
 
+.pl24 {
+    padding-left: 24px;
+}
+
+.pr8 {
+    padding-right: 8px;
+}
+
+.pr16 {
+    padding-right: 16px;
+}
+
+.pt8 {
+    padding-top: 8px;
+}
+
 .pt16 {
     padding-top: 16px;
 }
 
 .pt24 {
     padding-top: 24px;
-}
-
-.pb24 {
-    padding-bottom: 24px;
 }
 
 .position-relative {

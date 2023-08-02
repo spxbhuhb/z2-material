@@ -10,6 +10,10 @@ const val alignSelfStart = "align-self-start"
 
 const val b0 = "b0"
 
+const val boxSizingBorder = "box-sizing-border"
+
+const val br8 = "br8"
+
 const val cursorPointer = "cursor-pointer"
 
 const val displayContents = "display-contents"
@@ -36,12 +40,21 @@ const val mb8 = "mb8"
 const val overflowYAuto = "overflow-y-auto"
 
 const val p0 = "p0"
+const val p4 = "p4"
+const val p8 = "p8"
+
 const val pl8 = "pl8"
 const val pl16 = "pl16"
+const val pl24 = "pl24"
 
+const val pr8 = "pr8"
+const val pr16 = "pr16"
+
+const val pt8 = "pt8"
 const val pt16 = "pt16"
 const val pt24 = "pt24"
 
+const val pb16 = "pb16"
 const val pb24 = "pb24"
 
 const val positionRelative = "position-relative"

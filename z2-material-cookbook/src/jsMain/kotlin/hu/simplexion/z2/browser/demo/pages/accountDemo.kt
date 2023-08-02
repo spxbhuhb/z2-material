@@ -95,8 +95,7 @@ fun Z2.status() =
             switch(false) { }
         }
 
-        div {
-            style.display = "grid"
+        grid {
             gridTemplateColumns = "200px 1fr"
             gridAutoRows = "min-content"
             gridGap = 16.px

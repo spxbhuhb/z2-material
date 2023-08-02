@@ -15,4 +15,5 @@ object basicStrings : LocalizedTextStore(UUID("2c9624be-efc7-499d-a5e3-6ca5b3da2
     val add by "Add"
     val export by "Export"
     val back by "Vissza"
+    val settings by "Beállítások"
 }
