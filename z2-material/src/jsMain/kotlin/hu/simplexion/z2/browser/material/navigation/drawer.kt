@@ -35,7 +35,7 @@ fun Z2.drawerItem(item: NavigationItem, onClick: (() -> Unit)? = null) =
 
         item.icon?.let {
             div("navigation-drawer-icon") {
-                icon(it, cssClass = "navigation-rail-icon")
+                icon(it, weight = 300, cssClass = "navigation-rail-icon")
             }
         }
 
