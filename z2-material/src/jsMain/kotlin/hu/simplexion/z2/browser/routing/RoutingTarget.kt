@@ -13,6 +13,10 @@ interface RoutingTarget<R> {
 
     val icon : LocalizedIcon?
 
+    fun open() {
+        root.open(this)
+    }
+
     fun open(receiver: R, path: List<String>)
 
     fun open(target: RoutingTarget<R>) {

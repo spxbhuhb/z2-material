@@ -1,9 +1,12 @@
 import hu.simplexion.z2.browser.css.*
-import hu.simplexion.z2.browser.demo.DemoRouter
+import hu.simplexion.z2.browser.demo.NavRouter
 import hu.simplexion.z2.browser.demo.calendar.calendarDemo
 import hu.simplexion.z2.browser.demo.layout.containerDemo
 import hu.simplexion.z2.browser.demo.material.*
-import hu.simplexion.z2.browser.demo.pages.*
+import hu.simplexion.z2.browser.demo.pages.accountRouter
+import hu.simplexion.z2.browser.demo.pages.administration.administrationRouter
+import hu.simplexion.z2.browser.demo.pages.loginDemo
+import hu.simplexion.z2.browser.demo.pages.loginStrings
 import hu.simplexion.z2.browser.demo.strings
 import hu.simplexion.z2.browser.demo.table.tableDemo
 import hu.simplexion.z2.browser.html.*
@@ -38,7 +41,7 @@ object mainRouter : BrowserRouter() {
 }
 
 @Suppress("unused")
-object componentRouter : DemoRouter() {
+object componentRouter : NavRouter() {
     override val label = strings.components
 
     // @formatter:off
@@ -59,11 +62,11 @@ object componentRouter : DemoRouter() {
 
 // @formatter:off
 @Suppress("unused")
-object pagesRouter : DemoRouter() {
+object pagesRouter : NavRouter() {
     override val label = strings.pages
 
     val login          by render(loginStrings.login)          { loginDemo() }
-    val administration by render(adminStrings.administration) { adminDemo() }
+    val administration by administrationRouter
     val account        by accountRouter
 }
 // @formatter:on

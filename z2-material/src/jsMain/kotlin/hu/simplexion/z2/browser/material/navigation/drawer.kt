@@ -1,9 +1,9 @@
 package hu.simplexion.z2.browser.material.navigation
 
-import hu.simplexion.z2.browser.html.Z2
-import hu.simplexion.z2.browser.html.div
-import hu.simplexion.z2.browser.html.gridColumn
-import hu.simplexion.z2.browser.html.onClick
+import hu.simplexion.z2.browser.css.alignSelfCenter
+import hu.simplexion.z2.browser.css.labelLarge
+import hu.simplexion.z2.browser.css.whiteSpaceNoWrap
+import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.icon.icon
 import hu.simplexion.z2.browser.routing.RoutingTarget
 
@@ -32,6 +32,11 @@ fun Z2.drawerItem(target : RoutingTarget<Z2>) {
 fun Z2.drawerItem(item: NavigationItem, onClick: (() -> Unit)? = null) =
 
     div("navigation-drawer-item") {
+        gridTemplateColumns = if (item.badgeLabel != null) {
+            "min-content 1fr 24px"
+        } else {
+            "min-content 1fr"
+        }
 
         item.icon?.let {
             div("navigation-drawer-icon") {
@@ -39,13 +44,15 @@ fun Z2.drawerItem(item: NavigationItem, onClick: (() -> Unit)? = null) =
             }
         }
 
-        div("navigation-drawer-label", "label-large", "align-self-center") {
+        div("navigation-drawer-label", labelLarge, alignSelfCenter, whiteSpaceNoWrap) {
             text { item.label }
             if (item.icon == null) gridColumn = "1/span2"
         }
 
-        div("navigation-drawer-badge", "align-self-center") {
-            text { item.badgeLabel }
+        if (item.badgeLabel != null) {
+            div("navigation-drawer-badge", alignSelfCenter) {
+                text { item.badgeLabel }
+            }
         }
 
         this.onClick {

@@ -8,12 +8,12 @@ import hu.simplexion.z2.browser.routing.Router
 import hu.simplexion.z2.commons.i18n.LocalizedIcon
 import hu.simplexion.z2.commons.i18n.LocalizedText
 
-open class DemoRouter : Router<Z2>() {
+open class NavRouter : Router<Z2>() {
 
     val nav : Z2.() -> Unit = { navigationDrawer(targets) }
 
     override fun render(label: LocalizedText?, icon: LocalizedIcon?, renderFun: Z2.() -> Unit): RoutedRenderer<Z2> {
-        return super.render(label, icon) { defaultLayout(this@DemoRouter, nav, renderFun) }
+        return super.render(label, icon) { defaultLayout(this@NavRouter, nav, renderFun) }
     }
 
     override fun default(receiver: Z2, path: List<String>) {

@@ -1,7 +1,7 @@
 package hu.simplexion.z2.browser.demo.pages
 
 import hu.simplexion.z2.browser.css.*
-import hu.simplexion.z2.browser.demo.DemoRouter
+import hu.simplexion.z2.browser.demo.NavRouter
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.layout.low
 import hu.simplexion.z2.browser.layout.lowest
@@ -34,7 +34,7 @@ object accountStrings : LocalizedTextStore(UUID("72c9ec55-0e66-4181-96f9-d9009b0
 
 // @formatter:off
 @Suppress("unused")
-object accountRouter : DemoRouter() {
+object accountRouter : NavRouter() {
     override val label = accountStrings.account
 
     val basicInfo  by render(accountStrings.basicInfo)    { basicInfo() }

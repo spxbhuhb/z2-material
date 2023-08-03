@@ -95,7 +95,6 @@
 .navigation-drawer-item {
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: min-content 1fr 24px;
     grid-template-rows: 44px;
     height: 48px;
     border-radius: 24px;
@@ -113,6 +112,8 @@
 
 .navigation-drawer-label {
     align-self: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .navigation-drawer-badge {
