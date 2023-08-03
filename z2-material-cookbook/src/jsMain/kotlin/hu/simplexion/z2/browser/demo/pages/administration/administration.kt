@@ -1,8 +1,8 @@
 package hu.simplexion.z2.browser.demo.pages.administration
 
-import defaultLayout
 import hu.simplexion.z2.browser.css.*
 import hu.simplexion.z2.browser.demo.NavRouter
+import hu.simplexion.z2.browser.demo.pages.administration.languagesAndRegions.languageAndRegionRouter
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.layout.lowest
 import hu.simplexion.z2.browser.material.basicStrings
@@ -12,15 +12,20 @@ import hu.simplexion.z2.browser.material.fr
 import hu.simplexion.z2.browser.material.navigation.NavigationItem
 import hu.simplexion.z2.browser.material.px
 
+internal val administrationStrings = strings
+internal val administrationIcons = icons
+
 @Suppress("unused")
 object administrationRouter : NavRouter() {
     override val label = strings.administration
     override val icon = icons.administration
 
+    override val default : Z2Builder = { administration() }
+
     // @formatter:off
     val impressum        by render(strings.impressum, icons.impressum)           {  }
     val template         by render(strings.template, icons.template)             {  }
-    val languages        by render(strings.languageAndRegion, icons.languages)  {  }
+    val languages        by languageAndRegionRouter
 
     val account          by render(strings.account, icons.accounts)             {  }
     val roles            by render(strings.role, icons.roles)                   {  }
@@ -29,10 +34,6 @@ object administrationRouter : NavRouter() {
     val connections      by render(strings.connection, icons.interfaces)         {  }
     val history          by render(strings.history, icons.history)             {  }
     // @formatter:on
-
-    override fun default(receiver: Z2, path: List<String>) {
-        receiver.defaultLayout(this, nav) { administration() }
-    }
 }
 
 fun Z2.administration() =

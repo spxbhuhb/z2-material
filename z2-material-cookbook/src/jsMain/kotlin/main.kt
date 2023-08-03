@@ -3,7 +3,6 @@ import hu.simplexion.z2.browser.demo.NavRouter
 import hu.simplexion.z2.browser.demo.calendar.calendarDemo
 import hu.simplexion.z2.browser.demo.layout.containerDemo
 import hu.simplexion.z2.browser.demo.material.*
-import hu.simplexion.z2.browser.demo.pages.accountRouter
 import hu.simplexion.z2.browser.demo.pages.administration.administrationRouter
 import hu.simplexion.z2.browser.demo.pages.loginDemo
 import hu.simplexion.z2.browser.demo.pages.loginStrings
@@ -67,7 +66,6 @@ object pagesRouter : NavRouter() {
 
     val login          by render(loginStrings.login)          { loginDemo() }
     val administration by administrationRouter
-    val account        by accountRouter
 }
 // @formatter:on
 

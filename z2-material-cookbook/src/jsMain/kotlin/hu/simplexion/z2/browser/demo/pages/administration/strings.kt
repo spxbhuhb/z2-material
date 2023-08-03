@@ -19,9 +19,6 @@ internal object strings : LocalizedTextStore(UUID("c44188ac-8ae0-4fe3-8aad-1bca3
     val history by "Histories"
     val historySupport by history.support("Security, technical and business level event histories.")
 
-    val languageAndRegion by "Languages & Regions"
-    val languagesAndRegionSupport by languageAndRegion.support("Register new language and region settings. Translate user interface labels and icons.")
-
     val role by "Roles"
     val roleSupport by role.support("List top-level user roles, create new ones, list users by role.")
 
