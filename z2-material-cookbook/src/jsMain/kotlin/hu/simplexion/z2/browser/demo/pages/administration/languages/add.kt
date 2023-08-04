@@ -3,26 +3,27 @@ package hu.simplexion.z2.browser.demo.pages.administration.languages
 import hu.simplexion.z2.browser.css.gridGap24
 import hu.simplexion.z2.browser.css.p24
 import hu.simplexion.z2.browser.css.w400
+import hu.simplexion.z2.browser.html.Z2
 import hu.simplexion.z2.browser.html.grid
 import hu.simplexion.z2.browser.material.basicStrings
 import hu.simplexion.z2.browser.material.button.textButton
 import hu.simplexion.z2.browser.material.modal.modal
 import hu.simplexion.z2.browser.material.textfield.outlinedTextField
 import hu.simplexion.z2.commons.util.localLaunch
+import hu.simplexion.z2.schematic.runtime.SchematicAccessFunction
+import hu.simplexion.z2.schematic.runtime.access.SchematicAccessContext
 
 internal fun add() {
     localLaunch {
-        var isoCode: String
-        var countryCode: String
-        var nativeName: String
+        val language = Language()
 
         modal(w400) {
             title(strings.addLanguage)
 
             grid(p24, gridGap24) {
-                outlinedTextField("", strings.isoCode, strings.isoCodeSupport) { isoCode = it }
-                outlinedTextField("", strings.countryCode, strings.countryCodeSupport) { countryCode = it }
-                outlinedTextField("", strings.nativeName, strings.nativeNameSupport) { nativeName = it }
+                field { language.isoCode }
+                field { language.countryCode }
+                field { language.nativeName }
             }
 
             buttons {
@@ -33,5 +34,10 @@ internal fun add() {
     }
 }
 
+@SchematicAccessFunction
+fun Z2.field(context : SchematicAccessContext? = null, accessor : () -> Any?) {
+    checkNotNull(context)
 
-
+    val fieldName = context.field.name
+    outlinedTextField("", strings.map[fieldName], strings.support[fieldName]) {  }
+}

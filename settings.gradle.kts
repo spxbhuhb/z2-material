@@ -5,3 +5,12 @@ rootProject.name = "z2-material"
 
 include(":z2-material")
 include(":z2-material-cookbook")
+
+pluginManagement {
+    repositories {
+        mavenLocal()
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}

@@ -4,6 +4,7 @@
 
 plugins {
     kotlin("multiplatform")
+    id("hu.simplexion.z2.schematic") version "2023.7.30-SNAPSHOT"
 }
 
 group = "hu.simplexion.z2"
