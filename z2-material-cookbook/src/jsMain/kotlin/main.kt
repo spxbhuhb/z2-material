@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2020-2023, Simplexion, Hungary and contributors. Use of this source code is governed by the Apache 2.0 license.
+ */
+
 import hu.simplexion.z2.browser.css.*
 import hu.simplexion.z2.browser.demo.NavRouter
 import hu.simplexion.z2.browser.demo.calendar.calendarDemo
@@ -21,6 +25,7 @@ import hu.simplexion.z2.browser.routing.BrowserRouter
 import hu.simplexion.z2.browser.routing.Router
 
 fun main() {
+    customizeStyles()
     mainRouter.receiver = Content
     mainRouter.start()
 }
@@ -113,7 +118,7 @@ fun Z2.header() =
             iconButton(basicIcons.settings, basicStrings.settings, weight = 300) { }
         }
 
-        div(displayFlex, alignSelfCenter, borderOutline, br8, bodySmall, p4, pr8) {
+        div(displayFlex, alignSelfCenter, borderOutline, borderRadius8, bodySmall, p4, pr8) {
             div(pl8, whiteSpaceNoWrap, pr8, alignSelfCenter) { text { "Tóth István Zoltán" } }
             div {
                 style.height = 32.px

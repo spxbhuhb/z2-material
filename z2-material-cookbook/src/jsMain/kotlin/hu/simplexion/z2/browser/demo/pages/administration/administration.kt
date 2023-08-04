@@ -2,7 +2,7 @@ package hu.simplexion.z2.browser.demo.pages.administration
 
 import hu.simplexion.z2.browser.css.*
 import hu.simplexion.z2.browser.demo.NavRouter
-import hu.simplexion.z2.browser.demo.pages.administration.languagesAndRegions.languageAndRegionRouter
+import hu.simplexion.z2.browser.demo.pages.administration.languages.languagesRouter
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.layout.lowest
 import hu.simplexion.z2.browser.material.basicStrings
@@ -25,7 +25,7 @@ object administrationRouter : NavRouter() {
     // @formatter:off
     val impressum        by render(strings.impressum, icons.impressum)           {  }
     val template         by render(strings.template, icons.template)             {  }
-    val languages        by languageAndRegionRouter
+    val languages        by languagesRouter
 
     val account          by render(strings.account, icons.accounts)             {  }
     val roles            by render(strings.role, icons.roles)                   {  }

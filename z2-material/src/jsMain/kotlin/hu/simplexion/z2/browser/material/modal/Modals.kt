@@ -5,6 +5,9 @@ package hu.simplexion.z2.browser.material.modal
 
 import hu.simplexion.z2.browser.html.Z2
 import hu.simplexion.z2.browser.html.div
+import hu.simplexion.z2.browser.material.px
+import hu.simplexion.z2.browser.material.vh
+import hu.simplexion.z2.browser.material.vw
 import kotlinx.browser.document
 import kotlinx.dom.addClass
 import kotlinx.dom.removeClass
@@ -42,8 +45,19 @@ object Modals : Z2(
     }
 
     fun Z2.layer(child: Z2) =
-        div("modal-background") {
-            style.zIndex = (1900 + layers.size).toString()
+        div {
+            with(style) {
+                position = "fixed"
+                top = 0.px
+                left = 0.px
+                height = 100.vh
+                width = 100.vw
+                justifyContent = "center"
+                alignItems = "center"
+                display = "flex"
+                backgroundColor = "rgba(0, 0, 0, 0.5)"
+                zIndex = "${1900 + layers.size}"
+            }
             append(child)
         }
 

@@ -5,8 +5,8 @@ import hu.simplexion.z2.browser.material.button.textButton
 import hu.simplexion.z2.commons.i18n.LocalizedText
 import hu.simplexion.z2.commons.util.localLaunch
 
-fun <T : Any?> modal(builder: ModalBase<T>.() -> Unit): ModalBase<T> =
-    ModalBase(builder)
+fun <T : Any?> modal(vararg classes: String, builder: ModalBase<T>.() -> Unit): ModalBase<T> =
+    ModalBase(builder).apply { addClass(*classes) }
 
 fun confirm(
     title: LocalizedText,

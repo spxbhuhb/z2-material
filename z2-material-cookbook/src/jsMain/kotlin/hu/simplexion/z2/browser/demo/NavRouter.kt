@@ -11,7 +11,9 @@ import hu.simplexion.z2.commons.i18n.LocalizedText
 
 open class NavRouter : Router<Z2>() {
 
-    open val nav: Z2Builder = { navigationDrawer(targets) }
+    open val nav: Z2Builder = { navigationDrawer(if (useParentNav) this@NavRouter.parent?.targets ?: emptyList() else targets) }
+
+    open var useParentNav : Boolean = false
 
     open val default: Z2Builder = { }
 

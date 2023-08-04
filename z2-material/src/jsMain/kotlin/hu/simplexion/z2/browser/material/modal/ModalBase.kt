@@ -3,8 +3,12 @@
  */
 package hu.simplexion.z2.browser.material.modal
 
+import hu.simplexion.z2.browser.css.*
 import hu.simplexion.z2.browser.html.Z2
+import hu.simplexion.z2.browser.html.Z2Builder
 import hu.simplexion.z2.browser.html.div
+import hu.simplexion.z2.browser.html.grid
+import hu.simplexion.z2.browser.material.px
 import hu.simplexion.z2.commons.i18n.LocalizedText
 import kotlinx.browser.document
 import kotlinx.coroutines.channels.Channel
@@ -21,25 +25,31 @@ open class ModalBase<T : Any?>(
 ) : Z2(
     null,
     document.createElement("div") as HTMLElement,
-    arrayOf("modal"),
+    arrayOf(boxSizingBorder, onSurfaceText, surface, borderRadius12),
     builder as (Z2.() -> Unit)
 ) {
+
+    init {
+        with(htmlElement.style) {
+            minWidth = 280.px
+            maxWidth = 560.px
+        }
+    }
 
     val channel = Channel<T>(1)
 
     fun Z2.title(title : LocalizedText) =
-        div {
-            addClass("modal-headline", "headline-small")
+        div(p24, pb16, displayFlex, alignItemsCenter, headlineSmall) {
             text { title }
         }
 
     fun Z2.supportingText(builder : () -> String) : Z2 =
-        div("modal-content", "body-medium") {
+        div(p24, pt0, bodyMedium) {
             text { builder() }
         }
 
-    fun Z2.buttons(builder : Z2.() -> Unit) : Z2 =
-        div("modal-buttons") {
+    fun Z2.buttons(builder : Z2Builder) : Z2 =
+        grid(p24, gridAutoFlowColumn, gridAutoColumnsMinContent, gridGap16, justifyContentEnd) {
             builder()
         }
 
