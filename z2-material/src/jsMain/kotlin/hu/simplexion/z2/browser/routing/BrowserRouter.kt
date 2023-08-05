@@ -56,8 +56,6 @@ open class BrowserRouter(
             var url = if (hash.isEmpty()) newPath else "$newPath#$hash"
             url = if (search.isEmpty()) url else "$url?$search"
 
-            println(">$newPath< >$url<")
-
             if (changeState) {
                 window.history.pushState(incrementNavCounter(), "", url)
                 trace { "[routing]  pushState  url=$url" }
