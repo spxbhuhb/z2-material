@@ -7,6 +7,7 @@ const val bodySmall = "body-small"
 const val borderPrimary = "border-primary"
 const val borderOutline = "border-outline"
 
+const val primaryText = "primary-text"
 const val onSurfaceText = "on-surface-text"
 const val surface = "surface"
 

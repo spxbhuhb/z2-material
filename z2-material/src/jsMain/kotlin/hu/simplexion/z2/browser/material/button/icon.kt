@@ -1,6 +1,8 @@
 package hu.simplexion.z2.browser.material.button
 
+import hu.simplexion.z2.browser.css.bodySmall
 import hu.simplexion.z2.browser.css.borderPrimary
+import hu.simplexion.z2.browser.css.primaryText
 import hu.simplexion.z2.browser.html.Z2
 import hu.simplexion.z2.browser.html.div
 import hu.simplexion.z2.browser.material.icon.icon
@@ -17,15 +19,12 @@ fun Z2.iconButton(
     vararg classes : String,
     onClick : (event : Event) -> Unit
 ) =
-
-    div("icon-button", "primary-text") {
+    Button(this, arrayOf("icon-button", primaryText), onClick) {
         div("icon-button-active-indicator-with-text", "tooltip") {
             addClass(*classes)
             icon(icon, size, weight, fill)
-            div("plain-tooltip", "body-small") { text { hint } }
+            div("plain-tooltip", bodySmall) { text { hint } }
         }
-
-        handlers(onClick)
     }
 
 fun Z2.outlinedIconButton(
