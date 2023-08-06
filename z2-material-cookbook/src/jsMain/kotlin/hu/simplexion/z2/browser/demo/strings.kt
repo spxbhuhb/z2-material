@@ -44,4 +44,6 @@ object strings : LocalizedTextStore(UUID("c6a52ab3-7a5a-4f07-ad49-239775845386")
     val main by "Main Page"
     val pageNotFound by "Page not found."
     val tableTitle by "Table Title"
+    val headerA by "Header A"
+    val headerB by "Header B"
 }

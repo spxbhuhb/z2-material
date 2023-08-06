@@ -10,6 +10,8 @@ const val alignSelfStart = "align-self-start"
 
 const val b0 = "b0"
 
+const val backgroundTransparent = "background-transparent"
+
 const val boxSizingBorder = "box-sizing-border"
 
 const val borderRadius2 = "border-radius-2"
@@ -22,6 +24,7 @@ const val cursorPointer = "cursor-pointer"
 
 const val displayContents = "display-contents"
 const val displayFlex = "display-flex"
+const val displayGrid = "display-grid"
 
 const val gridGap8 = "grid-gap-8"
 const val gridGap16 = "grid-gap-16"

@@ -18,6 +18,10 @@
     border: 0 !important;
 }
 
+.background-transparent {
+    background: transparent;
+}
+
 .border-radius-2 {
     border-radius: 2px;
 }
@@ -52,6 +56,10 @@
 
 .display-flex {
     display: flex;
+}
+
+.display-grid {
+    display: grid;
 }
 
 .grid-gap-8 {

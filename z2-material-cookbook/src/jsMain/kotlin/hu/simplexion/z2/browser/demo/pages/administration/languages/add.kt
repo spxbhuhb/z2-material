@@ -9,21 +9,32 @@ import hu.simplexion.z2.browser.html.grid
 import hu.simplexion.z2.browser.material.basicStrings
 import hu.simplexion.z2.browser.material.button.textButton
 import hu.simplexion.z2.browser.material.modal.modal
+import hu.simplexion.z2.commons.i18n.LocalizedText
 import hu.simplexion.z2.commons.util.localLaunch
 
 internal fun add() {
     localLaunch {
-        val language = addModal().show() ?: return@localLaunch
-        // Languages.add(language)
+        languageModal(Language(), strings.addLanguage, basicStrings.add)
+            .show()
+            ?.let { /* Languages.add(it) */ }
     }
 }
 
-private fun addModal() =
+internal fun edit(language: Language) =
+    localLaunch {
+        languageModal(language, strings.addLanguage, basicStrings.add)
+            .show()
+            ?.let { /* Languages.update(it) */ }
+    }
+
+internal fun languageModal(
+    language : Language,
+    modalTitle : LocalizedText,
+    buttonLabel : LocalizedText
+) =
 
     modal(w400) {
-        val language = Language()
-
-        title(strings.addLanguage)
+        title(modalTitle)
 
         grid(p24, gridGap24) {
             field { language.isoCode }
@@ -32,7 +43,7 @@ private fun addModal() =
         }
 
         buttons {
-            textButton(basicStrings.cancel) { channel.trySend(null) }
-            submitTextButton(language, basicStrings.add) { channel.trySend(language) }
+            textButton(basicStrings.cancel) { closeWith(null) }
+            submitTextButton(language, buttonLabel) { closeWith(language) }
         }
     }

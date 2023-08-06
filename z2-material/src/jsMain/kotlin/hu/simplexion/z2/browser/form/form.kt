@@ -3,6 +3,7 @@ package hu.simplexion.z2.browser.form
 import hu.simplexion.z2.browser.html.Z2
 import hu.simplexion.z2.browser.material.button.textButton
 import hu.simplexion.z2.browser.material.textfield.outlinedTextField
+import hu.simplexion.z2.browser.util.label
 import hu.simplexion.z2.browser.util.uniqueNodeId
 import hu.simplexion.z2.commons.i18n.LocalizedText
 import hu.simplexion.z2.schematic.runtime.Schematic

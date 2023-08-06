@@ -71,4 +71,8 @@ open class ModalBase<T : Any?>(
         return value
     }
 
+    fun closeWith(value : T) {
+        channel.trySend(value)
+    }
+
 }

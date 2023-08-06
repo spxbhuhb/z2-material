@@ -25,7 +25,9 @@ fun Z2.tableDemo() =
             style.background = "transparent"
 
             table<Row> {
-                titleText = strings.tableTitle
+                title {
+                   text = strings.tableTitle
+                }
                 search = true
                 add = true
                 export = true
@@ -34,13 +36,13 @@ fun Z2.tableDemo() =
                 query = { data }
 
                 column {
-                    label = "Header A"
+                    label = strings.headerA
                     render = { text { it.v1 } }
                     comparator = { a, b -> a.v2.compareTo(b.v2) }
                 }
 
                 column {
-                    label = "Header B"
+                    label = strings.headerB
                     render = { text { it.v2 } }
                     comparator = { a, b -> a.v2.compareTo(b.v2) }
                 }

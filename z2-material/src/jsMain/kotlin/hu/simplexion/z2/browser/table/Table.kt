@@ -6,6 +6,7 @@ package hu.simplexion.z2.browser.table
 
 import hu.simplexion.z2.browser.css.selectNone
 import hu.simplexion.z2.browser.html.*
+import hu.simplexion.z2.browser.table.builders.TableBuilder
 import hu.simplexion.z2.browser.util.applySuspend
 import hu.simplexion.z2.browser.util.downloadCsv
 import hu.simplexion.z2.browser.util.getDatasetEntry
@@ -19,7 +20,7 @@ import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 
-open class Table<T>(
+class Table<T>(
     parent: Z2? = null,
     builder: TableBuilder<T>.() -> Unit
 ) : Z2(
@@ -29,11 +30,11 @@ open class Table<T>(
     null
 ) {
 
-    val configuration: TableConfiguration
+    val configuration: TableConfiguration<T>
     val columns: List<TableColumn<T>>
     var query: (() -> List<T>)? = null
 
-    open val exportFileName: String
+    val exportFileName: String
         get() {
             // FIXME val prefix = (titleText ?: this::class.simpleName?.localized ?: "").ifBlank { "content" }
             val prefix = "content"
@@ -47,7 +48,7 @@ open class Table<T>(
     var traceColumnResize = false
     var traceMultiLevel = false
 
-    open var firstOnResume = true
+    var firstOnResume = true
 
     val rowHeight
         get() = configuration.rowHeight
@@ -78,23 +79,23 @@ open class Table<T>(
      * Get a unique if for the given row. The id of the row is used by actions and is
      * passed to row based functions such as [onDblClick].
      */
-    var getRowId: (row: T) -> String = {
+    var getRowId: (row: T) -> Any = {
         throw NotImplementedError("please override ${this::class}.getRowId when not using crud")
     }
 
     /** HTMLElement.dataset key to store the ID of the row, never changes, calculated by [getRowId]  */
-    open val ROW_ID = "z2rid"
+    val ROW_ID = "z2rid"
 
     /** HTMLElement.dataset key to store the index of the row, the index shows the row index in [renderData] */
-    open val ROW_INDEX = "z2ridx"
+    val ROW_INDEX = "z2ridx"
 
     /** HTMLElement.dataset key to indicte that this is a level toggle for a multi-level row */
-    open val LEVEL_TOGGLE = "z2lt"
+    val LEVEL_TOGGLE = "z2lt"
 
-    open val addAboveCount: Int
+    val addAboveCount: Int
         get() = window.outerHeight / rowHeight
 
-    open val addBelowCount: Int
+    val addBelowCount: Int
         get() = window.outerHeight / rowHeight
 
     // -------------------------------------------------------------------------
@@ -110,19 +111,14 @@ open class Table<T>(
     /** Filtered [fullData] (if there is a filter, equals to [fullData] otherwise).
      *  contains all child rows in case of multi-level table.
      */
-    open lateinit var filteredData: List<TableRow<T>>
+    lateinit var filteredData: List<TableRow<T>>
 
     /** The data to show to the user, filtered and may be closed (for multi-level tables). */
-    open lateinit var renderData: MutableList<TableRow<T>>
+    lateinit var renderData: MutableList<TableRow<T>>
 
     // FIXME val preloads = mutableListOf<ZkTablePreload<*>>()
 
-    open var searchText: String? = null
-
-    open var allCount: Int? =
-        null // if the full data size of the very first query is not equal to all count, it is possible to set here
-
-    open var needToSetAllCounter = true
+    var searchText: String? = null
 
     init {
         TableBuilder<T>().also { build ->
@@ -133,7 +129,7 @@ open class Table<T>(
             getRowId = checkNotNull(build.rowId) { "rowId has to be set in the table builder" }
         }
 
-        configuration.titleBar?.let { it() }
+        configuration.titleBuilder?.build(this)
 
         div("table-content-container") {
             contentContainer = this
@@ -206,7 +202,7 @@ open class Table<T>(
 //        return actions
 //    }
 
-    open fun setCounter() {
+    fun setCounter() {
 
 //        if (needToSetAllCounter && allCount == null && ::fullData.isInitialized && fullData.isNotEmpty()) {
 //            allCount = fullData.size
@@ -225,7 +221,7 @@ open class Table<T>(
     //  Event Handlers
     // -------------------------------------------------------------------------
 
-    open fun getRowId(event: Event): String? {
+    fun getRowId(event: Event): String? {
         if (event !is MouseEvent) return null
 
         val target = event.target
@@ -234,7 +230,7 @@ open class Table<T>(
         return target.getDatasetEntry(ROW_ID)
     }
 
-    open fun onClick(event: Event) {
+    fun onClick(event: Event) {
         val target = event.target
 
         if (target is HTMLElement && target.getDatasetEntry(LEVEL_TOGGLE) != null) {
@@ -248,18 +244,18 @@ open class Table<T>(
     /**
      * Prevent text selection on double click.
      */
-    open fun onMouseDown(event: MouseEvent) {
+    fun onMouseDown(event: MouseEvent) {
         if (event.detail > 1) {
             event.preventDefault()
         }
     }
 
-    open fun onDblClick(event: Event) {
+    fun onDblClick(event: Event) {
         event.preventDefault()
         getRowId(event)?.let { onDblClick(it) }
     }
 
-    open fun onScroll(event: Event) {
+    fun onScroll(@Suppress("UNUSED_PARAMETER") event: Event) {
         contentScrollTop = contentElement.scrollTop
         contentScrollLeft = contentElement.scrollLeft
 
@@ -310,7 +306,7 @@ open class Table<T>(
      * Builds the states for multi level rows if multi level option is enabled.
      * By default, all top-level rows are closed.
      */
-    open fun buildMultiLevelState() {
+    fun buildMultiLevelState() {
         if (!configuration.multiLevel) return
         if (fullData.isEmpty()) return
 
@@ -339,7 +335,7 @@ open class Table<T>(
      *
      * @param  query  The query to execute
      */
-    open fun setData(query: suspend () -> List<T>) {
+    fun setData(query: suspend () -> List<T>) {
         applySuspend {
             setData(query())
         }
@@ -349,11 +345,11 @@ open class Table<T>(
     //  Rendering, intersection observer callback
     // -------------------------------------------------------------------------
 
-    open fun inlineCss() = """
+    fun inlineCss() = """
         grid-template-columns: ${columns.joinToString(" ") { it.gridTemplate() }};
     """.trimIndent()
 
-    open fun render() {
+    fun render() {
         firstAttachedRowIndex = 0
         attachedRowCount = min(renderData.size, addBelowCount)
 
@@ -365,7 +361,7 @@ open class Table<T>(
      * Deletes all cached row renders.
      * Sets scroll position to the latest known value
      */
-    open fun redraw(): Table<T> {
+    fun redraw(): Table<T> {
 
         for (row in fullData) {
             row.element = null
@@ -394,7 +390,7 @@ open class Table<T>(
      * Adds a placeholder row (top or bottom). These rows change in height so
      * the scrollbar reacts as if all rows would be rendered.
      */
-    open fun addPlaceHolderRow() {
+    fun addPlaceHolderRow() {
         tableBody.tr {
             repeat(columns.size) {
                 td("border-0", "p0") { }
@@ -408,7 +404,7 @@ open class Table<T>(
      *
      * @param index Index of the row in state.rowStates
      */
-    open fun TableRow<T>.render(index: Int, row: TableRow<T>): Z2 {
+    fun TableRow<T>.render(index: Int, row: TableRow<T>): Z2 {
         element?.let { return it }
 
         val heightClass = if (configuration.fixRowHeight) "table-fix-height" else "table-variable-height"
@@ -425,7 +421,7 @@ open class Table<T>(
                 }
             }
 
-            htmlElement.dataset[ROW_ID] = getRowId(row.data)
+            htmlElement.dataset[ROW_ID] = getRowId(row.data).toString()
             htmlElement.dataset[ROW_INDEX] = index.toString()
         }
 
@@ -699,14 +695,14 @@ open class Table<T>(
     /**
      * Get the data of a given row by row ID.
      */
-    open fun getRowData(id: String): T =
+    fun getRowData(id: String): T =
         fullData.first { getRowId(it.data) == id }.data
 
     /**
      * Set the data of a given row by row ID. Does not update the UI,
      * call [redraw] for that.
      */
-    open fun setRowData(data: T, optional: Boolean = false) {
+    fun setRowData(data: T, optional: Boolean = false) {
         val id = getRowId(data)
         if (optional) {
             fullData.firstOrNull { getRowId(it.data) == id }?.data = data
@@ -718,7 +714,7 @@ open class Table<T>(
     /**
      * Add a new row to the table.
      */
-    open fun onAddRow() {
+    fun onAddRow() {
 
     }
 
@@ -727,7 +723,7 @@ open class Table<T>(
      *
      * @param  id  Id of the row as given by [getRowId].
      */
-    open fun onDblClick(id: String) {
+    fun onDblClick(id: String) {
 
     }
 
@@ -740,7 +736,7 @@ open class Table<T>(
      * * calls [filter]
      * * calls [render]
      */
-    open fun onSearch(text: String) {
+    fun onSearch(text: String) {
         searchText = text.ifEmpty { null }
         filter()
         render()
@@ -755,7 +751,7 @@ open class Table<T>(
      * * calls [ZkColumn.exportCsv] for each row to build the csv line
      * * pops a download in the browser with the file name set to [exportFileName]
      */
-    open fun onExportCsv() {
+    fun onExportCsv() {
         val lines = mutableListOf<String>()
 
         val data = if (configuration.exportFiltered) filteredData else fullData
@@ -780,7 +776,7 @@ open class Table<T>(
     /**
      * Applies all filters on the table rows.
      */
-    open fun filter() {
+    fun filter() {
 
         // when there is no filter return with all the data
         // multi-level table needs special processing because of the hidden
@@ -851,7 +847,7 @@ open class Table<T>(
      * Applies the filters to one row to decide if that row should be
      * present in the filtered table.
      */
-    open fun filterRow(row: T, text: String?): Boolean {
+    fun filterRow(row: T, text: String?): Boolean {
         columns.forEach {
             if (it.matches(row, text)) return true
         }
@@ -862,11 +858,11 @@ open class Table<T>(
      * Get the level of the row. Override for multi level tables. Level 0
      * means that the row is always shown (if not filtered out).
      */
-    open fun getRowLevel(row: TableRow<T>): Int {
+    fun getRowLevel(row: TableRow<T>): Int {
         return 0
     }
 
-    open fun toggleMultiLevelRow(row: TableRow<T>) {
+    fun toggleMultiLevelRow(row: TableRow<T>) {
         if (row.levelState == TableRowLevelState.Closed) {
             openMultiLevelRow(row)
         } else {
@@ -878,7 +874,7 @@ open class Table<T>(
      * When opening a multi-level row, we have to add the child rows from [filteredData]
      * to [renderData].
      */
-    open fun openMultiLevelRow(row: TableRow<T>) {
+    fun openMultiLevelRow(row: TableRow<T>) {
 
         if (traceMultiLevel) println("openMultiLevel ${row.index}")
 
@@ -894,7 +890,7 @@ open class Table<T>(
         redraw() // FIXME this may not cover the whole area - maybe
     }
 
-    open fun closeMultiLevelRow(row: TableRow<T>) {
+    fun closeMultiLevelRow(row: TableRow<T>) {
 
         if (traceMultiLevel) println("closeMultiLevel ${row.index}")
 
@@ -920,7 +916,7 @@ open class Table<T>(
         redraw()
     }
 
-    open fun getChildren(from: List<TableRow<T>>, fromIndex: Int, level: Int): List<TableRow<T>> {
+    fun getChildren(from: List<TableRow<T>>, fromIndex: Int, level: Int): List<TableRow<T>> {
         var index = fromIndex + 1
         val children = mutableListOf<TableRow<T>>()
 
@@ -942,7 +938,7 @@ open class Table<T>(
     //  Sorting
     // -------------------------------------------------------------------------
 
-    open fun sort(ascending: Boolean, comparator: (T, T) -> Int) {
+    fun sort(ascending: Boolean, comparator: (T, T) -> Int) {
         fullData = if (!configuration.multiLevel) {
             if (ascending) {
                 fullData.sortedWith { a, b -> comparator(a.data, b.data) }
@@ -966,7 +962,7 @@ open class Table<T>(
     /**
      * Sort a multi-level list of rows. Calls itself recursively for lower levels.
      */
-    open fun multiSort(
+    fun multiSort(
         data: List<TableRow<T>>,
         ascending: Boolean,
         comparator: (T, T) -> Int

@@ -8,6 +8,7 @@ import hu.simplexion.z2.browser.css.selectNone
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.material.px
 import hu.simplexion.z2.browser.util.uniqueNodeId
+import hu.simplexion.z2.commons.i18n.LocalizedText
 import kotlinx.browser.window
 import kotlinx.dom.addClass
 import kotlinx.dom.removeClass
@@ -19,12 +20,13 @@ import kotlin.math.max
 
 open class TableColumn<T>(
     val table: Table<T>,
-    val label: String,
+    val labelBuilder: Z2Builder,
     val renderer: Z2.(row: T) -> Unit,
     val comparator : (T,T) -> Int,
     var size : Double = Double.NaN,
-    val exportable : Boolean = true
-) {
+    val exportable : Boolean = true,
+    val exportHeader : LocalizedText
+    ) {
     val id = uniqueNodeId
 
     lateinit var element : HTMLElement
@@ -39,11 +41,11 @@ open class TableColumn<T>(
     var beenResized = false
     var lastX: Int = 0
 
-    fun Z2.header(configuration: TableConfiguration) =
+    fun Z2.header(configuration: TableConfiguration<T>) =
         th(labelMedium) {
             element = this.htmlElement
             if (configuration.fixHeaderHeight) addClass("table-header-cell-fix-height")
-            text { label }
+            labelBuilder()
             sortSign = sortSign()
             span("table-resize-handle") {
                 onMouseDown(::onResizeMouseDown)
@@ -224,7 +226,7 @@ open class TableColumn<T>(
     }
 
     open fun exportCsvHeader(): String {
-        return label
+        return exportHeader.toString()
     }
 
     open fun exportCsv(row: T): String {

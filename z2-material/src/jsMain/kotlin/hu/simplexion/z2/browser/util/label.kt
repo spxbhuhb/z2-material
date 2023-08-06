@@ -1,4 +1,4 @@
-package hu.simplexion.z2.browser.form
+package hu.simplexion.z2.browser.util
 
 import hu.simplexion.z2.commons.i18n.BasicLocalizedText
 import hu.simplexion.z2.commons.i18n.LocalizedText
