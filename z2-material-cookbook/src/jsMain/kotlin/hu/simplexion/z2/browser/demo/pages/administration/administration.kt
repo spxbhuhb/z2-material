@@ -1,7 +1,6 @@
 package hu.simplexion.z2.browser.demo.pages.administration
 
 import hu.simplexion.z2.browser.css.*
-import hu.simplexion.z2.browser.demo.NavRouter
 import hu.simplexion.z2.browser.demo.pages.administration.languages.languagesRouter
 import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.layout.lowest
@@ -11,6 +10,7 @@ import hu.simplexion.z2.browser.material.card.outlinedCard
 import hu.simplexion.z2.browser.material.fr
 import hu.simplexion.z2.browser.material.navigation.NavigationItem
 import hu.simplexion.z2.browser.material.px
+import hu.simplexion.z2.browser.routing.NavRouter
 
 internal val administrationStrings = strings
 internal val administrationIcons = icons

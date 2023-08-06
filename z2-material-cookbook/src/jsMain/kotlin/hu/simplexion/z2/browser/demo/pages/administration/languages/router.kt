@@ -1,7 +1,7 @@
 package hu.simplexion.z2.browser.demo.pages.administration.languages
 
-import hu.simplexion.z2.browser.demo.NavRouter
 import hu.simplexion.z2.browser.html.Z2Builder
+import hu.simplexion.z2.browser.routing.NavRouter
 
 @Suppress("unused")
 object languagesRouter : NavRouter() {

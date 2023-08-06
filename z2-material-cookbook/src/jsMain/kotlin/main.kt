@@ -3,7 +3,6 @@
  */
 
 import hu.simplexion.z2.browser.css.*
-import hu.simplexion.z2.browser.demo.NavRouter
 import hu.simplexion.z2.browser.demo.calendar.calendarDemo
 import hu.simplexion.z2.browser.demo.layout.containerDemo
 import hu.simplexion.z2.browser.demo.material.*
@@ -22,6 +21,7 @@ import hu.simplexion.z2.browser.material.navigation.navigationDrawer
 import hu.simplexion.z2.browser.material.px
 import hu.simplexion.z2.browser.material.searchbar.searchBar
 import hu.simplexion.z2.browser.routing.BrowserRouter
+import hu.simplexion.z2.browser.routing.NavRouter
 import hu.simplexion.z2.browser.routing.Router
 
 fun main() {
