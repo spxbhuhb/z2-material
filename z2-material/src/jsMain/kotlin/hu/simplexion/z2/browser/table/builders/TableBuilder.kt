@@ -6,7 +6,9 @@ open class TableBuilder<T> : TableConfiguration<T>() {
 
     val columns = mutableListOf<ColumnBuilder<T>>()
 
-    var query: (() -> List<T>)? = null
+    var query: (suspend () -> List<T>)? = null
+
+    var data: List<T>? = null
 
     var rowId: ((row : T) -> Any)? = null
 

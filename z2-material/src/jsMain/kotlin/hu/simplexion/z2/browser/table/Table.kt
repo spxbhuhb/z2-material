@@ -32,7 +32,7 @@ class Table<T>(
 
     val configuration: TableConfiguration<T>
     val columns: List<TableColumn<T>>
-    var query: (() -> List<T>)? = null
+    var query: (suspend () -> List<T>)? = null
 
     val exportFileName: String
         get() {
@@ -127,6 +127,7 @@ class Table<T>(
             columns = build.columns.map { it.toColumn(this) }
             query = build.query
             getRowId = checkNotNull(build.rowId) { "rowId has to be set in the table builder" }
+            build.data?.let { setData(it) }
         }
 
         configuration.titleBuilder?.build(this)

@@ -8,7 +8,8 @@ plugins {
     `maven-publish`
 }
 
-val z2_version: String by project
+val z2_commons_version: String by project
+val z2_schematic_version: String by project
 
 kotlin {
     js(IR) {
@@ -18,8 +19,8 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api("hu.simplexion.z2:z2-commons:${z2_version}")
-                api("hu.simplexion.z2:z2-schematic-runtime:${z2_version}")
+                implementation("hu.simplexion.z2:z2-commons:${z2_commons_version}")
+                implementation("hu.simplexion.z2:z2-schematic-runtime:${z2_schematic_version}")
             }
         }
     }
