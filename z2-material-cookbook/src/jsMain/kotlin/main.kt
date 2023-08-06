@@ -26,6 +26,7 @@ import hu.simplexion.z2.browser.routing.Router
 
 fun main() {
     customizeStyles()
+    Content.defaultLayout = { router, nav, content -> defaultLayout(router, nav, content) }
     mainRouter.receiver = Content
     mainRouter.start()
 }
@@ -74,7 +75,7 @@ object pagesRouter : NavRouter() {
 }
 // @formatter:on
 
-fun Z2.defaultLayout(router: Router<Z2>, nav: Z2.() -> Unit, content: Z2.() -> Unit) {
+fun Z2.defaultLayout(router: Router<Z2>, nav: Z2Builder, content: Z2Builder) {
     grid(wFull, hFull, pr16, pb16, boxSizingBorder) {
         gridTemplateRows = "min-content 1fr"
         gridTemplateColumns = "min-content 1fr"
