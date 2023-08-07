@@ -7,9 +7,15 @@ import hu.simplexion.z2.browser.material.navigation.navigationDrawer
 import hu.simplexion.z2.commons.i18n.LocalizedIcon
 import hu.simplexion.z2.commons.i18n.LocalizedText
 
-open class NavRouter : Router<Z2>() {
+open class NavRouter(
+    label: LocalizedText? = null,
+    icon: LocalizedIcon? = null,
+    nav : Z2Builder? = null
+) : Router<Z2>(
+    label, icon
+) {
 
-    open val nav: Z2Builder = { navigationDrawer(if (useParentNav) this@NavRouter.parent?.targets ?: emptyList() else targets) }
+    open val nav: Z2Builder = nav ?: { navigationDrawer(if (useParentNav) this@NavRouter.parent?.targets ?: emptyList() else targets) }
 
     open var useParentNav : Boolean = false
 

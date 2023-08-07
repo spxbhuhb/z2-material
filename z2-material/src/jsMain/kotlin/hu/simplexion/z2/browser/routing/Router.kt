@@ -5,22 +5,21 @@ import hu.simplexion.z2.commons.i18n.LocalizedText
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-abstract class Router<R> : RoutingTarget<R> {
+abstract class Router<R>(
+    override val label: LocalizedText? = null,
+    override val icon: LocalizedIcon? = null
+) : RoutingTarget<R> {
 
     override var parent: Router<R>? = null
 
     override var relativePath = ""
-
-    override val label: LocalizedText? = null
-
-    override val icon: LocalizedIcon? = null
 
     val parameters = mutableListOf<RouteParameter>()
 
     val targets = mutableListOf<RoutingTarget<R>>()
 
     override fun open(receiver: R, path: List<String>) {
-        trace { "[routing]  $relativePath  OPEN  $absolutePath  path.size=${path.size} path=${path.joinToString("/")}"}
+        trace { "[routing]  $relativePath  OPEN  $absolutePath  path.size=${path.size} path=${path.joinToString("/")}" }
 
         val subPath = path.drop(1 + parameters.size)
 
@@ -54,7 +53,7 @@ abstract class Router<R> : RoutingTarget<R> {
     }
 
     open fun notFound(receiver: R, path: List<String>) {
-        trace { "[routing]  NOTFOUND  $absolutePath  remaining=$path"}
+        trace { "[routing]  NOTFOUND  $absolutePath  remaining=$path" }
         throw IllegalStateException("routing path not found: fullPath=${absolutePath.joinToString { ", " }}  path=${path.joinToString { "/" }}")
     }
 
@@ -71,25 +70,25 @@ abstract class Router<R> : RoutingTarget<R> {
     }
 
     class ParameterDelegate<R>(
-        var parameter : RouteParameter
+        var parameter: RouteParameter
     ) : ReadOnlyProperty<Router<R>, String> {
         override fun getValue(thisRef: Router<R>, property: KProperty<*>): String = parameter.value
     }
 
     class ActionDelegate<R>(
-        val action : RoutedAction<R>
+        val action: RoutedAction<R>
     ) : ReadOnlyProperty<Router<R>, RoutedAction<R>> {
-        override fun getValue(thisRef: Router<R>, property: KProperty<*>): RoutedAction<R>  = action
+        override fun getValue(thisRef: Router<R>, property: KProperty<*>): RoutedAction<R> = action
     }
 
     class RendererDelegate<R>(
-        val renderer : RoutedRenderer<R>
+        val renderer: RoutedRenderer<R>
     ) : ReadOnlyProperty<Router<R>, RoutedRenderer<R>> {
-        override fun getValue(thisRef: Router<R>, property: KProperty<*>): RoutedRenderer<R>  = renderer
+        override fun getValue(thisRef: Router<R>, property: KProperty<*>): RoutedRenderer<R> = renderer
     }
 
     class RouterDelegate<R>(
-        val router : Router<R>
+        val router: Router<R>
     ) : ReadOnlyProperty<Router<R>, Router<R>> {
         override fun getValue(thisRef: Router<R>, property: KProperty<*>): Router<R> = router
     }
@@ -120,7 +119,7 @@ abstract class Router<R> : RoutingTarget<R> {
         return RouterDelegate(this)
     }
 
-    fun trace(message : () -> Any?) {
+    fun trace(message: () -> Any?) {
         if (traceRouting) console.log(message())
     }
 }

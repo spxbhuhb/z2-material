@@ -11,36 +11,27 @@ import hu.simplexion.z2.commons.util.UUID
 import mainRouter
 
 @Suppress("unused")
-object routingRouter : NavRouter() {
-    override val label = strings.routing
-    override val icon = icons.route
+object routingRouter : NavRouter(strings.routing, icons.route) {
 
-    override val default: Z2Builder = { }
-
-    // @formatter:off
-    val content       by render(strings.content, icons.content) { text { "content" } }
-    val subRoute      by subRouter
-    val paramRoute    by parameterRouter
+    val content by render(strings.content, icons.content) { text { "content" } }
+    val subRoute by subRouter
+    val paramRoute by parameterRouter
     val paramSubRoute by parameterSubRouter
-    // @formatter:on
 
-    override fun default(receiver: Z2, path: List<String>) {
-        receiver.defaultLayout(this, nav) {
-            div {
-                filledButton(strings.parameter) {
-                    mainRouter.openWith(paramRoute, UUID<Any>())
-                }
-                filledButton(strings.parameterSubRoute) {
-                    mainRouter.openWith(parameterSubRouter, UUID<Any>(), parameterSubRouter.paramContent.relativePath)
-                }
+    override val default: Z2Builder = {
+        div {
+            filledButton(strings.parameter) {
+                mainRouter.openWith(paramRoute, UUID<Any>())
+            }
+            filledButton(strings.parameterSubRoute) {
+                mainRouter.openWith(parameterSubRouter, UUID<Any>(), parameterSubRouter.paramContent.relativePath)
             }
         }
     }
+
 }
 
-object subRouter : Router<Z2>() {
-    override val label = strings.subRoute
-    override val icon = icons.route
+object subRouter : Router<Z2>(strings.subRoute, icons.route) {
 
     val uuid by parameter()
 
@@ -49,9 +40,7 @@ object subRouter : Router<Z2>() {
     }
 }
 
-object parameterRouter : Router<Z2>() {
-    override val label = strings.parameter
-    override val icon = icons.parameter
+object parameterRouter : Router<Z2>(strings.parameter, icons.parameter) {
 
     val uuid by parameter()
 
@@ -60,17 +49,13 @@ object parameterRouter : Router<Z2>() {
     }
 }
 
-object parameterSubRouter : NavRouter() {
-    override val label = strings.parameterSubRoute
-    override val icon = icons.parameter
-
-    override val nav = routingRouter.nav
+object parameterSubRouter : NavRouter(strings.parameterSubRoute, icons.parameter, routingRouter.nav) {
 
     val uuid by parameter()
 
     val paramContent by render(strings.content, icons.content) { text { uuid } }
 
-    override fun default(receiver: Z2, path: List<String>) {
-        receiver.defaultLayout(routingRouter, routingRouter.nav) { div { text { uuid } } }
+    override val default : Z2Builder = {
+        div { text { parameterRouter.uuid } }
     }
 }
