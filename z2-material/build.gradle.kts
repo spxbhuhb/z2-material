@@ -19,8 +19,8 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation("hu.simplexion.z2:z2-commons:${z2_commons_version}")
-                implementation("hu.simplexion.z2:z2-schematic-runtime:${z2_schematic_version}")
+                api("hu.simplexion.z2:z2-commons:${z2_commons_version}")
+                api("hu.simplexion.z2:z2-schematic-runtime:${z2_schematic_version}")
             }
         }
     }

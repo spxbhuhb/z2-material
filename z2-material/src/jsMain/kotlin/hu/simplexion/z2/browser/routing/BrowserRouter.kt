@@ -47,6 +47,10 @@ open class BrowserRouter(
         open(target.absolutePath.joinToString("/"))
     }
 
+    override fun openWith(target: RoutingTarget<Z2>, vararg parameters : Any) {
+        open(target.absolutePath.joinToString("/") + "/" + parameters.joinToString("/"))
+    }
+
     fun open(pathname: String, search: String = "", hash: String = "", changeState: Boolean = true) {
         io {
             if (stopNavigationOnPending()) return@io
@@ -61,7 +65,7 @@ open class BrowserRouter(
                 trace { "[routing]  pushState  url=$url" }
             }
 
-            val segments = newPath.removePrefix("/").split('/')
+            val path = newPath.split('/')
 
 
 //            val parameters = mutableMapOf("#" to hash)
@@ -72,7 +76,12 @@ open class BrowserRouter(
 //            }
 
             receiver.clear()
-            open(receiver, segments)
+
+            if (path.isEmpty() || (path.size == 1 && path.first().isEmpty())) {
+                default(receiver, path)
+            } else {
+                open(receiver, path)
+            }
         }
     }
 

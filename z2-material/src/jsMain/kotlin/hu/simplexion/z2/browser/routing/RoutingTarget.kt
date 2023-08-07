@@ -13,6 +13,10 @@ interface RoutingTarget<R> {
 
     val icon : LocalizedIcon?
 
+    fun accepts(path : List<String>) : Boolean {
+        return path.first() == relativePath
+    }
+
     fun open() {
         root.open(this)
     }
@@ -21,6 +25,10 @@ interface RoutingTarget<R> {
 
     fun open(target: RoutingTarget<R>) {
         root.open(target)
+    }
+
+    fun openWith(target: RoutingTarget<R>, vararg parameters : Any) {
+        root.openWith(target, *parameters)
     }
 
     val absolutePath : List<String>

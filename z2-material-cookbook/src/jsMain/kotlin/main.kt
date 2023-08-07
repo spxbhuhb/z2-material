@@ -9,6 +9,7 @@ import hu.simplexion.z2.browser.demo.material.*
 import hu.simplexion.z2.browser.demo.pages.administration.administrationRouter
 import hu.simplexion.z2.browser.demo.pages.loginDemo
 import hu.simplexion.z2.browser.demo.pages.loginStrings
+import hu.simplexion.z2.browser.demo.routing.routingRouter
 import hu.simplexion.z2.browser.demo.strings
 import hu.simplexion.z2.browser.demo.table.tableDemo
 import hu.simplexion.z2.browser.html.*
@@ -23,8 +24,10 @@ import hu.simplexion.z2.browser.material.searchbar.searchBar
 import hu.simplexion.z2.browser.routing.BrowserRouter
 import hu.simplexion.z2.browser.routing.NavRouter
 import hu.simplexion.z2.browser.routing.Router
+import hu.simplexion.z2.browser.routing.traceRouting
 
 fun main() {
+    traceRouting = true
     customizeStyles()
     Content.defaultLayout = { router, nav, content -> defaultLayout(router, nav, content) }
     mainRouter.receiver = Content
@@ -38,10 +41,15 @@ object mainRouter : BrowserRouter() {
     // @formatter:off
     val components       by componentRouter
     val pages            by pagesRouter
+    val other            by otherRouter
     // @formatter:on
 
-    override fun notFound(receiver: Z2, path: List<String>) {
+    override fun default(receiver: Z2, path: List<String>) {
         receiver.defaultLayout(this, { navigationDrawer(targets) }) { div { } }
+    }
+
+    override fun notFound(receiver: Z2, path: List<String>) {
+        default(receiver, path)
     }
 }
 
@@ -65,15 +73,25 @@ object componentRouter : NavRouter() {
     // @formatter:on
 }
 
-// @formatter:off
 @Suppress("unused")
 object pagesRouter : NavRouter() {
     override val label = strings.pages
 
+    // @formatter:off
     val login          by render(loginStrings.login)          { loginDemo() }
     val administration by administrationRouter
+    // @formatter:on
 }
-// @formatter:on
+
+@Suppress("unused")
+object otherRouter : NavRouter() {
+    override val label = strings.other
+
+    // @formatter:off
+    val router          by routingRouter
+    // @formatter:on
+}
+
 
 fun Z2.defaultLayout(router: Router<Z2>, nav: Z2Builder, content: Z2Builder) {
     grid(wFull, hFull, pr16, pb16, boxSizingBorder) {
