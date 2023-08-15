@@ -62,6 +62,7 @@ object componentRouter : NavRouter() {
     val calendar         by render(strings.calendar)         { calendarDemo() }
     val card             by render(strings.card)             { cardDemo() }
     val container        by render(strings.container)        { containerDemo() }
+    val datepicker       by render(strings.datepicker)       { datepickerDemo() }
     val menu             by render(strings.menu)             { menuDemo() }
     val modal            by render(strings.modal)            { modalDemo() }
     val navigationDrawer by render(strings.navigationDrawer) { navigationDrawerDemo() }

@@ -18,4 +18,7 @@ object basicIcons : LocalizedIconStore(UUID("3e5fb9a5-2d5f-4c86-9d26-1a760d1d1c6
     val export by "download"
     val back by "arrow_back"
     val administration by "local_police"
+    val left by "chevron_left"
+    val right by "chevron_right"
+    val down by "arrow_drop_down"
 }

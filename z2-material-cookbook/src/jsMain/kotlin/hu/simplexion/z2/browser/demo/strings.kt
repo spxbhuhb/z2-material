@@ -35,6 +35,7 @@ object strings : LocalizedTextStore(UUID("c6a52ab3-7a5a-4f07-ad49-239775845386")
     val switch by "Switch"
     val table by "Table"
     val container by "Container"
+    val datepicker by "Date Picker"
     val navigationDrawer by "Navigation Drawer"
     val inbox by "Inbox"
     val outbox by "Outbox"

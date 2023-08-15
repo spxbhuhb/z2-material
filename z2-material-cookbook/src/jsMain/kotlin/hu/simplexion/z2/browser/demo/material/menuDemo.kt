@@ -5,8 +5,8 @@ import hu.simplexion.z2.browser.html.*
 import hu.simplexion.z2.browser.layout.low
 import hu.simplexion.z2.browser.material.basicIcons
 import hu.simplexion.z2.browser.material.fr
-import hu.simplexion.z2.browser.material.menu.More.Companion.more
 import hu.simplexion.z2.browser.material.menu.menuItem
+import hu.simplexion.z2.browser.material.menu.more
 import hu.simplexion.z2.browser.material.px
 
 

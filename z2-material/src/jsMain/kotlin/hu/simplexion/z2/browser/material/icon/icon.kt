@@ -22,7 +22,7 @@ fun Z2.icon(
         addClass("icon-$size")
         if (pointer) style.cursor = "pointer"
 
-        htmlElement.innerHTML = """<span class="material-symbols-rounded symbols-$weight-$size-$fill">${icon}</span>"""
+        htmlElement.innerHTML = """<span class="material-symbols-sharp symbols-$weight-$size-$fill">${icon}</span>"""
 
         onMouseDown { it.preventDefault() }// to avoid focus
     }
@@ -42,7 +42,7 @@ fun Z2.actionIcon(
 
         addClass("icon-$size", if (inline) "inline-action-icon" else "action-icon")
 
-        htmlElement.innerHTML = """<span class="material-symbols-rounded symbols-$weight-$size-$fill">${icon}</span>"""
+        htmlElement.innerHTML = """<span class="material-symbols-sharp symbols-$weight-$size-$fill">${icon}</span>"""
 
         if (hint != null) {
             addClass("tooltip")

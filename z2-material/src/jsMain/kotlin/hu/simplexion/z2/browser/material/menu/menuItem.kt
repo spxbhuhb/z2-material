@@ -8,17 +8,17 @@ import org.w3c.dom.events.Event
 
 fun Z2.menuItem(
     index: Int,
-    icon: LocalizedIcon,
+    icon: LocalizedIcon? = null,
     label: LocalizedText,
     trailing: (Z2.() -> Unit)? = null,
-    onClick: (event : Event) -> Unit
+    onClick: (event: Event) -> Unit
 ) {
     val row = index.toString()
 
     div("menu-item") {
         gridRow = row
         gridColumn = "1"
-        icon(icon, cssClass = "menu-icon")
+        if (icon != null) icon(icon, cssClass = "menu-icon")
         this.onClick(onClick)
     }
 

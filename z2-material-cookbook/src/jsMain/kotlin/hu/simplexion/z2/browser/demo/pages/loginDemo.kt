@@ -27,44 +27,40 @@ object loginStrings : LocalizedTextStore(UUID("72c9ec55-0e66-4181-96f9-d9009b037
 
 fun Z2.loginDemo() =
     low(wFull, hFull, p0, m0, displayFlex, alignItemsCenter, justifyContentCenter) {
-        grid {
+        grid(gridGap8) {
             gridTemplateColumns = "min-content"
             gridAutoRows = "min-content"
-            gridGap = 8.px
 
-            div {
-                style.padding = 24.px
+            div(p24, borderRadius8) {
                 style.border = "1px solid lightgray"
-                style.borderRadius = "8px"
-                grid {
+
+                grid(gridGap32) {
                     gridTemplateColumns = 400.px
                     gridAutoRows = "min-content"
-                    gridGap = 32.px
 
-                    div("title-small", "justify-self-center") {
+                    div(titleSmall, justifySelfCenter) {
                         text { loginStrings.loginSupport }
                     }
 
-                    div("title-large", "justify-self-center") {
+                    div(titleLarge, justifySelfCenter) {
                         text { loginStrings.login }
                     }
 
-                    grid {
+                    grid(gridGap24) {
                         gridTemplateColumns = 1.fr
                         gridTemplateRows = "min-content min-content"
-                        gridGap = 24.px
+
                         outlinedTextField("", loginStrings.account)
                         outlinedTextField("", loginStrings.password)
                             .apply { (input.htmlElement as HTMLInputElement).type = "password" }
                     }
 
-                    grid {
+                    grid(gridGap24, positionRelative) {
                         gridTemplateColumns = "min-content 1fr min-content"
                         gridTemplateRows = "min-content"
-                        gridGap = 24.px
 
-                        style.position = "relative"
                         style.left = "-8px"
+
                         textButton(loginStrings.forgottenPassword) { }
                         textButton(loginStrings.registration) { }
                         filledButton(loginStrings.login) { }

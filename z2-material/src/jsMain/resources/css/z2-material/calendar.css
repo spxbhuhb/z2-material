@@ -16,15 +16,8 @@
     padding-bottom: 8px;
 }
 
-.month-days {
-    display: grid;
-    grid-template-columns: repeat(7, 32px);
-    grid-auto-rows: 32px;
-}
-
 .month-day-letter {
-    align-self: center;
-    justify-self: center;
+
 }
 
 .month-day {
@@ -33,17 +26,25 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    color: var(--md-sys-color-on-surface);
+}
+
+.month-day-normal {
+    height: 40px;
+    width: 40px;
+}
+
+.month-day-dense {
     height: 32px;
     width: 32px;
-    color: var(--md-sys-color-on-surface);
 }
 
 .month-day:hover::before {
     content: "";
     position: absolute;
-    height: 32px;
-    width: 32px;
-    border-radius: 16px;
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
     background-color: var(--md-sys-color-on-surface);
     opacity: 0.08;
 }
@@ -51,13 +52,13 @@
 .month-day.today {
     border: 1px solid var(--md-sys-color-primary);
     color: var(--md-sys-color-primary);
-    border-radius: 16px;
+    border-radius: 20px;
 }
 
 .month-day.marked {
     background-color: var(--md-sys-color-primary);
     color: var(--md-sys-color-on-primary);
-    border-radius: 16px;
+    border-radius: 20px;
 }
 
 .month-day.this {
